@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "ruined_equipment",
+  "version": "1.0.0",
+
+  "name": "Ruined Equipment",
+  "description": "May you never forget your fallen tools and armors.",
+  "authors": [
+    "pepperoni_jabroni_"
+  ],
+  "contact": {
+    "homepage": "https://facebook.com/",
+    "sources": "https://facebook.com/"
+  },
+
+  "license": "GPL-3.0",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": ["pepjebs.ruined_equipment.RuinedEquipmentMod"]
+  },
+  "mixins": ["ruined_equipment.mixins.json"],
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.16.x"
+  }
+}
