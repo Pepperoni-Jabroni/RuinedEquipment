@@ -35,6 +35,12 @@ public class RuinedEquipmentMod implements ModInitializer {
     public static final Item RUINED_NETHERITE_SWORD = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_STONE_SWORD = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_WOODEN_SWORD = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_DIAMOND_SHOVEL = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_GOLDEN_SHOVEL = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_IRON_SHOVEL = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_NETHERITE_SHOVEL = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_STONE_SHOVEL = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_WOODEN_SHOVEL = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
 
     public static final Map<Item, Item> VANILLA_ITEM_MAP = new HashMap<Item, Item>() {{
         put(RUINED_DIAMOND_PICK, Items.DIAMOND_PICKAXE);
@@ -43,12 +49,20 @@ public class RuinedEquipmentMod implements ModInitializer {
         put(RUINED_NETHERITE_PICKAXE, Items.NETHERITE_PICKAXE);
         put(RUINED_STONE_PICKAXE, Items.STONE_PICKAXE);
         put(RUINED_WOODEN_PICKAXE, Items.WOODEN_PICKAXE);
+
         put(RUINED_DIAMOND_SWORD, Items.DIAMOND_SWORD);
         put(RUINED_GOLDEN_SWORD, Items.GOLDEN_SWORD);
         put(RUINED_IRON_SWORD, Items.IRON_SWORD);
         put(RUINED_NETHERITE_SWORD, Items.NETHERITE_SWORD);
         put(RUINED_STONE_SWORD, Items.STONE_SWORD);
         put(RUINED_WOODEN_SWORD, Items.WOODEN_SWORD);
+
+        put(RUINED_DIAMOND_SHOVEL, Items.DIAMOND_SHOVEL);
+        put(RUINED_GOLDEN_SHOVEL, Items.GOLDEN_SHOVEL);
+        put(RUINED_IRON_SHOVEL, Items.IRON_SHOVEL);
+        put(RUINED_NETHERITE_SHOVEL, Items.NETHERITE_SHOVEL);
+        put(RUINED_STONE_SHOVEL, Items.STONE_SHOVEL);
+        put(RUINED_WOODEN_SHOVEL, Items.WOODEN_SHOVEL);
     }};
 
     public static final ItemGroup RUINED_GROUP = FabricItemGroupBuilder.create(new Identifier(MOD_ID, "ruined_items"))
