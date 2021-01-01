@@ -20,15 +20,15 @@ public class RuinedEquipmentMixin {
     private void onSendEquipmentBreakStatus(EquipmentSlot slot, CallbackInfo ci) {
         if (livingEntity instanceof ServerPlayerEntity) {
             ServerPlayerEntity serverPlayer = (ServerPlayerEntity) livingEntity;
-            ItemStack breakingToolStack;
+            ItemStack breakingItemStack;
             switch(slot) {
                 case MAINHAND:
-                    breakingToolStack = serverPlayer.getMainHandStack();
-                    RuinedEquipmentUtils.onSendEquipmentBreakStatusImpl(serverPlayer, breakingToolStack);
+                    breakingItemStack = serverPlayer.getMainHandStack();
+                    RuinedEquipmentUtils.onSendEquipmentBreakStatusImpl(serverPlayer, breakingItemStack);
                     break;
                 case OFFHAND:
-                    breakingToolStack = serverPlayer.getOffHandStack();
-                    RuinedEquipmentUtils.onSendEquipmentBreakStatusImpl(serverPlayer, breakingToolStack);
+                    breakingItemStack = serverPlayer.getOffHandStack();
+                    RuinedEquipmentUtils.onSendEquipmentBreakStatusImpl(serverPlayer, breakingItemStack);
                     break;
                 default:
                     RuinedEquipmentMod.LOGGER.warn("No valid slot found in 'onSendEquipmentBreakStatus'.");
