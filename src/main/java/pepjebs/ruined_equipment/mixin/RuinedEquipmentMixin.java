@@ -60,16 +60,12 @@ public class RuinedEquipmentMixin {
                                     ruinedPick.setTag(tag);
                                 }
                                 MutableText breakingToolName = new LiteralText(breakingToolStack.getName().getString());
-//                                if (ruinedPick.hasGlint()) {
-//                                    breakingToolName = breakingToolName.formatted(Formatting.AQUA);
-//                                } else {
-//                                    breakingToolName = breakingToolName.formatted(Formatting.WHITE);
-//                                }
                                 if (breakingToolStack.hasCustomName()) {
-//                                    breakingToolName = breakingToolName.formatted(Formatting.ITALIC);
+                                    if (ruinedPick.hasGlint()) {
+                                        breakingToolName = breakingToolName.formatted(Formatting.AQUA);
+                                    }
                                     ruinedPick.setCustomName(breakingToolName);
                                 }
-//                                ruinedPick.setCustomName(breakingToolName);
                                 // Set the item in the correct index
                                 serverPlayer.inventory.main.set(serverPlayer.inventory.getSwappableHotbarSlot(),
                                         ruinedPick);

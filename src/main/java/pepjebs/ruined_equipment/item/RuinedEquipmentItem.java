@@ -47,6 +47,17 @@ public class RuinedEquipmentItem extends Item {
     }
 
     @Override
+    public Text getName(ItemStack stack) {
+        MutableText supered = super.getName().shallowCopy();
+        RuinedEquipmentMod.LOGGER.info("getName");
+        if (hasGlint(stack)) {
+            RuinedEquipmentMod.LOGGER.info("getName hasGlint");
+            supered = supered.formatted(Formatting.AQUA);
+        }
+        return supered;
+    }
+
+    @Override
     public boolean hasGlint(ItemStack stack) {
         return stack != null && stack.getTag() != null && stack.getTag().getString("enchantments") != null
                 && !stack.getTag().getString("enchantments").isEmpty();
