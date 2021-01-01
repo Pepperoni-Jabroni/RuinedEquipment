@@ -1,7 +1,10 @@
 package pepjebs.ruined_equipment;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -47,6 +50,15 @@ public class RuinedEquipmentMod implements ModInitializer {
         put(RUINED_STONE_SWORD, Items.STONE_SWORD);
         put(RUINED_WOODEN_SWORD, Items.WOODEN_SWORD);
     }};
+
+    public static final ItemGroup RUINED_GROUP = FabricItemGroupBuilder.create(new Identifier(MOD_ID, "ruined_items"))
+            .icon(() -> new ItemStack(RUINED_DIAMOND_PICK))
+            .appendItems(stacks -> {
+                for (Map.Entry<Item, Item> item : VANILLA_ITEM_MAP.entrySet()) {
+                    stacks.add(new ItemStack(item.getKey()));
+                }
+            })
+            .build();
 
     @Override
     public void onInitialize() {
