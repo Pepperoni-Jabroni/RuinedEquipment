@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -20,6 +21,11 @@ public class RuinedEquipmentItem extends Item {
 
     public RuinedEquipmentItem(Settings settings) {
         super(settings);
+    }
+
+    @Override
+    public String getTranslationKey() {
+        return "item.ruined_equipment.ruined_prefix";
     }
 
     @Environment(EnvType.CLIENT)
@@ -48,10 +54,13 @@ public class RuinedEquipmentItem extends Item {
 
     @Override
     public Text getName(ItemStack stack) {
+        // Get existing text
         MutableText supered = super.getName().shallowCopy();
-        RuinedEquipmentMod.LOGGER.info("getName");
+        // Append vanilla item's name
+        Item vanillaItem = RuinedEquipmentMod.VANILLA_ITEM_MAP.get(this);
+        supered = supered.append(new TranslatableText(vanillaItem.getTranslationKey()));
+        // Add the Aqua text if it has a glint
         if (hasGlint(stack)) {
-            RuinedEquipmentMod.LOGGER.info("getName hasGlint");
             supered = supered.formatted(Formatting.AQUA);
         }
         return supered;
