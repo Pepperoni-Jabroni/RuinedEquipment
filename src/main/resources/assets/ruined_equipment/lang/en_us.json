@@ -1,3 +1,8 @@
 {
-  "item.ruined_equipment.ruined_diamond_pickaxe": "Ruined Diamond Pickaxe"
+  "item.ruined_equipment.ruined_diamond_pickaxe": "Ruined Diamond Pickaxe",
+  "item.ruined_equipment.ruined_golden_pickaxe": "Ruined Golden Pickaxe",
+  "item.ruined_equipment.ruined_iron_pickaxe": "Ruined Iron Pickaxe",
+  "item.ruined_equipment.ruined_netherite_pickaxe": "Ruined Netherite Pickaxe",
+  "item.ruined_equipment.ruined_stone_pickaxe": "Ruined Stone Pickaxe",
+  "item.ruined_equipment.ruined_wooden_pickaxe": "Ruined Wooden Pickaxe"
 }
