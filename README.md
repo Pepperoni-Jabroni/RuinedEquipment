@@ -1,4 +1,4 @@
-# RuinedEquipment
+# Ruined Equipment
 
 Grieving equipment owner? Tools and Armors break into Broken forms for memorial purposes.  May you never forget your fallen tools and armors.
 
