@@ -63,7 +63,9 @@ public class RuinedEquipmentMixin {
                                             .formatted(Formatting.ITALIC));
                                 }
                             }
-                            serverPlayer.inventory.insertStack(ruinedPick);
+                            // Set the item in the correct index
+                            serverPlayer.inventory.main.set(serverPlayer.inventory.getSwappableHotbarSlot(),
+                                    ruinedPick);
                         }
                     }
                     break;
