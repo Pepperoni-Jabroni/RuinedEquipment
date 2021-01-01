@@ -26,6 +26,12 @@ public class RuinedEquipmentMod implements ModInitializer {
     public static final Item RUINED_NETHERITE_PICKAXE = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_STONE_PICKAXE = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_WOODEN_PICKAXE = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_DIAMOND_SWORD = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_GOLDEN_SWORD = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_IRON_SWORD = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_NETHERITE_SWORD = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_STONE_SWORD = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_WOODEN_SWORD = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
 
     public static final Map<Item, Item> VANILLA_ITEM_MAP = new HashMap<Item, Item>() {{
         put(RUINED_DIAMOND_PICK, Items.DIAMOND_PICKAXE);
@@ -34,22 +40,20 @@ public class RuinedEquipmentMod implements ModInitializer {
         put(RUINED_NETHERITE_PICKAXE, Items.NETHERITE_PICKAXE);
         put(RUINED_STONE_PICKAXE, Items.STONE_PICKAXE);
         put(RUINED_WOODEN_PICKAXE, Items.WOODEN_PICKAXE);
-    }};
-
-    public static final Map<Item, String> ITEM_ID_MAP = new HashMap<Item, String>() {{
-        put(RUINED_DIAMOND_PICK, "diamond_pickaxe");
-        put(RUINED_GOLDEN_PICKAXE, "golden_pickaxe");
-        put(RUINED_IRON_PICKAXE, "iron_pickaxe");
-        put(RUINED_NETHERITE_PICKAXE, "netherite_pickaxe");
-        put(RUINED_STONE_PICKAXE, "stone_pickaxe");
-        put(RUINED_WOODEN_PICKAXE, "wooden_pickaxe");
+        put(RUINED_DIAMOND_SWORD, Items.DIAMOND_SWORD);
+        put(RUINED_GOLDEN_SWORD, Items.GOLDEN_SWORD);
+        put(RUINED_IRON_SWORD, Items.IRON_SWORD);
+        put(RUINED_NETHERITE_SWORD, Items.NETHERITE_SWORD);
+        put(RUINED_STONE_SWORD, Items.STONE_SWORD);
+        put(RUINED_WOODEN_SWORD, Items.WOODEN_SWORD);
     }};
 
     @Override
     public void onInitialize() {
-        for (Map.Entry<Item, String> item : ITEM_ID_MAP.entrySet()) {
+        for (Map.Entry<Item, Item> item : VANILLA_ITEM_MAP.entrySet()) {
+            String vanillaItemIdPath = Registry.ITEM.getId(item.getValue()).getPath();
             Registry.register(Registry.ITEM, new Identifier(MOD_ID,
-                    RUINED_PREFIX + item.getValue()), item.getKey());
+                    RUINED_PREFIX + vanillaItemIdPath), item.getKey());
         }
     }
 }

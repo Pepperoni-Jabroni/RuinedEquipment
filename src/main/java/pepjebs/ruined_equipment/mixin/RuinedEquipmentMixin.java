@@ -12,9 +12,12 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.BaseText;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.registry.Registry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -41,13 +44,14 @@ public class RuinedEquipmentMixin {
                     ItemStack breakingToolStack = serverPlayer.getMainHandStack();
                     for (Map.Entry<Item, Item> itemMap : RuinedEquipmentMod.VANILLA_ITEM_MAP.entrySet()) {
                         if (breakingToolStack.isItemEqualIgnoreDamage(new ItemStack(itemMap.getValue()))) {
-                            if (breakingToolStack.getMaxDamage() - breakingToolStack.getDamage() == 0) {
+                            if (breakingToolStack.getMaxDamage() - breakingToolStack.getDamage() <= 0) {
                                 ItemStack ruinedPick = new ItemStack(itemMap.getKey());
                                 Set<String> enchantmentStrings = new HashSet<>();
                                 for (Map.Entry<Enchantment, Integer> ench : EnchantmentHelper.get(breakingToolStack).entrySet()) {
                                     String enchantString = ench.getKey().getName(ench.getValue()).getString();
                                     enchantmentStrings.add(enchantString);
-                                    RuinedEquipmentMod.LOGGER.info("sendEquipmentBreakStatus: Adding enchantment: \"" + enchantString + "\"");
+                                    RuinedEquipmentMod.LOGGER.info("sendEquipmentBreakStatus: Adding enchantment: \""
+                                            + enchantString + "\"");
                                 }
                                 if (!enchantmentStrings.isEmpty()) {
                                     CompoundTag tag = ruinedPick.getTag();
@@ -55,16 +59,17 @@ public class RuinedEquipmentMixin {
                                     tag.putString("enchantments", String.join(",", enchantmentStrings));
                                     ruinedPick.setTag(tag);
                                 }
-                                LiteralText breakingToolName = new LiteralText(breakingToolStack.getName().asString());
+                                MutableText breakingToolName = new LiteralText(breakingToolStack.getName().getString());
+//                                if (ruinedPick.hasGlint()) {
+//                                    breakingToolName = breakingToolName.formatted(Formatting.AQUA);
+//                                } else {
+//                                    breakingToolName = breakingToolName.formatted(Formatting.WHITE);
+//                                }
                                 if (breakingToolStack.hasCustomName()) {
-                                    if (ruinedPick.hasGlint()) {
-                                        ruinedPick.setCustomName(breakingToolName.formatted(Formatting.AQUA)
-                                                .formatted(Formatting.ITALIC));
-                                    } else {
-                                        ruinedPick.setCustomName(breakingToolName.formatted(Formatting.WHITE)
-                                                .formatted(Formatting.ITALIC));
-                                    }
+//                                    breakingToolName = breakingToolName.formatted(Formatting.ITALIC);
+                                    ruinedPick.setCustomName(breakingToolName);
                                 }
+//                                ruinedPick.setCustomName(breakingToolName);
                                 // Set the item in the correct index
                                 serverPlayer.inventory.main.set(serverPlayer.inventory.getSwappableHotbarSlot(),
                                         ruinedPick);

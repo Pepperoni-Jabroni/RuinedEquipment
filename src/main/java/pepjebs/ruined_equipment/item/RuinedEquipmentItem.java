@@ -27,16 +27,20 @@ public class RuinedEquipmentItem extends Item {
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         super.appendTooltip(stack, world, tooltip, context);
 
-        Text newT0 = tooltip.get(0);
-        if (stack.hasCustomName()) {
-            newT0 = stack.getName();
-        }
-        tooltip.set(0, newT0);
-
         if (stack.getTag() == null) return;
         String tagString = stack.getTag().getString("enchantments");
         String[] tagStrings = tagString.split(",");
         if (tagStrings.length == 0) return;
+
+        MutableText newT0 = tooltip.get(0).shallowCopy();
+        if (stack.hasGlint()) {
+            newT0 = new LiteralText(newT0.getString()).formatted(Formatting.AQUA);
+            if (stack.hasCustomName()) {
+                newT0 = newT0.formatted(Formatting.ITALIC);
+            }
+            tooltip.set(0, newT0);
+        }
+
         for (String str : tagStrings) {
             tooltip.add(new LiteralText(str).formatted(Formatting.GRAY));
         }

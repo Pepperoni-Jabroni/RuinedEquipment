@@ -1,8 +1,14 @@
 {
+  "item.ruined_equipment.ruined_netherite_pickaxe": "Ruined Netherite Pickaxe",
   "item.ruined_equipment.ruined_diamond_pickaxe": "Ruined Diamond Pickaxe",
   "item.ruined_equipment.ruined_golden_pickaxe": "Ruined Golden Pickaxe",
   "item.ruined_equipment.ruined_iron_pickaxe": "Ruined Iron Pickaxe",
-  "item.ruined_equipment.ruined_netherite_pickaxe": "Ruined Netherite Pickaxe",
   "item.ruined_equipment.ruined_stone_pickaxe": "Ruined Stone Pickaxe",
-  "item.ruined_equipment.ruined_wooden_pickaxe": "Ruined Wooden Pickaxe"
+  "item.ruined_equipment.ruined_wooden_pickaxe": "Ruined Wooden Pickaxe",
+  "item.ruined_equipment.ruined_netherite_sword": "Ruined Netherite Sword",
+  "item.ruined_equipment.ruined_diamond_sword": "Ruined Diamond Sword",
+  "item.ruined_equipment.ruined_golden_sword": "Ruined Golden Sword",
+  "item.ruined_equipment.ruined_iron_sword": "Ruined Iron Sword",
+  "item.ruined_equipment.ruined_stone_sword": "Ruined Stone Sword",
+  "item.ruined_equipment.ruined_wooden_sword": "Ruined Wooden Sword"
 }
