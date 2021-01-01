@@ -15,7 +15,6 @@ import org.jetbrains.annotations.Nullable;
 import pepjebs.ruined_equipment.RuinedEquipmentMod;
 
 import java.util.List;
-import java.util.Set;
 
 public class RuinedEquipmentItem extends Item {
 

@@ -14,7 +14,6 @@ import pepjebs.ruined_equipment.item.RuinedEquipmentItem;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 public class RuinedEquipmentMod implements ModInitializer {
 
@@ -29,12 +28,14 @@ public class RuinedEquipmentMod implements ModInitializer {
     public static final Item RUINED_NETHERITE_PICKAXE = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_STONE_PICKAXE = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_WOODEN_PICKAXE = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+
     public static final Item RUINED_DIAMOND_SWORD = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_GOLDEN_SWORD = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_IRON_SWORD = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_NETHERITE_SWORD = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_STONE_SWORD = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_WOODEN_SWORD = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+
     public static final Item RUINED_DIAMOND_SHOVEL = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_GOLDEN_SHOVEL = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_IRON_SHOVEL = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
