@@ -56,7 +56,7 @@ public class RuinedEquipmentItem extends Item {
         // Get existing text
         MutableText supered = super.getName().shallowCopy();
         // Append vanilla item's name
-        Item vanillaItem = RuinedEquipmentMod.VANILLA_ITEM_MAP.get(this);
+        Item vanillaItem = RuinedEquipmentItems.VANILLA_ITEM_MAP.get(this);
         supered = supered.append(new TranslatableText(vanillaItem.getTranslationKey()));
         // Add the Aqua text if it has a glint
         if (hasGlint(stack)) {

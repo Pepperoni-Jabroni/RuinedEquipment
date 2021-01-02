@@ -10,6 +10,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.util.Formatting;
 import pepjebs.ruined_equipment.RuinedEquipmentMod;
+import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -20,7 +21,7 @@ public class RuinedEquipmentUtils {
             ServerPlayerEntity serverPlayer,
             ItemStack breakingStack,
             boolean forceSet) {
-        for (Map.Entry<Item, Item> itemMap : RuinedEquipmentMod.VANILLA_ITEM_MAP.entrySet()) {
+        for (Map.Entry<Item, Item> itemMap : RuinedEquipmentItems.VANILLA_ITEM_MAP.entrySet()) {
             if (isVanillaItemStackBreaking(breakingStack, itemMap.getValue())) {
                 ItemStack ruinedStack = new ItemStack(itemMap.getKey());
                 // Set enchantment NBT data
