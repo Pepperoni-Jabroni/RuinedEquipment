@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "ruined_equipment:item/ruined_netherite_hoe"
+  }
+}
