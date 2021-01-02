@@ -4,7 +4,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class RuinedEquipmentItems {
 
@@ -48,7 +52,14 @@ public class RuinedEquipmentItems {
     public static final Item RUINED_SHEARS = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_TRIDENT = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
 
-    public static final Map<Item, Item> VANILLA_ITEM_MAP = new HashMap<Item, Item>() {{
+    public static final Item RUINED_DIAMOND_HELMET = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_GOLDEN_HELMET = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_IRON_HELMET = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_NETHERITE_HELMET = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_CHAINMAIL_HELMET = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_LEATHER_HELMET = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+
+    public static final Map<Item, Item> VANILLA_HAND_ITEM_MAP = new HashMap<Item, Item>() {{
         put(RUINED_DIAMOND_PICK, Items.DIAMOND_PICKAXE);
         put(RUINED_GOLDEN_PICKAXE, Items.GOLDEN_PICKAXE);
         put(RUINED_IRON_PICKAXE, Items.IRON_PICKAXE);
@@ -89,4 +100,19 @@ public class RuinedEquipmentItems {
         put(RUINED_SHEARS, Items.SHEARS);
         put(RUINED_TRIDENT, Items.TRIDENT);
     }};
+
+    public static final Map<Item, Item> VANILLA_HELMET_ITEM_MAP = new HashMap<Item, Item>() {{
+        put(RUINED_DIAMOND_HELMET, Items.DIAMOND_HELMET);
+        put(RUINED_GOLDEN_HELMET, Items.GOLDEN_HELMET);
+        put(RUINED_IRON_HELMET, Items.IRON_HELMET);
+        put(RUINED_NETHERITE_HELMET, Items.NETHERITE_HELMET);
+        put(RUINED_CHAINMAIL_HELMET, Items.CHAINMAIL_HELMET);
+        put(RUINED_LEATHER_HELMET, Items.LEATHER_HELMET);
+    }};
+
+    public static final Map<Item, Item> VANILLA_ITEM_MAP =
+            Stream.concat(
+                    VANILLA_HAND_ITEM_MAP.entrySet().stream(),
+                    VANILLA_HELMET_ITEM_MAP.entrySet().stream()
+            ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 }
