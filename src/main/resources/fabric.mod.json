@@ -17,7 +17,8 @@
 
   "environment": "*",
   "entrypoints": {
-    "main": ["pepjebs.ruined_equipment.RuinedEquipmentMod"]
+    "main": ["pepjebs.ruined_equipment.RuinedEquipmentMod"],
+    "client": ["pepjebs.ruined_equipment.client.RuinedEquipmentClient"]
   },
   "mixins": ["ruined_equipment.mixins.json"],
 

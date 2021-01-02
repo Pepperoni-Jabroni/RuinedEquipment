@@ -58,7 +58,7 @@ public class RuinedEquipmentItems {
     public static final Item RUINED_IRON_HELMET = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_NETHERITE_HELMET = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_CHAINMAIL_HELMET = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
-    public static final Item RUINED_LEATHER_HELMET = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_LEATHER_HELMET = new RuinedDyeableEquipmentItem(new Item.Settings().maxCount(1));
 
     public static final Map<Item, Item> VANILLA_HAND_ITEM_MAP = new HashMap<Item, Item>() {{
         put(RUINED_DIAMOND_PICK, Items.DIAMOND_PICKAXE);

@@ -2,6 +2,7 @@ package pepjebs.ruined_equipment.utils;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.item.DyeableItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
@@ -9,9 +10,11 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.util.Formatting;
+import pepjebs.ruined_equipment.item.RuinedDyeableEquipmentItem;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
@@ -33,6 +36,12 @@ public class RuinedEquipmentUtils {
                         breakingToolName = breakingToolName.formatted(Formatting.AQUA);
                     }
                     ruinedStack.setCustomName(breakingToolName);
+                }
+                // Handle Leather Armors color
+                if (breakingStack.getItem() instanceof DyeableItem) {
+                    int breakingColor = ((DyeableItem) breakingStack.getItem()).getColor(breakingStack);
+                    ((DyeableItem) ruinedStack.getItem()).setColor(ruinedStack, breakingColor);
+                    DyeableItem.blendAndSetColor(ruinedStack, new LinkedList<>());
                 }
                 // Force set will try & place the Ruined item in hand
                 if (forceSet) {
