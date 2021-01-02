@@ -51,6 +51,7 @@ public class RuinedEquipmentItems {
     public static final Item RUINED_FISHING_ROD = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_SHEARS = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_TRIDENT = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_FLINT_AND_STEEL = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
 
     public static final Item RUINED_DIAMOND_HELMET = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_GOLDEN_HELMET = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
@@ -99,6 +100,7 @@ public class RuinedEquipmentItems {
         put(RUINED_FISHING_ROD, Items.FISHING_ROD);
         put(RUINED_SHEARS, Items.SHEARS);
         put(RUINED_TRIDENT, Items.TRIDENT);
+        put(RUINED_FLINT_AND_STEEL, Items.FLINT_AND_STEEL);
     }};
 
     public static final Map<Item, Item> VANILLA_HELMET_ITEM_MAP = new HashMap<Item, Item>() {{
