@@ -57,6 +57,11 @@ public class RuinedEquipmentMod implements ModInitializer {
     public static final Item RUINED_STONE_HOE = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_WOODEN_HOE = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
 
+    public static final Item RUINED_BOW = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_FISHING_ROD = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_SHEARS = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_TRIDENT = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+
     public static final Map<Item, Item> VANILLA_ITEM_MAP = new HashMap<Item, Item>() {{
         put(RUINED_DIAMOND_PICK, Items.DIAMOND_PICKAXE);
         put(RUINED_GOLDEN_PICKAXE, Items.GOLDEN_PICKAXE);
@@ -92,6 +97,11 @@ public class RuinedEquipmentMod implements ModInitializer {
         put(RUINED_NETHERITE_HOE, Items.NETHERITE_HOE);
         put(RUINED_STONE_HOE, Items.STONE_HOE);
         put(RUINED_WOODEN_HOE, Items.WOODEN_HOE);
+
+        put(RUINED_BOW, Items.BOW);
+        put(RUINED_FISHING_ROD, Items.FISHING_ROD);
+        put(RUINED_SHEARS, Items.SHEARS);
+        put(RUINED_TRIDENT, Items.TRIDENT);
     }};
 
     public static final ItemGroup RUINED_GROUP = FabricItemGroupBuilder.create(new Identifier(MOD_ID, "ruined_items"))
