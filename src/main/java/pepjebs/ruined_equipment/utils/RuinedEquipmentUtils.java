@@ -16,7 +16,10 @@ import java.util.Map;
 import java.util.Set;
 
 public class RuinedEquipmentUtils {
-    public static void onSendEquipmentBreakStatusImpl(ServerPlayerEntity serverPlayer, ItemStack breakingStack) {
+    public static void onSendEquipmentBreakStatusImpl(
+            ServerPlayerEntity serverPlayer,
+            ItemStack breakingStack,
+            boolean forceSet) {
         for (Map.Entry<Item, Item> itemMap : RuinedEquipmentMod.VANILLA_ITEM_MAP.entrySet()) {
             if (isVanillaItemStackBreaking(breakingStack, itemMap.getValue())) {
                 ItemStack ruinedStack = new ItemStack(itemMap.getKey());
@@ -31,8 +34,13 @@ public class RuinedEquipmentUtils {
                     }
                     ruinedStack.setCustomName(breakingToolName);
                 }
-                // Set the item in the correct index
-                serverPlayer.inventory.main.set(serverPlayer.inventory.getSwappableHotbarSlot(), ruinedStack);
+                // Force set will try & place the Ruined item in hand
+                if (forceSet) {
+                    serverPlayer.inventory.setStack(
+                            serverPlayer.inventory.getSwappableHotbarSlot() - 1, ruinedStack);
+                } else {
+                    serverPlayer.inventory.insertStack(ruinedStack);
+                }
             }
         }
     }
