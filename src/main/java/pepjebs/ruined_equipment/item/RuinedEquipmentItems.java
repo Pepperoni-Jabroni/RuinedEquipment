@@ -52,6 +52,7 @@ public class RuinedEquipmentItems {
     public static final Item RUINED_SHEARS = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_TRIDENT = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_FLINT_AND_STEEL = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_CROSSBOW = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
 
     public static final Item RUINED_DIAMOND_HELMET = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_GOLDEN_HELMET = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
@@ -59,8 +60,30 @@ public class RuinedEquipmentItems {
     public static final Item RUINED_NETHERITE_HELMET = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_CHAINMAIL_HELMET = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_LEATHER_HELMET = new RuinedDyeableEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_TURTLE_HELMET = new RuinedDyeableEquipmentItem(new Item.Settings().maxCount(1));
 
-    public static final Map<Item, Item> VANILLA_HAND_ITEM_MAP = new HashMap<Item, Item>() {{
+    public static final Item RUINED_DIAMOND_CHESTPLATE = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_GOLDEN_CHESTPLATE = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_IRON_CHESTPLATE = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_NETHERITE_CHESTPLATE = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_CHAINMAIL_CHESTPLATE = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_LEATHER_CHESTPLATE = new RuinedDyeableEquipmentItem(new Item.Settings().maxCount(1));
+
+    public static final Item RUINED_DIAMOND_LEGGINGS = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_GOLDEN_LEGGINGS = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_IRON_LEGGINGS = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_NETHERITE_LEGGINGS = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_CHAINMAIL_LEGGINGS = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_LEATHER_LEGGINGS = new RuinedDyeableEquipmentItem(new Item.Settings().maxCount(1));
+
+    public static final Item RUINED_DIAMOND_BOOTS = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_GOLDEN_BOOTS = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_IRON_BOOTS = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_NETHERITE_BOOTS = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_CHAINMAIL_BOOTS = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_LEATHER_BOOTS = new RuinedDyeableEquipmentItem(new Item.Settings().maxCount(1));
+
+    public static final Map<Item, Item> VANILLA_STD_ITEM_MAP = new HashMap<Item, Item>() {{
         put(RUINED_DIAMOND_PICK, Items.DIAMOND_PICKAXE);
         put(RUINED_GOLDEN_PICKAXE, Items.GOLDEN_PICKAXE);
         put(RUINED_IRON_PICKAXE, Items.IRON_PICKAXE);
@@ -101,20 +124,44 @@ public class RuinedEquipmentItems {
         put(RUINED_SHEARS, Items.SHEARS);
         put(RUINED_TRIDENT, Items.TRIDENT);
         put(RUINED_FLINT_AND_STEEL, Items.FLINT_AND_STEEL);
-    }};
+        put(RUINED_CROSSBOW, Items.CROSSBOW);
 
-    public static final Map<Item, Item> VANILLA_HELMET_ITEM_MAP = new HashMap<Item, Item>() {{
         put(RUINED_DIAMOND_HELMET, Items.DIAMOND_HELMET);
         put(RUINED_GOLDEN_HELMET, Items.GOLDEN_HELMET);
         put(RUINED_IRON_HELMET, Items.IRON_HELMET);
         put(RUINED_NETHERITE_HELMET, Items.NETHERITE_HELMET);
         put(RUINED_CHAINMAIL_HELMET, Items.CHAINMAIL_HELMET);
+        put(RUINED_TURTLE_HELMET, Items.TURTLE_HELMET);
+
+        put(RUINED_DIAMOND_CHESTPLATE, Items.DIAMOND_CHESTPLATE);
+        put(RUINED_GOLDEN_CHESTPLATE, Items.GOLDEN_CHESTPLATE);
+        put(RUINED_IRON_CHESTPLATE, Items.IRON_CHESTPLATE);
+        put(RUINED_NETHERITE_CHESTPLATE, Items.NETHERITE_CHESTPLATE);
+        put(RUINED_CHAINMAIL_CHESTPLATE, Items.CHAINMAIL_CHESTPLATE);
+
+        put(RUINED_DIAMOND_LEGGINGS, Items.DIAMOND_LEGGINGS);
+        put(RUINED_GOLDEN_LEGGINGS, Items.GOLDEN_LEGGINGS);
+        put(RUINED_IRON_LEGGINGS, Items.IRON_LEGGINGS);
+        put(RUINED_NETHERITE_LEGGINGS, Items.NETHERITE_LEGGINGS);
+        put(RUINED_CHAINMAIL_LEGGINGS, Items.CHAINMAIL_LEGGINGS);
+
+        put(RUINED_DIAMOND_BOOTS, Items.DIAMOND_BOOTS);
+        put(RUINED_GOLDEN_BOOTS, Items.GOLDEN_BOOTS);
+        put(RUINED_IRON_BOOTS, Items.IRON_BOOTS);
+        put(RUINED_NETHERITE_BOOTS, Items.NETHERITE_BOOTS);
+        put(RUINED_CHAINMAIL_BOOTS, Items.CHAINMAIL_BOOTS);
+    }};
+
+    public static final Map<Item, Item> VANILLA_DYEABLE_ITEM_MAP = new HashMap<Item, Item>() {{
         put(RUINED_LEATHER_HELMET, Items.LEATHER_HELMET);
+        put(RUINED_LEATHER_CHESTPLATE, Items.LEATHER_CHESTPLATE);
+        put(RUINED_LEATHER_LEGGINGS, Items.LEATHER_LEGGINGS);
+        put(RUINED_LEATHER_BOOTS, Items.LEATHER_BOOTS);
     }};
 
     public static final Map<Item, Item> VANILLA_ITEM_MAP =
             Stream.concat(
-                    VANILLA_HAND_ITEM_MAP.entrySet().stream(),
-                    VANILLA_HELMET_ITEM_MAP.entrySet().stream()
+                    VANILLA_STD_ITEM_MAP.entrySet().stream(),
+                    VANILLA_DYEABLE_ITEM_MAP.entrySet().stream()
             ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 }
