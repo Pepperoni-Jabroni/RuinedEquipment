@@ -36,8 +36,7 @@ public class RuinedEquipmentUtils {
                 }
                 // Force set will try & place the Ruined item in hand
                 if (forceSet) {
-                    serverPlayer.inventory.setStack(
-                            serverPlayer.inventory.getSwappableHotbarSlot() - 1, ruinedStack);
+                    serverPlayer.inventory.setStack(serverPlayer.inventory.selectedSlot, ruinedStack);
                 } else {
                     serverPlayer.inventory.insertStack(ruinedStack);
                 }
