@@ -72,7 +72,7 @@ public class RuinedEquipmentCraftRepair extends SpecialCraftingRecipe {
             return repairedVanillaItem;
         } else {
             ItemStack newVanillaItem = new ItemStack(RuinedEquipmentItems.VANILLA_ITEM_MAP.get(ruinedItem.getItem()));
-            int targetDamage = (int) ((1.0 - (2.0 * REPAIR_MODIFIER)) * newVanillaItem.getMaxDamage());
+            int targetDamage = (int) ((1.0 - REPAIR_MODIFIER) * newVanillaItem.getMaxDamage());
             newVanillaItem.setDamage(Math.max(targetDamage, 0));
             return newVanillaItem;
         }
