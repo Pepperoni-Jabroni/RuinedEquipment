@@ -53,6 +53,7 @@ public class RuinedEquipmentItems {
     public static final Item RUINED_TRIDENT = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_FLINT_AND_STEEL = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_CROSSBOW = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
+    public static final Item RUINED_SHIELD = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
 
     public static final Item RUINED_DIAMOND_HELMET = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
     public static final Item RUINED_GOLDEN_HELMET = new RuinedEquipmentItem(new Item.Settings().maxCount(1));
@@ -125,6 +126,7 @@ public class RuinedEquipmentItems {
         put(RUINED_TRIDENT, Items.TRIDENT);
         put(RUINED_FLINT_AND_STEEL, Items.FLINT_AND_STEEL);
         put(RUINED_CROSSBOW, Items.CROSSBOW);
+        put(RUINED_SHIELD, Items.SHIELD);
 
         put(RUINED_DIAMOND_HELMET, Items.DIAMOND_HELMET);
         put(RUINED_GOLDEN_HELMET, Items.GOLDEN_HELMET);

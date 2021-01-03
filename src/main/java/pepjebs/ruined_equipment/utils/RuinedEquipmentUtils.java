@@ -77,8 +77,6 @@ public class RuinedEquipmentUtils {
             boolean forceSet) {
         for (Map.Entry<Item, Item> itemMap : RuinedEquipmentItems.VANILLA_ITEM_MAP.entrySet()) {
             if (isVanillaItemStackBreaking(breakingStack, itemMap.getValue())) {
-                // Crossbows don't play nicely for some reason...
-                if (breakingStack.isItemEqualIgnoreDamage(new ItemStack(Items.CROSSBOW))) forceSet = false;
                 ItemStack ruinedStack = new ItemStack(itemMap.getKey());
                 // Set enchantment NBT data
                 CompoundTag enchantTag = getTagForEnchantments(breakingStack, ruinedStack);

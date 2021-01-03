@@ -3,6 +3,7 @@ package pepjebs.ruined_equipment.mixin;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.registry.Registry;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,8 +25,12 @@ public class LivingEntityMixin {
             ItemStack breakingItemStack = serverPlayer.getEquippedStack(slot);
             RuinedEquipmentMod.LOGGER.info("Processing breaking equipment: " +
                     Registry.ITEM.getId(breakingItemStack.getItem()));
-            RuinedEquipmentUtils.onSendEquipmentBreakStatusImpl(serverPlayer, breakingItemStack,
-                    slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND);
+            boolean forceSet = slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND;
+            if (breakingItemStack.isItemEqualIgnoreDamage(new ItemStack(Items.CROSSBOW)) ||
+                    breakingItemStack.isItemEqualIgnoreDamage(new ItemStack(Items.SHIELD))) {
+                forceSet = false;
+            }
+            RuinedEquipmentUtils.onSendEquipmentBreakStatusImpl(serverPlayer, breakingItemStack, forceSet);
         }
     }
 }
