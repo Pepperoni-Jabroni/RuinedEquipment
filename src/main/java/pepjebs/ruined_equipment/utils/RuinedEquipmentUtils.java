@@ -20,7 +20,7 @@ import java.util.*;
 public class RuinedEquipmentUtils {
 
     public static int generateRepairLevelCost(ItemStack repaired) {
-        return (int) 30.0 * (repaired.getMaxDamage() - repaired.getDamage()) / repaired.getMaxDamage();
+        return (int) 15.0 * (repaired.getMaxDamage() - repaired.getDamage()) / repaired.getMaxDamage();
     }
 
     public static ItemStack generateRepairedItemForAnvilByFraction(
