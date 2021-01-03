@@ -13,7 +13,6 @@ import net.minecraft.text.MutableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import pepjebs.ruined_equipment.RuinedEquipmentMod;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
 
 import java.util.*;
@@ -41,6 +40,10 @@ public class RuinedEquipmentUtils {
         }
         CompoundTag tag = leftStack.getTag();
         if (tag != null) {
+            if (leftStack.getItem() instanceof DyeableItem) {
+                ((DyeableItem) repaired.getItem()).setColor(repaired,
+                        ((DyeableItem) leftStack.getItem()).getColor(leftStack));
+            }
             String encodedEnch = tag.getString("enchantments");
             Map<Enchantment, Integer> enchantMap = RuinedEquipmentUtils.processEncodedEnchantments(encodedEnch);
             if (enchantMap != null) {
@@ -53,6 +56,7 @@ public class RuinedEquipmentUtils {
     }
 
     public static Map<Enchantment, Integer> processEncodedEnchantments(String encodedEnchants) {
+        if (encodedEnchants.isEmpty()) return null;
         Map<Enchantment, Integer> enchants = new HashMap<>();
         for (String encodedEnchant : encodedEnchants.split(",")) {
             String[] enchantItem = encodedEnchant.split(">");

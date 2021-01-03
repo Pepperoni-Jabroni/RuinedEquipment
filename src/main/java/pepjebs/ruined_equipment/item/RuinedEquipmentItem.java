@@ -40,7 +40,6 @@ public class RuinedEquipmentItem extends Item {
 
         if (stack.getTag() == null) return;
         String tagString = stack.getTag().getString("enchantments");
-        if (tagString.isEmpty()) return;
         Map<Enchantment, Integer> enchantMap = RuinedEquipmentUtils.processEncodedEnchantments(tagString);
         if (enchantMap == null) return;
 
