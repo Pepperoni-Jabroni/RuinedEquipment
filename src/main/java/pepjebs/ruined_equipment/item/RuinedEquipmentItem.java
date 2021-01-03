@@ -3,6 +3,8 @@ package pepjebs.ruined_equipment.item;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.LiteralText;
@@ -10,6 +12,8 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,8 +49,13 @@ public class RuinedEquipmentItem extends Item {
             tooltip.set(0, newT0);
         }
 
-        for (String str : tagStrings) {
-            tooltip.add(new LiteralText(str).formatted(Formatting.GRAY));
+        for (String encodedEnch : tagStrings) {
+            String[] enchantParts = encodedEnch.split("_");
+            String[] enchantKey = enchantParts[0].split(":");
+            int enchantLevel = Integer.parseInt(enchantParts[1]);
+            Enchantment e = Registry.ENCHANTMENT.get(new Identifier(enchantKey[0], enchantKey[1]));
+            if (e == null) continue;
+            tooltip.add(new LiteralText(e.getName(enchantLevel).getString()).formatted(Formatting.GRAY));
         }
     }
 

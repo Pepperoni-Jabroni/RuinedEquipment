@@ -11,7 +11,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.util.Formatting;
-import pepjebs.ruined_equipment.item.RuinedDyeableEquipmentItem;
+import net.minecraft.util.registry.Registry;
+import pepjebs.ruined_equipment.RuinedEquipmentMod;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
 
 import java.util.HashSet;
@@ -59,7 +60,8 @@ public class RuinedEquipmentUtils {
     public static CompoundTag getTagForEnchantments(ItemStack breakingStack, ItemStack ruinedStack) {
         Set<String> enchantmentStrings = new HashSet<>();
         for (Map.Entry<Enchantment, Integer> ench : EnchantmentHelper.get(breakingStack).entrySet()) {
-            String enchantString = ench.getKey().getName(ench.getValue()).getString();
+            String enchantString = Registry.ENCHANTMENT.getId(ench.getKey())+"_"+ench.getValue();
+            RuinedEquipmentMod.LOGGER.info("Adding enchantment: " + enchantString);
             enchantmentStrings.add(enchantString);
         }
         if (!enchantmentStrings.isEmpty()) {
