@@ -41,20 +41,25 @@ public class RuinedEquipmentItem extends Item {
         if (stack.getTag() == null) return;
         String tagString = stack.getTag().getString("enchantments");
         Map<Enchantment, Integer> enchantMap = RuinedEquipmentUtils.processEncodedEnchantments(tagString);
-        if (enchantMap == null) return;
-
-        MutableText newT0 = tooltip.get(0).shallowCopy();
-        if (stack.hasGlint()) {
-            newT0 = new LiteralText(newT0.getString()).formatted(Formatting.AQUA);
-            if (stack.hasCustomName()) {
-                newT0 = newT0.formatted(Formatting.ITALIC);
+        if (enchantMap != null) {
+            MutableText newT0 = tooltip.get(0).shallowCopy();
+            if (stack.hasGlint()) {
+                newT0 = new LiteralText(newT0.getString()).formatted(Formatting.AQUA);
+                if (stack.hasCustomName()) {
+                    newT0 = newT0.formatted(Formatting.ITALIC);
+                }
+                tooltip.set(0, newT0);
             }
-            tooltip.set(0, newT0);
-        }
 
-        for (Map.Entry<Enchantment, Integer> enchant : enchantMap.entrySet()) {
-            tooltip.add(new LiteralText(
-                    enchant.getKey().getName(enchant.getValue()).getString()).formatted(Formatting.GRAY));
+            for (Map.Entry<Enchantment, Integer> enchant : enchantMap.entrySet()) {
+                tooltip.add(new LiteralText(
+                        enchant.getKey().getName(enchant.getValue()).getString()).formatted(Formatting.GRAY));
+            }
+        }
+        if (this == RuinedEquipmentItems.RUINED_SHIELD && stack.getTag().contains("BlockEntityTag")) {
+            tooltip.add(new TranslatableText("item.ruined_equipment.ruined_shield.banner")
+                    .formatted(Formatting.GRAY)
+                    .formatted(Formatting.ITALIC));
         }
     }
 

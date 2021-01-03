@@ -1,12 +1,11 @@
 package pepjebs.ruined_equipment.mixin;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ToolItem;
+import net.minecraft.item.*;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.screen.*;
+import net.minecraft.tag.ItemTags;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -53,6 +52,8 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
                 repairIngredient = ((ArmorItem) vanillaItem).getMaterial().getRepairIngredient();
             } else if (vanillaItem instanceof ToolItem) {
                 repairIngredient = ((ToolItem) vanillaItem).getMaterial().getRepairIngredient();
+            } else if (vanillaItem == Items.SHIELD) {
+                repairIngredient = Ingredient.fromTag(ItemTags.PLANKS);
             }
             if (repairIngredient != null && repairIngredient.test(rightStack)) {
                 double targetFraction = 1.0 - (rightStack.getCount() * REPAIR_MODIFIER);

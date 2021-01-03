@@ -48,6 +48,14 @@ public class RuinedEquipmentUtils {
                 ((DyeableItem) repaired.getItem()).setColor(repaired,
                         ((DyeableItem) leftStack.getItem()).getColor(leftStack));
             }
+            if (leftStack.getItem() == RuinedEquipmentItems.RUINED_SHIELD) {
+                CompoundTag newTag = repaired.getTag();
+                if (newTag == null) newTag = new CompoundTag();
+                if (tag.contains("BlockEntityTag")) {
+                    newTag.put("BlockEntityTag", tag.getCompound("BlockEntityTag"));
+                    repaired.setTag(newTag);
+                }
+            }
             String encodedEnch = tag.getString("enchantments");
             Map<Enchantment, Integer> enchantMap = RuinedEquipmentUtils.processEncodedEnchantments(encodedEnch);
             if (enchantMap != null) {
@@ -94,6 +102,13 @@ public class RuinedEquipmentUtils {
                     int breakingColor = ((DyeableItem) breakingStack.getItem()).getColor(breakingStack);
                     ((DyeableItem) ruinedStack.getItem()).setColor(ruinedStack, breakingColor);
                     DyeableItem.blendAndSetColor(ruinedStack, new LinkedList<>());
+                }
+                // Handle Shield banners
+                if (breakingStack.getItem() == Items.SHIELD && breakingStack.getTag() != null
+                        && breakingStack.getTag().contains("BlockEntityTag")) {
+                    CompoundTag tag = ruinedStack.getTag();
+                    if (tag == null) tag = new CompoundTag();
+                    tag.put("BlockEntityTag", breakingStack.getTag().getCompound("BlockEntityTag"));
                 }
                 // Force set will place the Ruined item in hand
                 if (forceSet) {
