@@ -19,6 +19,10 @@ import java.util.*;
 
 public class RuinedEquipmentUtils {
 
+    public static int compareItemsById(Item i1, Item i2) {
+        return Registry.ITEM.getId(i1).compareTo(Registry.ITEM.getId(i2));
+    }
+
     public static int generateRepairLevelCost(ItemStack repaired) {
         return (int) 15.0 * (repaired.getMaxDamage() - repaired.getDamage()) / repaired.getMaxDamage();
     }

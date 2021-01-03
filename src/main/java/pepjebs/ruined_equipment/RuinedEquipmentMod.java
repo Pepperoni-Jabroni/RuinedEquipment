@@ -12,8 +12,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
 import pepjebs.ruined_equipment.recipe.RuinedEquipmentCraftRepair;
+import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 
+import java.util.Comparator;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class RuinedEquipmentMod implements ModInitializer {
 
@@ -27,8 +30,9 @@ public class RuinedEquipmentMod implements ModInitializer {
     public static final ItemGroup RUINED_GROUP = FabricItemGroupBuilder.create(new Identifier(MOD_ID, "ruined_items"))
             .icon(() -> new ItemStack(RuinedEquipmentItems.RUINED_DIAMOND_PICK))
             .appendItems(stacks -> {
-                for (Map.Entry<Item, Item> item : RuinedEquipmentItems.VANILLA_ITEM_MAP.entrySet()) {
-                    stacks.add(new ItemStack(item.getKey()));
+                for (Item item : RuinedEquipmentItems.VANILLA_ITEM_MAP.keySet().stream()
+                        .sorted(RuinedEquipmentUtils::compareItemsById).collect(Collectors.toList())) {
+                    stacks.add(new ItemStack(item));
                 }
             })
             .build();
