@@ -13,12 +13,43 @@ import net.minecraft.text.MutableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import pepjebs.ruined_equipment.RuinedEquipmentMod;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
 
 import java.util.*;
 
 public class RuinedEquipmentUtils {
+
+    public static int generateRepairLevelCost(ItemStack repaired) {
+        return (int) 30.0 * (repaired.getMaxDamage() - repaired.getDamage()) / repaired.getMaxDamage();
+    }
+
+    public static ItemStack generateRepairedItemForAnvilByFraction(
+            ItemStack leftStack,
+            double damageFraction) {
+        int maxDamage = new ItemStack(RuinedEquipmentItems.VANILLA_ITEM_MAP.get(leftStack.getItem())).getMaxDamage();
+        return generateRepairedItemForAnvilByDamage(leftStack, (int) (damageFraction * (double) maxDamage));
+    }
+
+    public static ItemStack generateRepairedItemForAnvilByDamage(
+            ItemStack leftStack,
+            int targetDamage){
+        ItemStack repaired = new ItemStack(RuinedEquipmentItems.VANILLA_ITEM_MAP.get(leftStack.getItem()));
+        repaired.setDamage(targetDamage);
+        if (leftStack.hasCustomName()) {
+            repaired.setCustomName(leftStack.getName());
+        }
+        CompoundTag tag = leftStack.getTag();
+        if (tag != null) {
+            String encodedEnch = tag.getString("enchantments");
+            Map<Enchantment, Integer> enchantMap = RuinedEquipmentUtils.processEncodedEnchantments(encodedEnch);
+            if (enchantMap != null) {
+                for (Map.Entry<Enchantment, Integer> enchant : enchantMap.entrySet()) {
+                    repaired.addEnchantment(enchant.getKey(), enchant.getValue());
+                }
+            }
+        }
+        return repaired;
+    }
 
     public static Map<Enchantment, Integer> processEncodedEnchantments(String encodedEnchants) {
         Map<Enchantment, Integer> enchants = new HashMap<>();
@@ -71,7 +102,6 @@ public class RuinedEquipmentUtils {
         Set<String> enchantmentStrings = new HashSet<>();
         for (Map.Entry<Enchantment, Integer> ench : EnchantmentHelper.get(breakingStack).entrySet()) {
             String enchantString = Registry.ENCHANTMENT.getId(ench.getKey())+"_"+ench.getValue();
-            RuinedEquipmentMod.LOGGER.info("Adding enchantment: " + enchantString);
             enchantmentStrings.add(enchantString);
         }
         if (!enchantmentStrings.isEmpty()) {
