@@ -33,11 +33,15 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
     @Final
     private Property levelCost;
 
+    @Shadow
+    private int repairItemUsage;
+
+
     public AnvilScreenHandlerMixin(@Nullable ScreenHandlerType<?> type, int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
         super(type, syncId, playerInventory, context);
     }
 
-    @Inject(method = "updateResult", at = @At(value = "HEAD"))
+    @Inject(method = "updateResult", at = @At(value = "RETURN"))
     private void onUpdateResult(CallbackInfo ci) {
         ItemStack leftStack = this.input.getStack(0);
         ItemStack rightStack = this.input.getStack(1);
@@ -59,6 +63,8 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
                     repaired.setCustomName(leftStack.getName());
                 }
                 this.output.setStack(0, repaired);
+                this.levelCost.set(15);
+                this.repairItemUsage = 5;
                 this.sendContentUpdates();
                 return;
             }
