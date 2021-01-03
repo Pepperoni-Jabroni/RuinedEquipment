@@ -16,8 +16,10 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 
 import java.util.List;
+import java.util.Map;
 
 public class RuinedEquipmentItem extends Item {
 
@@ -37,8 +39,8 @@ public class RuinedEquipmentItem extends Item {
 
         if (stack.getTag() == null) return;
         String tagString = stack.getTag().getString("enchantments");
-        String[] tagStrings = tagString.split(",");
-        if (tagStrings.length == 0) return;
+        Map<Enchantment, Integer> enchantMap = RuinedEquipmentUtils.processEncodedEnchantments(tagString);
+        if (enchantMap == null) return;
 
         MutableText newT0 = tooltip.get(0).shallowCopy();
         if (stack.hasGlint()) {
@@ -49,13 +51,9 @@ public class RuinedEquipmentItem extends Item {
             tooltip.set(0, newT0);
         }
 
-        for (String encodedEnch : tagStrings) {
-            String[] enchantParts = encodedEnch.split("_");
-            String[] enchantKey = enchantParts[0].split(":");
-            int enchantLevel = Integer.parseInt(enchantParts[1]);
-            Enchantment e = Registry.ENCHANTMENT.get(new Identifier(enchantKey[0], enchantKey[1]));
-            if (e == null) continue;
-            tooltip.add(new LiteralText(e.getName(enchantLevel).getString()).formatted(Formatting.GRAY));
+        for (Map.Entry<Enchantment, Integer> enchant : enchantMap.entrySet()) {
+            tooltip.add(new LiteralText(
+                    enchant.getKey().getName(enchant.getValue()).getString()).formatted(Formatting.GRAY));
         }
     }
 

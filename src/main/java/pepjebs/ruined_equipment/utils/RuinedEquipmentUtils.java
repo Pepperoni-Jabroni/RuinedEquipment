@@ -11,16 +11,26 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import pepjebs.ruined_equipment.RuinedEquipmentMod;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class RuinedEquipmentUtils {
+
+    public static Map<Enchantment, Integer> processEncodedEnchantments(String encodedEnchants) {
+        Map<Enchantment, Integer> enchants = new HashMap<>();
+        for (String encodedEnchant : encodedEnchants.split(",")) {
+            String[] enchantItem = encodedEnchant.split("_");
+            String[] enchantKey = enchantItem[0].split(":");
+            int enchantLevel = Integer.parseInt(enchantItem[1]);
+            enchants.put(Registry.ENCHANTMENT.get(new Identifier(enchantKey[0], enchantKey[1])), enchantLevel);
+        }
+        return enchants.isEmpty() ? null : enchants;
+    }
+
     public static void onSendEquipmentBreakStatusImpl(
             ServerPlayerEntity serverPlayer,
             ItemStack breakingStack,

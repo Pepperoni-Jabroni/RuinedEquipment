@@ -1,5 +1,6 @@
 package pepjebs.ruined_equipment.mixin;
 
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingResultInventory;
 import net.minecraft.inventory.Inventory;
@@ -7,8 +8,12 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolItem;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.screen.*;
+import net.minecraft.text.LiteralText;
+import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -21,6 +26,7 @@ import pepjebs.ruined_equipment.RuinedEquipmentMod;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItem;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
 import pepjebs.ruined_equipment.recipe.RuinedEquipmentCraftRepair;
+import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 
 import java.util.Map;
 
@@ -62,6 +68,14 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
                 if (leftStack.hasCustomName()) {
                     repaired.setCustomName(leftStack.getName());
                 }
+                CompoundTag tag = leftStack.getTag();
+                if (tag != null) {
+                    String encodedEnch = tag.getString("enchantments");
+                    Map<Enchantment, Integer> enchantMap = RuinedEquipmentUtils.processEncodedEnchantments(encodedEnch);
+                    for (Map.Entry<Enchantment, Integer> enchant : enchantMap.entrySet()) {
+                        repaired.addEnchantment(enchant.getKey(), enchant.getValue());
+                    }
+                }
                 this.output.setStack(0, repaired);
                 this.levelCost.set(15);
                 this.repairItemUsage = 5;
@@ -70,6 +84,7 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
             }
             // Check right stack for corresponding vanilla item
             if (rightStack.getItem() == vanillaItem) {
+                ItemStack repaired = rightStack.copy();
 
             }
         }
