@@ -13,6 +13,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import pepjebs.ruined_equipment.RuinedEquipmentMod;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
 
 import java.util.*;
@@ -54,7 +55,7 @@ public class RuinedEquipmentUtils {
     public static Map<Enchantment, Integer> processEncodedEnchantments(String encodedEnchants) {
         Map<Enchantment, Integer> enchants = new HashMap<>();
         for (String encodedEnchant : encodedEnchants.split(",")) {
-            String[] enchantItem = encodedEnchant.split("_");
+            String[] enchantItem = encodedEnchant.split(">");
             String[] enchantKey = enchantItem[0].split(":");
             int enchantLevel = Integer.parseInt(enchantItem[1]);
             enchants.put(Registry.ENCHANTMENT.get(new Identifier(enchantKey[0], enchantKey[1])), enchantLevel);
@@ -101,7 +102,7 @@ public class RuinedEquipmentUtils {
     public static CompoundTag getTagForEnchantments(ItemStack breakingStack, ItemStack ruinedStack) {
         Set<String> enchantmentStrings = new HashSet<>();
         for (Map.Entry<Enchantment, Integer> ench : EnchantmentHelper.get(breakingStack).entrySet()) {
-            String enchantString = Registry.ENCHANTMENT.getId(ench.getKey())+"_"+ench.getValue();
+            String enchantString = Registry.ENCHANTMENT.getId(ench.getKey())+">"+ench.getValue();
             enchantmentStrings.add(enchantString);
         }
         if (!enchantmentStrings.isEmpty()) {

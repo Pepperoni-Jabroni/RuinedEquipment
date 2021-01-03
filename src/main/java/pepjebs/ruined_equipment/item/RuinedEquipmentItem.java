@@ -16,6 +16,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import pepjebs.ruined_equipment.RuinedEquipmentMod;
 import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 
 import java.util.List;
@@ -39,6 +40,7 @@ public class RuinedEquipmentItem extends Item {
 
         if (stack.getTag() == null) return;
         String tagString = stack.getTag().getString("enchantments");
+        if (tagString.isEmpty()) return;
         Map<Enchantment, Integer> enchantMap = RuinedEquipmentUtils.processEncodedEnchantments(tagString);
         if (enchantMap == null) return;
 
