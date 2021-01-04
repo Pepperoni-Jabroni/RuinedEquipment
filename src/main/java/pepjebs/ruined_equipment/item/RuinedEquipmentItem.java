@@ -7,6 +7,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -17,6 +18,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import pepjebs.ruined_equipment.RuinedEquipmentMod;
+import pepjebs.ruined_equipment.recipe.RuinedEquipmentSetUpgrading;
 import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 
 import java.util.List;
@@ -55,6 +57,11 @@ public class RuinedEquipmentItem extends Item {
                 tooltip.add(new LiteralText(
                         enchant.getKey().getName(enchant.getValue()).getString()).formatted(Formatting.GRAY));
             }
+        }
+        if (stack.getTag() != null && stack.getTag().contains(RuinedEquipmentSetUpgrading.RUINED_MAX_ENCHT_TAG)
+                && stack.getTag().getBoolean(RuinedEquipmentSetUpgrading.RUINED_MAX_ENCHT_TAG)) {
+            tooltip.add(new TranslatableText("item.ruined_equipment.ruined_upgrading")
+                    .formatted(Formatting.GRAY));
         }
         if (this == RuinedEquipmentItems.RUINED_SHIELD && stack.getTag().contains("BlockEntityTag")) {
             tooltip.add(new TranslatableText("item.ruined_equipment.ruined_shield.banner")

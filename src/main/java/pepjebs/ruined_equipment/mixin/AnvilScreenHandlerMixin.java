@@ -1,6 +1,5 @@
 package pepjebs.ruined_equipment.mixin;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.*;
 import net.minecraft.recipe.Ingredient;
@@ -15,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItem;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
+import pepjebs.ruined_equipment.recipe.RuinedEquipmentSetUpgrading;
 import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 
 @Mixin(AnvilScreenHandler.class)
@@ -40,10 +40,13 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
 
     @Inject(method = "updateResult", at = @At(value = "RETURN"))
     private void updateRuinedRepair(CallbackInfo ci) {
-        ItemStack leftStack = this.input.getStack(0);
-        ItemStack rightStack = this.input.getStack(1);
+        ItemStack leftStack = this.input.getStack(0).copy();
+        ItemStack rightStack = this.input.getStack(1).copy();
         if (leftStack.getItem() instanceof RuinedEquipmentItem) {
             RuinedEquipmentItem ruinedItem = (RuinedEquipmentItem) leftStack.getItem();
+            boolean isMaxEnch = leftStack.getTag() != null &&
+                    leftStack.getTag().contains(RuinedEquipmentSetUpgrading.RUINED_MAX_ENCHT_TAG)
+                    && leftStack.getTag().getBoolean(RuinedEquipmentSetUpgrading.RUINED_MAX_ENCHT_TAG);
             Item vanillaItem = RuinedEquipmentItems.VANILLA_ITEM_MAP.get(ruinedItem);
             int vanillaMaxDamage = vanillaItem.getMaxDamage();
             // Check right stack for matching repair item
@@ -59,7 +62,8 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
                 double targetFraction = 1.0 - (rightStack.getCount() * REPAIR_MODIFIER);
                 ItemStack repaired = RuinedEquipmentUtils.generateRepairedItemForAnvilByFraction(
                         leftStack,
-                        Math.min(targetFraction, 1.0));
+                        Math.min(targetFraction, 1.0),
+                        isMaxEnch);
                 this.output.setStack(0, repaired);
                 this.levelCost.set(RuinedEquipmentUtils.generateRepairLevelCost(repaired));
                 this.repairItemUsage = 6;
@@ -71,7 +75,8 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
                 int targetDamage = rightStack.getDamage() - (int)(REPAIR_MODIFIER * rightStack.getMaxDamage());
                 ItemStack repaired = RuinedEquipmentUtils.generateRepairedItemForAnvilByDamage(
                         leftStack,
-                        Math.min(targetDamage, vanillaMaxDamage));
+                        Math.min(targetDamage, vanillaMaxDamage),
+                        isMaxEnch);
                 this.output.setStack(0, repaired);
                 this.levelCost.set(RuinedEquipmentUtils.generateRepairLevelCost(repaired));
                 this.repairItemUsage = 0;

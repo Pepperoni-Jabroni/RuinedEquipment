@@ -1,5 +1,6 @@
 {
   "itemGroup.ruined_equipment.ruined_items": "Ruined Equipment",
   "item.ruined_equipment.ruined_prefix": "Ruined ",
-  "item.ruined_equipment.ruined_shield.banner": "Has Banner Pattern"
+  "item.ruined_equipment.ruined_shield.banner": "Has Banner Pattern",
+  "item.ruined_equipment.ruined_upgrading": "Empowered"
 }

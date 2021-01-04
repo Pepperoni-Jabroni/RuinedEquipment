@@ -14,6 +14,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
+import pepjebs.ruined_equipment.recipe.RuinedEquipmentSetUpgrading;
 
 import java.util.*;
 
@@ -29,14 +30,16 @@ public class RuinedEquipmentUtils {
 
     public static ItemStack generateRepairedItemForAnvilByFraction(
             ItemStack leftStack,
-            double damageFraction) {
+            double damageFraction,
+            boolean isMaxEnchant) {
         int maxDamage = new ItemStack(RuinedEquipmentItems.VANILLA_ITEM_MAP.get(leftStack.getItem())).getMaxDamage();
-        return generateRepairedItemForAnvilByDamage(leftStack, (int) (damageFraction * (double) maxDamage));
+        return generateRepairedItemForAnvilByDamage(leftStack, (int) (damageFraction * (double) maxDamage), isMaxEnchant);
     }
 
     public static ItemStack generateRepairedItemForAnvilByDamage(
             ItemStack leftStack,
-            int targetDamage){
+            int targetDamage,
+            boolean isMaxEnchant){
         ItemStack repaired = new ItemStack(RuinedEquipmentItems.VANILLA_ITEM_MAP.get(leftStack.getItem()));
         repaired.setDamage(targetDamage);
         if (leftStack.hasCustomName()) {
@@ -44,6 +47,9 @@ public class RuinedEquipmentUtils {
         }
         CompoundTag tag = leftStack.getTag();
         if (tag != null) {
+            if (isMaxEnchant) {
+                tag.remove(RuinedEquipmentSetUpgrading.RUINED_MAX_ENCHT_TAG);
+            }
             if (leftStack.getItem() instanceof DyeableItem) {
                 ((DyeableItem) repaired.getItem()).setColor(repaired,
                         ((DyeableItem) leftStack.getItem()).getColor(leftStack));
@@ -60,7 +66,11 @@ public class RuinedEquipmentUtils {
             Map<Enchantment, Integer> enchantMap = RuinedEquipmentUtils.processEncodedEnchantments(encodedEnch);
             if (enchantMap != null) {
                 for (Map.Entry<Enchantment, Integer> enchant : enchantMap.entrySet()) {
-                    repaired.addEnchantment(enchant.getKey(), enchant.getValue());
+                    if (isMaxEnchant) {
+                        repaired.addEnchantment(enchant.getKey(), enchant.getKey().getMaxLevel());
+                    } else {
+                        repaired.addEnchantment(enchant.getKey(), enchant.getValue());
+                    }
                 }
             }
         }
