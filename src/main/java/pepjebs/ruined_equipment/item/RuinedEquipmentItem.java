@@ -4,21 +4,16 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import pepjebs.ruined_equipment.RuinedEquipmentMod;
-import pepjebs.ruined_equipment.recipe.RuinedEquipmentSetUpgrading;
+import pepjebs.ruined_equipment.recipe.RuinedEquipmentSmithingEmpowerRecipe;
 import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 
 import java.util.List;
@@ -58,8 +53,8 @@ public class RuinedEquipmentItem extends Item {
                         enchant.getKey().getName(enchant.getValue()).getString()).formatted(Formatting.GRAY));
             }
         }
-        if (stack.getTag() != null && stack.getTag().contains(RuinedEquipmentSetUpgrading.RUINED_MAX_ENCHT_TAG)
-                && stack.getTag().getBoolean(RuinedEquipmentSetUpgrading.RUINED_MAX_ENCHT_TAG)) {
+        if (stack.getTag() != null && stack.getTag().contains(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG)
+                && stack.getTag().getBoolean(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG)) {
             tooltip.add(new TranslatableText("item.ruined_equipment.ruined_upgrading")
                     .formatted(Formatting.GRAY));
         }

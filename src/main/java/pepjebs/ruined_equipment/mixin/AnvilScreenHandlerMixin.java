@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItem;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
-import pepjebs.ruined_equipment.recipe.RuinedEquipmentSetUpgrading;
+import pepjebs.ruined_equipment.recipe.RuinedEquipmentSmithingEmpowerRecipe;
 import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 
 @Mixin(AnvilScreenHandler.class)
@@ -45,8 +45,8 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
         if (leftStack.getItem() instanceof RuinedEquipmentItem) {
             RuinedEquipmentItem ruinedItem = (RuinedEquipmentItem) leftStack.getItem();
             boolean isMaxEnch = leftStack.getTag() != null &&
-                    leftStack.getTag().contains(RuinedEquipmentSetUpgrading.RUINED_MAX_ENCHT_TAG)
-                    && leftStack.getTag().getBoolean(RuinedEquipmentSetUpgrading.RUINED_MAX_ENCHT_TAG);
+                    leftStack.getTag().contains(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG)
+                    && leftStack.getTag().getBoolean(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG);
             Item vanillaItem = RuinedEquipmentItems.VANILLA_ITEM_MAP.get(ruinedItem);
             int vanillaMaxDamage = vanillaItem.getMaxDamage();
             // Check right stack for matching repair item

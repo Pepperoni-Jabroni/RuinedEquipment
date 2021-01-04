@@ -14,7 +14,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
-import pepjebs.ruined_equipment.recipe.RuinedEquipmentSetUpgrading;
+import pepjebs.ruined_equipment.recipe.RuinedEquipmentSmithingEmpowerRecipe;
 
 import java.util.*;
 
@@ -48,7 +48,7 @@ public class RuinedEquipmentUtils {
         CompoundTag tag = leftStack.getTag();
         if (tag != null) {
             if (isMaxEnchant) {
-                tag.remove(RuinedEquipmentSetUpgrading.RUINED_MAX_ENCHT_TAG);
+                tag.remove(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG);
             }
             if (leftStack.getItem() instanceof DyeableItem) {
                 ((DyeableItem) repaired.getItem()).setColor(repaired,
