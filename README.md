@@ -12,8 +12,11 @@ Grieving equipment owner? With this mod installed, Tools and Armors break into R
    - Misc: Shears, Flint & Steel, Bow, Crossbow, Trident, Fishing Rod
 - Tools & Armors will become "Ruined" when their durability reaches 0 (and you hear the break sound).
 - Ruined equipment keeps it's name, enchantments (although the enchantments no longer functionally do anything), dyes (if leather armor), and banner pattern (if shield).
-- Ruined equipment can be combined with either another Ruined item of the same type or the corresponding non-Ruined item in a Crafting Table to repair the item.
-- The Ruined items can also be repaired in an Anvil with either the correct repair ingredient or a non-Ruined item of the same type.
+- You have 4 choices when you receive a Ruined item.
+   1. Keep it as a keepsake, remember it always.
+   2. Combine the Ruined item with either another Ruined item of the same type or the corresponding non-Ruined item in a Crafting Grid in order to repair the item, but lose all other features (name, enchantments, etc).
+   3. Repair the Ruined item using an Anvil with either it's corresponding repair material or the corresponding non-Ruined item. This will apply all features (name, enchantments, etc) to the resulting Item.
+   4. Make your Ruined item **"Empowered"** by combining it with a Netherite Scrap in a Crafting Grid. Now, when you repair the item at an Anvil, all the existing Enchantments will become **max value**. 
 
 ## Place them in Gravesites
 ![](https://i.imgur.com/LtPbeMx.png)
@@ -35,6 +38,15 @@ Grieving equipment owner? With this mod installed, Tools and Armors break into R
 
 ## Shield with Banner pattern being repaired
 ![](https://i.imgur.com/cHOE1gc.png)
+
+## Empowering a Ruined Diamond Sword
+![](https://i.imgur.com/bIKokEL.png)
+
+## Repairing an Empowered item in an Anvil
+![](https://i.imgur.com/KkqcRVU.png)
+
+## All Enchants become max level
+![](https://i.imgur.com/GmhvdMb.png)
 
 ## All the Items
 ![](https://i.imgur.com/LwlP9NW.png)
