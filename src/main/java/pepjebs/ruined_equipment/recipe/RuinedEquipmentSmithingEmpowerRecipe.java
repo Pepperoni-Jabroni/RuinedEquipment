@@ -1,29 +1,34 @@
 package pepjebs.ruined_equipment.recipe;
 
-import net.minecraft.inventory.CraftingInventory;
+import com.google.gson.JsonObject;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.SpecialCraftingRecipe;
+import net.minecraft.recipe.SmithingRecipe;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItem;
+import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
 
 import java.util.ArrayList;
 
-public class RuinedEquipmentSetUpgrading extends SpecialCraftingRecipe {
+// I understand that this class is an abomination. But the lack of NBT Crafting is the real issue.
+public class RuinedEquipmentSmithingEmpowerRecipe extends SmithingRecipe {
 
     public static final Item REPAIR_MATERIAL = Items.NETHERITE_SCRAP;
     public static final String RUINED_MAX_ENCHT_TAG = "IsUpgrading";
 
-    public RuinedEquipmentSetUpgrading(Identifier id) {
-        super(id);
+    public RuinedEquipmentSmithingEmpowerRecipe(Identifier id) {
+        super(id, Ingredient.ofItems(RuinedEquipmentItems.RUINED_BOW), Ingredient.ofItems(REPAIR_MATERIAL), ItemStack.EMPTY);
     }
 
     @Override
-    public boolean matches(CraftingInventory inv, World world) {
+    public boolean matches(Inventory inv, World world) {
         ArrayList<ItemStack> craftingStacks = new ArrayList<>();
         for(int i = 0; i < inv.size(); i++) {
             if (!inv.getStack(i).isEmpty()) {
@@ -46,7 +51,7 @@ public class RuinedEquipmentSetUpgrading extends SpecialCraftingRecipe {
     }
 
     @Override
-    public ItemStack craft(CraftingInventory inv) {
+    public ItemStack craft(Inventory inv) {
         ItemStack ruinedItem = ItemStack.EMPTY;
         for(int i = 0; i < inv.size(); i++) {
             if (inv.getStack(i).getItem() instanceof RuinedEquipmentItem) {
@@ -66,8 +71,19 @@ public class RuinedEquipmentSetUpgrading extends SpecialCraftingRecipe {
         return width * height >= 2;
     }
 
-    @Override
-    public RecipeSerializer<?> getSerializer() {
-        return null;
+    public static class Serializer implements RecipeSerializer<RuinedEquipmentSmithingEmpowerRecipe> {
+
+        @Override
+        public RuinedEquipmentSmithingEmpowerRecipe read(Identifier id, JsonObject json) {
+            return new RuinedEquipmentSmithingEmpowerRecipe(id);
+        }
+
+        @Override
+        public RuinedEquipmentSmithingEmpowerRecipe read(Identifier id, PacketByteBuf buf) {
+            return new RuinedEquipmentSmithingEmpowerRecipe(id);
+        }
+
+        @Override
+        public void write(PacketByteBuf buf, RuinedEquipmentSmithingEmpowerRecipe recipe) {}
     }
 }

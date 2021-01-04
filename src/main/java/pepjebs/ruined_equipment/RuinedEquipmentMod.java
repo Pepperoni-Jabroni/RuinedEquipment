@@ -12,7 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
 import pepjebs.ruined_equipment.recipe.RuinedEquipmentCraftRepair;
-import pepjebs.ruined_equipment.recipe.RuinedEquipmentSetUpgrading;
+import pepjebs.ruined_equipment.recipe.RuinedEquipmentSmithingEmpowerRecipe;
 import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 
 import java.util.Map;
@@ -26,7 +26,7 @@ public class RuinedEquipmentMod implements ModInitializer {
     public static final String RUINED_PREFIX = "ruined_";
 
     public static SpecialRecipeSerializer<RuinedEquipmentCraftRepair> RUINED_CRAFT_REPAIR_RECIPE;
-    public static SpecialRecipeSerializer<RuinedEquipmentSetUpgrading> RUINED_CRAFT_SET_UPGRADING_RECIPE;
+    public static RuinedEquipmentSmithingEmpowerRecipe.Serializer RUINED_SMITH_SET_EMPOWER;
 
     public static final ItemGroup RUINED_GROUP = FabricItemGroupBuilder.create(new Identifier(MOD_ID, "ruined_items"))
             .icon(() -> new ItemStack(RuinedEquipmentItems.RUINED_DIAMOND_PICK))
@@ -44,10 +44,10 @@ public class RuinedEquipmentMod implements ModInitializer {
                 Registry.RECIPE_SERIALIZER,
                 new Identifier(MOD_ID, "ruined_repair"),
                 new SpecialRecipeSerializer<>(RuinedEquipmentCraftRepair::new));
-        RUINED_CRAFT_SET_UPGRADING_RECIPE = Registry.register(
+        RUINED_SMITH_SET_EMPOWER = Registry.register(
                 Registry.RECIPE_SERIALIZER,
-                new Identifier(MOD_ID, "ruined_set_upgrade"),
-                new SpecialRecipeSerializer<>(RuinedEquipmentSetUpgrading::new));
+                new Identifier(MOD_ID, "ruined_set_empower"),
+                new RuinedEquipmentSmithingEmpowerRecipe.Serializer());
 
         for (Map.Entry<Item, Item> item : RuinedEquipmentItems.VANILLA_ITEM_MAP.entrySet()) {
             String vanillaItemIdPath = Registry.ITEM.getId(item.getValue()).getPath();
