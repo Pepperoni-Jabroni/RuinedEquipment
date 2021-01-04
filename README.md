@@ -7,7 +7,8 @@ Grieving equipment owner? With this mod installed, Tools and Armors break into R
 **Features**:
 - Ruined varieties of the following Items:
    - All vanilla Tools/Swords
-   - All vanilla Armors
+   - All vanilla Armors (including Turtle Shell)
+   - Shields **which keep their Banner patterns on repair**
    - Misc: Shears, Flint & Steel, Bow, Crossbow, Trident, Fishing Rod
 - Tools & Armors will become "Ruined" when their durability reaches 0 (and you hear the break sound).
 - Ruined equipment keeps it's name, dye, and enchantments (although the enchantments no longer functionally do anything).
@@ -23,6 +24,18 @@ Grieving equipment owner? With this mod installed, Tools and Armors break into R
 ## A Ruined Diamond Pickaxe with a custom name & enchantments
 ![](https://i.imgur.com/n2iklYQ.png)
 
+## Repairing a Ruined Diamond Pickaxe in Anvil #1
+![](https://i.imgur.com/uop5Hht.png)
+
+## Repairing a Ruined Diamond Pickaxe in Anvil #2
+![](https://i.imgur.com/ElrARFF.png)
+
+## Repairing Ruined items using Crafting Grid
+![](https://i.imgur.com/M4xNsMP.png)
+
+## Shield with Banner pattern being repaired
+![](https://i.imgur.com/cHOE1gc.png)
+
 ## All the Items
-![](https://i.imgur.com/Mfryt25.png)
-![](https://i.imgur.com/LMeVMtz.png)
+![](https://i.imgur.com/LwlP9NW.png)
+![](https://i.imgur.com/pBCXwtt.png)
