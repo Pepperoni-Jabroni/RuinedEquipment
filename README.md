@@ -8,10 +8,10 @@ Grieving equipment owner? With this mod installed, Tools and Armors break into R
 - Ruined varieties of the following Items:
    - All vanilla Tools/Swords
    - All vanilla Armors (including Turtle Shell)
-   - Shields **which keep their Banner patterns on repair**
+   - Shields
    - Misc: Shears, Flint & Steel, Bow, Crossbow, Trident, Fishing Rod
 - Tools & Armors will become "Ruined" when their durability reaches 0 (and you hear the break sound).
-- Ruined equipment keeps it's name, dye, and enchantments (although the enchantments no longer functionally do anything).
+- Ruined equipment keeps it's name, enchantments (although the enchantments no longer functionally do anything), dyes (if leather armor), and banner pattern (if shield).
 - Ruined equipment can be combined with either another Ruined item of the same type or the corresponding non-Ruined item in a Crafting Table to repair the item.
 - The Ruined items can also be repaired in an Anvil with either the correct repair ingredient or a non-Ruined item of the same type.
 
