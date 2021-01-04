@@ -2,7 +2,7 @@
 
   <a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api"><img src="https://i.imgur.com/Ol1Tcf8.png" width="149" height="50" title="Fabric API" alt="Fabric API"></a>
 
-Grieving equipment owner? With this mod installed, Tools and Armors break into Ruined forms (for players). The Ruined equipment can then be repaired in either a Crafting Grid or Anvil or, if you're like me, kept as a keepsake. May you never forget your fallen tools and armors & the adventures you had with them.
+Grieving equipment owner? With this mod installed, Tools and Armors break into Ruined forms (for players). The Ruined equipment can then be repaired in either a Crafting Grid or Anvil, upgraded by "Empowering" it with a Netherite Scrap or, if you're like me, kept as a keepsake. May you never forget your fallen tools and armors & the adventures you had with them.
 
 **Features**:
 - Ruined varieties of the following Items:
