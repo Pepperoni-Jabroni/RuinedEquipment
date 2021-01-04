@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import pepjebs.ruined_equipment.RuinedEquipmentMod;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItem;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
 import pepjebs.ruined_equipment.recipe.RuinedEquipmentSmithingEmpowerRecipe;
@@ -43,6 +44,8 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
         ItemStack leftStack = this.input.getStack(0).copy();
         ItemStack rightStack = this.input.getStack(1).copy();
         if (leftStack.getItem() instanceof RuinedEquipmentItem) {
+            if (RuinedEquipmentMod.CONFIG != null &&
+                    !RuinedEquipmentMod.CONFIG.enableAnvilRuinedRepair) return;
             RuinedEquipmentItem ruinedItem = (RuinedEquipmentItem) leftStack.getItem();
             boolean isMaxEnch = leftStack.getTag() != null &&
                     leftStack.getTag().contains(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG)

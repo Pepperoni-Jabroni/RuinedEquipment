@@ -26,6 +26,9 @@ public class LivingEntityMixin {
             RuinedEquipmentMod.LOGGER.info("Processing breaking equipment: " +
                     Registry.ITEM.getId(breakingItemStack.getItem()));
             boolean forceSet = slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND;
+            if (RuinedEquipmentMod.CONFIG != null && !RuinedEquipmentMod.CONFIG.enableSetRuinedItemInHand) {
+                forceSet = false;
+            }
             if (breakingItemStack.isItemEqualIgnoreDamage(new ItemStack(Items.CROSSBOW)) ||
                     breakingItemStack.isItemEqualIgnoreDamage(new ItemStack(Items.SHIELD))) {
                 forceSet = false;

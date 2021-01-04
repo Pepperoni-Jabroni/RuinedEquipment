@@ -1,5 +1,7 @@
 package pepjebs.ruined_equipment;
 
+import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
+import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.item.Item;
@@ -10,6 +12,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pepjebs.ruined_equipment.config.RuinedEquipmentConfig;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
 import pepjebs.ruined_equipment.recipe.RuinedEquipmentCraftRepair;
 import pepjebs.ruined_equipment.recipe.RuinedEquipmentSmithingEmpowerRecipe;
@@ -24,6 +27,8 @@ public class RuinedEquipmentMod implements ModInitializer {
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
     public static final String RUINED_PREFIX = "ruined_";
+
+    public static RuinedEquipmentConfig CONFIG = null;
 
     public static SpecialRecipeSerializer<RuinedEquipmentCraftRepair> RUINED_CRAFT_REPAIR_RECIPE;
     public static RuinedEquipmentSmithingEmpowerRecipe.Serializer RUINED_SMITH_SET_EMPOWER;
@@ -40,14 +45,22 @@ public class RuinedEquipmentMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        RUINED_CRAFT_REPAIR_RECIPE = Registry.register(
-                Registry.RECIPE_SERIALIZER,
-                new Identifier(MOD_ID, "ruined_repair"),
-                new SpecialRecipeSerializer<>(RuinedEquipmentCraftRepair::new));
-        RUINED_SMITH_SET_EMPOWER = Registry.register(
-                Registry.RECIPE_SERIALIZER,
-                new Identifier(MOD_ID, "ruined_set_empower"),
-                new RuinedEquipmentSmithingEmpowerRecipe.Serializer());
+        AutoConfig.register(RuinedEquipmentConfig.class, JanksonConfigSerializer::new);
+
+        RuinedEquipmentConfig config = AutoConfig.getConfigHolder(RuinedEquipmentConfig.class).getConfig();
+        CONFIG = config;
+        if (config.enableCraftingGridRuinedRepair) {
+            RUINED_CRAFT_REPAIR_RECIPE = Registry.register(
+                    Registry.RECIPE_SERIALIZER,
+                    new Identifier(MOD_ID, "ruined_repair"),
+                    new SpecialRecipeSerializer<>(RuinedEquipmentCraftRepair::new));
+        }
+        if (config.enableSmithingRuinedEmpowered) {
+            RUINED_SMITH_SET_EMPOWER = Registry.register(
+                    Registry.RECIPE_SERIALIZER,
+                    new Identifier(MOD_ID, "ruined_set_empower"),
+                    new RuinedEquipmentSmithingEmpowerRecipe.Serializer());
+        }
 
         for (Map.Entry<Item, Item> item : RuinedEquipmentItems.VANILLA_ITEM_MAP.entrySet()) {
             String vanillaItemIdPath = Registry.ITEM.getId(item.getValue()).getPath();
