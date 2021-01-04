@@ -16,7 +16,7 @@ Grieving equipment owner? With this mod installed, Tools and Armors break into R
    1. Keep it as a keepsake, remember it always.
    2. Combine the Ruined item with either another Ruined item of the same type or the corresponding non-Ruined item in a Crafting Grid in order to repair the item, but lose all other features (name, enchantments, etc).
    3. Repair the Ruined item using an Anvil with either it's corresponding repair material or the corresponding non-Ruined item. This will apply all features (name, enchantments, etc) to the resulting Item.
-   4. Make your Ruined item **"Empowered"** by combining it with a Netherite Scrap in a Crafting Grid. Now, when you repair the item at an Anvil, all the existing Enchantments will become **max value**. 
+   4. Make your Ruined item **"Empowered"** by combining it with a Netherite Scrap in a Smithing Table. Now, when you repair the item at an Anvil, all the existing Enchantments will become **max value**. 
 
 ## Place them in Gravesites
 ![](https://i.imgur.com/LtPbeMx.png)
@@ -40,7 +40,7 @@ Grieving equipment owner? With this mod installed, Tools and Armors break into R
 ![](https://i.imgur.com/cHOE1gc.png)
 
 ## Empowering a Ruined Diamond Sword
-![](https://i.imgur.com/bIKokEL.png)
+![](https://i.imgur.com/BFj9yFi.png)
 
 ## Repairing an Empowered item in an Anvil
 ![](https://i.imgur.com/KkqcRVU.png)
