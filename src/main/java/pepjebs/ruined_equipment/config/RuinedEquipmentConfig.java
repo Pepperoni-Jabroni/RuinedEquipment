@@ -18,4 +18,7 @@ public class RuinedEquipmentConfig implements ConfigData {
 
     @Comment("When 'true', 'Empowering' a Ruined item using the Smithing Table will be enabled.")
     public boolean enableSmithingRuinedEmpowered = true;
+
+    @Comment("The Item to be used for applying 'Empowered' to a Ruined item in a Smithing Table.")
+    public String empowermentSmithingItem = "minecraft:netherite_scrap";
 }

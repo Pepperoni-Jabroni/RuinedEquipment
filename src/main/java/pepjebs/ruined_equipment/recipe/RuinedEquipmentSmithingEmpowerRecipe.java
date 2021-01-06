@@ -14,21 +14,22 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItem;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
+import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 
 import java.util.ArrayList;
 
 // I understand that this class is an abomination. But the lack of NBT Crafting is the real issue.
 public class RuinedEquipmentSmithingEmpowerRecipe extends SmithingRecipe {
 
-    public static final Item REPAIR_MATERIAL = Items.NETHERITE_SCRAP;
     public static final String RUINED_MAX_ENCHT_TAG = "IsUpgrading";
 
     public RuinedEquipmentSmithingEmpowerRecipe(Identifier id) {
-        super(id, Ingredient.ofItems(RuinedEquipmentItems.RUINED_BOW), Ingredient.ofItems(REPAIR_MATERIAL), ItemStack.EMPTY);
+        super(id, Ingredient.ofItems(RuinedEquipmentItems.RUINED_BOW), Ingredient.ofItems(Items.NETHERITE_SCRAP), ItemStack.EMPTY);
     }
 
     @Override
     public boolean matches(Inventory inv, World world) {
+        Item empowermentItem = RuinedEquipmentUtils.getEmpowermentApplicationItem();
         ArrayList<ItemStack> craftingStacks = new ArrayList<>();
         for(int i = 0; i < inv.size(); i++) {
             if (!inv.getStack(i).isEmpty()) {
@@ -37,9 +38,9 @@ public class RuinedEquipmentSmithingEmpowerRecipe extends SmithingRecipe {
         }
         if (craftingStacks.size() == 2) {
             ItemStack otherStack = ItemStack.EMPTY;
-            if (craftingStacks.get(0).getItem() == REPAIR_MATERIAL) {
+            if (craftingStacks.get(0).getItem() == empowermentItem) {
                 otherStack = craftingStacks.get(1).copy();
-            } else if (craftingStacks.get(1).getItem() == REPAIR_MATERIAL) {
+            } else if (craftingStacks.get(1).getItem() == empowermentItem) {
                 otherStack = craftingStacks.get(0).copy();
             }
             if (otherStack == ItemStack.EMPTY) return false;

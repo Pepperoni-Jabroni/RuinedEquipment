@@ -13,12 +13,25 @@ import net.minecraft.text.MutableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import pepjebs.ruined_equipment.RuinedEquipmentMod;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
 import pepjebs.ruined_equipment.recipe.RuinedEquipmentSmithingEmpowerRecipe;
 
 import java.util.*;
 
 public class RuinedEquipmentUtils {
+
+    public static Item getEmpowermentApplicationItem() {
+        if (RuinedEquipmentMod.CONFIG != null) {
+            try {
+                String[] itemId = RuinedEquipmentMod.CONFIG.empowermentSmithingItem.split(":");
+                return Registry.ITEM.get(new Identifier(itemId[0], itemId[1]));
+            } catch (Exception e) {
+                RuinedEquipmentMod.LOGGER.warn(e.getMessage());
+            }
+        }
+        return Items.NETHERITE_SCRAP;
+    }
 
     public static int compareItemsById(Item i1, Item i2) {
         return Registry.ITEM.getId(i1).compareTo(Registry.ITEM.getId(i2));

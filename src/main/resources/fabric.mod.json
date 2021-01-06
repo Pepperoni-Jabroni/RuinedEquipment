@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
   "id": "ruined_equipment",
-  "version": "1.0.0",
+  "version": "1.0.1",
 
   "name": "Ruined Equipment",
   "description": "May you never forget your fallen tools and armors.",
   "authors": [
-    "pepperoni_jabroni_"
+    "pepperoni__jabroni__"
   ],
   "contact": {
-    "homepage": "https://facebook.com/",
-    "sources": "https://facebook.com/"
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/ruined-equipment",
+    "sources": "https://github.com/Pepperoni-Jabroni/RuinedEquipment"
   },
 
   "license": "GPL-3.0",
