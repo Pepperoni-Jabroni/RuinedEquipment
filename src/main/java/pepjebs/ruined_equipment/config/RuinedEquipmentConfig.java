@@ -21,4 +21,7 @@ public class RuinedEquipmentConfig implements ConfigData {
 
     @Comment("The Item to be used for applying 'Empowered' to a Ruined item in a Smithing Table.")
     public String empowermentSmithingItem = "minecraft:netherite_scrap";
+
+    @Comment("When 'true', the 'Ruined Equipment' Creative inventory tab will be displayed.")
+    public boolean enableCreativeInventoryTab = true;
 }

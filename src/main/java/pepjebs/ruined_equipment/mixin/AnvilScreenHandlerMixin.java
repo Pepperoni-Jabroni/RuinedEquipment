@@ -50,7 +50,7 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
             boolean isMaxEnch = leftStack.getTag() != null &&
                     leftStack.getTag().contains(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG)
                     && leftStack.getTag().getBoolean(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG);
-            Item vanillaItem = RuinedEquipmentItems.VANILLA_ITEM_MAP.get(ruinedItem);
+            Item vanillaItem = RuinedEquipmentItems.getVanillaItemMap().get(ruinedItem);
             int vanillaMaxDamage = vanillaItem.getMaxDamage();
             // Check right stack for matching repair item
             Ingredient repairIngredient = null;

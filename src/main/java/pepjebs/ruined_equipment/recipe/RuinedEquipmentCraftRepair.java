@@ -36,11 +36,11 @@ public class RuinedEquipmentCraftRepair extends SpecialCraftingRecipe {
         if (craftingStacks.size() == 2) {
             Set<Item> items = craftingStacks.stream().map(ItemStack::getItem).collect(Collectors.toSet());
             if (items.size() == 1) {
-                for (Map.Entry<Item, Item> itemMap : RuinedEquipmentItems.VANILLA_ITEM_MAP.entrySet()) {
+                for (Map.Entry<Item, Item> itemMap : RuinedEquipmentItems.getVanillaItemMap().entrySet()) {
                     if (items.contains(itemMap.getKey())) return true;
                 }
             } else {
-                for (Map.Entry<Item, Item> itemMap : RuinedEquipmentItems.VANILLA_ITEM_MAP.entrySet()) {
+                for (Map.Entry<Item, Item> itemMap : RuinedEquipmentItems.getVanillaItemMap().entrySet()) {
                     if (items.contains(itemMap.getKey()) && items.contains(itemMap.getValue())) return true;
                 }
             }
@@ -71,7 +71,8 @@ public class RuinedEquipmentCraftRepair extends SpecialCraftingRecipe {
             repairedVanillaItem.setDamage(Math.max(targetDamage, 0));
             return repairedVanillaItem;
         } else {
-            ItemStack newVanillaItem = new ItemStack(RuinedEquipmentItems.VANILLA_ITEM_MAP.get(ruinedItem.getItem()));
+            ItemStack newVanillaItem =
+                    new ItemStack(RuinedEquipmentItems.getVanillaItemMap().get(ruinedItem.getItem()));
             int targetDamage = (int) ((1.0 - REPAIR_MODIFIER) * newVanillaItem.getMaxDamage());
             newVanillaItem.setDamage(Math.max(targetDamage, 0));
             return newVanillaItem;

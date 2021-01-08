@@ -45,7 +45,7 @@ public class RuinedEquipmentUtils {
             ItemStack leftStack,
             double damageFraction,
             boolean isMaxEnchant) {
-        int maxDamage = new ItemStack(RuinedEquipmentItems.VANILLA_ITEM_MAP.get(leftStack.getItem())).getMaxDamage();
+        int maxDamage = new ItemStack(RuinedEquipmentItems.getVanillaItemMap().get(leftStack.getItem())).getMaxDamage();
         return generateRepairedItemForAnvilByDamage(leftStack, (int) (damageFraction * (double) maxDamage), isMaxEnchant);
     }
 
@@ -53,7 +53,7 @@ public class RuinedEquipmentUtils {
             ItemStack leftStack,
             int targetDamage,
             boolean isMaxEnchant){
-        ItemStack repaired = new ItemStack(RuinedEquipmentItems.VANILLA_ITEM_MAP.get(leftStack.getItem()));
+        ItemStack repaired = new ItemStack(RuinedEquipmentItems.getVanillaItemMap().get(leftStack.getItem()));
         repaired.setDamage(targetDamage);
         if (leftStack.hasCustomName()) {
             repaired.setCustomName(leftStack.getName());
@@ -63,11 +63,14 @@ public class RuinedEquipmentUtils {
             if (isMaxEnchant) {
                 tag.remove(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG);
             }
+            RuinedEquipmentMod.LOGGER.info(leftStack.getItem().getName().getString());
+            RuinedEquipmentMod.LOGGER.info(repaired.getItem().getName().getString());
             if (leftStack.getItem() instanceof DyeableItem) {
                 ((DyeableItem) repaired.getItem()).setColor(repaired,
                         ((DyeableItem) leftStack.getItem()).getColor(leftStack));
             }
-            if (leftStack.getItem() == RuinedEquipmentItems.RUINED_SHIELD) {
+            if (leftStack.getItem() ==
+                    Registry.ITEM.get(new Identifier(RuinedEquipmentMod.MOD_ID, "ruined_shield"))) {
                 CompoundTag newTag = repaired.getTag();
                 if (newTag == null) newTag = new CompoundTag();
                 if (tag.contains("BlockEntityTag")) {
@@ -106,7 +109,7 @@ public class RuinedEquipmentUtils {
             ServerPlayerEntity serverPlayer,
             ItemStack breakingStack,
             boolean forceSet) {
-        for (Map.Entry<Item, Item> itemMap : RuinedEquipmentItems.VANILLA_ITEM_MAP.entrySet()) {
+        for (Map.Entry<Item, Item> itemMap : RuinedEquipmentItems.getVanillaItemMap().entrySet()) {
             if (isVanillaItemStackBreaking(breakingStack, itemMap.getValue())) {
                 ItemStack ruinedStack = new ItemStack(itemMap.getKey());
                 // Set enchantment NBT data

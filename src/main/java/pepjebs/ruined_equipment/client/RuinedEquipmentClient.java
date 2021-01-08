@@ -11,7 +11,7 @@ import java.util.Map;
 public class RuinedEquipmentClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        for (Map.Entry<Item, Item> i : RuinedEquipmentItems.VANILLA_DYEABLE_ITEM_MAP.entrySet()) {
+        for (Map.Entry<Item, Item> i : RuinedEquipmentItems.getVanillaDyeableItemMap().entrySet()) {
             ColorProviderRegistry.ITEM.register(((stack, tintIndex) -> {
                 if (tintIndex == 0) {
                     return ((DyeableItem)stack.getItem()).getColor(stack);

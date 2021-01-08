@@ -11,8 +11,11 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import pepjebs.ruined_equipment.RuinedEquipmentMod;
 import pepjebs.ruined_equipment.recipe.RuinedEquipmentSmithingEmpowerRecipe;
 import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 
@@ -58,7 +61,8 @@ public class RuinedEquipmentItem extends Item {
             tooltip.add(new TranslatableText("item.ruined_equipment.ruined_upgrading")
                     .formatted(Formatting.GRAY));
         }
-        if (this == RuinedEquipmentItems.RUINED_SHIELD && stack.getTag().contains("BlockEntityTag")) {
+        if (this == Registry.ITEM.get(new Identifier(RuinedEquipmentMod.MOD_ID, "ruined_shield"))
+                && stack.getTag().contains("BlockEntityTag")) {
             tooltip.add(new TranslatableText("item.ruined_equipment.ruined_shield.banner")
                     .formatted(Formatting.GRAY)
                     .formatted(Formatting.ITALIC));
@@ -70,7 +74,7 @@ public class RuinedEquipmentItem extends Item {
         // Get existing text
         MutableText supered = super.getName().shallowCopy();
         // Append vanilla item's name
-        Item vanillaItem = RuinedEquipmentItems.VANILLA_ITEM_MAP.get(this);
+        Item vanillaItem = RuinedEquipmentItems.getVanillaItemMap().get(this);
         supered = supered.append(new TranslatableText(vanillaItem.getTranslationKey()));
         // Add the Aqua text if it has a glint
         if (hasGlint(stack)) {
