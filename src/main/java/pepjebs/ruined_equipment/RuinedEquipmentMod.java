@@ -55,9 +55,9 @@ public class RuinedEquipmentMod implements ModInitializer {
                     new RuinedEquipmentSmithingEmpowerRecipe.Serializer());
         }
 
-        ItemGroup test = null;
+        ItemGroup itemGroup = ItemGroup.MISC;
         if (config.enableCreativeInventoryTab) {
-            test = FabricItemGroupBuilder.create(new Identifier(MOD_ID, "ruined_items"))
+            itemGroup = FabricItemGroupBuilder.create(new Identifier(MOD_ID, "ruined_items"))
                     .icon(() -> new ItemStack(Registry.ITEM.get(new Identifier(MOD_ID, "ruined_diamond_pickaxe"))))
                     .appendItems(stacks -> {
                         for (Item item : RuinedEquipmentItems.getVanillaItemMap().keySet().stream()
@@ -69,7 +69,7 @@ public class RuinedEquipmentMod implements ModInitializer {
         }
 
         Map<Item, Item> vanillaItemMap = new HashMap<>();
-        Item.Settings set = new Item.Settings().maxCount(1).group(test != null ? test : ItemGroup.MISC);
+        Item.Settings set = new Item.Settings().maxCount(1).group(itemGroup);
         for (Item i : RuinedEquipmentItems.SUPPORTED_VANILLA_ITEMS) {
             if (Registry.ITEM.getId(i).getPath().contains("leather")) {
                 vanillaItemMap.put(new RuinedDyeableEquipmentItem(set), i);
