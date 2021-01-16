@@ -70,6 +70,16 @@ public class RuinedEquipmentItem extends Item {
     }
 
     @Override
+    public Text getName() {
+        // Get existing text
+        MutableText supered = super.getName().shallowCopy();
+        // Append vanilla item's name
+        Item vanillaItem = RuinedEquipmentItems.getVanillaItemMap().get(this);
+        supered = supered.append(new TranslatableText(vanillaItem.getTranslationKey()));
+        return supered;
+    }
+
+    @Override
     public Text getName(ItemStack stack) {
         // Get existing text
         MutableText supered = super.getName().shallowCopy();

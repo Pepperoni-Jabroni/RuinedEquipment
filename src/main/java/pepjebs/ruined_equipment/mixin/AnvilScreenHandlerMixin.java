@@ -5,6 +5,8 @@ import net.minecraft.item.*;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.screen.*;
 import net.minecraft.tag.ItemTags;
+import net.minecraft.text.LiteralText;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,7 +23,7 @@ import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 @Mixin(AnvilScreenHandler.class)
 public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
 
-    private static final double REPAIR_MODIFIER = 0.18;
+    private static final double REPAIR_MODIFIER = 0.25;
 
     @Shadow
     @Final
@@ -29,6 +31,9 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
 
     @Shadow
     private int repairItemUsage;
+
+    @Shadow
+    private String newItemName;
 
 
     public AnvilScreenHandlerMixin(
@@ -51,7 +56,7 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
                     leftStack.getTag().contains(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG)
                     && leftStack.getTag().getBoolean(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG);
             Item vanillaItem = RuinedEquipmentItems.getVanillaItemMap().get(ruinedItem);
-            int vanillaMaxDamage = vanillaItem.getMaxDamage();
+            int vanillaMaxDamage = vanillaItem.getMaxDamage() - 1;
             // Check right stack for matching repair item
             Ingredient repairIngredient = null;
             if(vanillaItem instanceof ArmorItem) {
@@ -61,30 +66,41 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
             } else if (vanillaItem == Items.SHIELD) {
                 repairIngredient = Ingredient.fromTag(ItemTags.PLANKS);
             }
+
+            ItemStack repaired = ItemStack.EMPTY;
+            int maxLevel = 4;
             if (repairIngredient != null && repairIngredient.test(rightStack)) {
                 double targetFraction = 1.0 - (rightStack.getCount() * REPAIR_MODIFIER);
-                ItemStack repaired = RuinedEquipmentUtils.generateRepairedItemForAnvilByFraction(
+                repaired = RuinedEquipmentUtils.generateRepairedItemForAnvilByFraction(
                         leftStack,
                         Math.min(targetFraction, 1.0),
                         isMaxEnch);
-                this.output.setStack(0, repaired);
-                this.levelCost.set(RuinedEquipmentUtils.generateRepairLevelCost(repaired));
-                this.repairItemUsage = 6;
-                this.sendContentUpdates();
-                return;
-            }
-            // Check right stack for corresponding vanilla item
-            if (rightStack.getItem() == vanillaItem) {
+                this.repairItemUsage = 4;
+            } else if (rightStack.getItem() == vanillaItem) {
+                // Check right stack for corresponding vanilla item
                 int targetDamage = rightStack.getDamage() - (int)(REPAIR_MODIFIER * rightStack.getMaxDamage());
-                ItemStack repaired = RuinedEquipmentUtils.generateRepairedItemForAnvilByDamage(
+                repaired = RuinedEquipmentUtils.generateRepairedItemForAnvilByDamage(
                         leftStack,
                         Math.min(targetDamage, vanillaMaxDamage),
                         isMaxEnch);
-                this.output.setStack(0, repaired);
-                this.levelCost.set(RuinedEquipmentUtils.generateRepairLevelCost(repaired));
+                maxLevel = 2;
                 this.repairItemUsage = 0;
-                this.sendContentUpdates();
             }
+            // Set the output
+            if (!repaired.isEmpty()) {
+                int levelCost = RuinedEquipmentUtils.generateRepairLevelCost(repaired, maxLevel);
+                if (this.newItemName.compareTo(leftStack.getName().getString()) != 0) {
+                    if (StringUtils.isBlank(this.newItemName)) {
+                        repaired.removeCustomName();
+                    } else {
+                        repaired.setCustomName(new LiteralText(this.newItemName));
+                        levelCost++;
+                    }
+                }
+                this.levelCost.set(levelCost);
+            }
+            this.output.setStack(0, repaired);
+            this.sendContentUpdates();
         }
     }
 }

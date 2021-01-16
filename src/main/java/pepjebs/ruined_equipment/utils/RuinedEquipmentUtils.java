@@ -37,8 +37,9 @@ public class RuinedEquipmentUtils {
         return Registry.ITEM.getId(i1).compareTo(Registry.ITEM.getId(i2));
     }
 
-    public static int generateRepairLevelCost(ItemStack repaired) {
-        return (int) 15.0 * (repaired.getMaxDamage() - repaired.getDamage()) / repaired.getMaxDamage();
+    public static int generateRepairLevelCost(ItemStack repaired, int maxLevel) {
+        int targetLevel = maxLevel * (repaired.getMaxDamage() - repaired.getDamage()) / repaired.getMaxDamage();
+        return Math.max(targetLevel, 1);
     }
 
     public static ItemStack generateRepairedItemForAnvilByFraction(
@@ -63,8 +64,6 @@ public class RuinedEquipmentUtils {
             if (isMaxEnchant) {
                 tag.remove(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG);
             }
-            RuinedEquipmentMod.LOGGER.info(leftStack.getItem().getName().getString());
-            RuinedEquipmentMod.LOGGER.info(repaired.getItem().getName().getString());
             if (leftStack.getItem() instanceof DyeableItem) {
                 ((DyeableItem) repaired.getItem()).setColor(repaired,
                         ((DyeableItem) leftStack.getItem()).getColor(leftStack));
