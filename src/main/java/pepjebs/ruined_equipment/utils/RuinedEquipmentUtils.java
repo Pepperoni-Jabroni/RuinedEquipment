@@ -152,7 +152,7 @@ public class RuinedEquipmentUtils {
                 if (forceSet) {
                     serverPlayer.inventory.setStack(serverPlayer.inventory.selectedSlot, ruinedStack);
                 } else {
-                    serverPlayer.inventory.insertStack(ruinedStack);
+                    serverPlayer.inventory.offerOrDrop(serverPlayer.world, ruinedStack);
                 }
             }
         }

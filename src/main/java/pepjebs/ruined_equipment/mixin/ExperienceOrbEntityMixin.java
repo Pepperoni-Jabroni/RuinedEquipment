@@ -4,6 +4,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ExperienceOrbEntity;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -31,7 +32,7 @@ public abstract class ExperienceOrbEntityMixin {
     @Shadow
     private int amount;
 
-    @Inject(method = "onPlayerCollision", at = @At("INVOKE"), cancellable = true)
+    @Inject(method = "onPlayerCollision", at = @At("INVOKE"))
     private void doRuinedRepairOnPlayerCollision(PlayerEntity player, CallbackInfo ci) {
         if (!player.world.isClient) {
             if (RuinedEquipmentMod.CONFIG != null &&
@@ -55,10 +56,14 @@ public abstract class ExperienceOrbEntityMixin {
                 int repairAmount = getMendingRepairAmount(this.amount);
                 ItemStack repaired = RuinedEquipmentUtils.generateRepairedItemForAnvilByDamage(
                         handStack, vanillaItem.getMaxDamage() - repairAmount);
-                if (hand == Hand.MAIN_HAND) {
-                    player.inventory.main.set(player.inventory.selectedSlot, repaired);
+                if (RuinedEquipmentMod.CONFIG != null && RuinedEquipmentMod.CONFIG.enableSetRuinedItemInHand) {
+                    if (hand == Hand.MAIN_HAND) {
+                        player.inventory.main.set(player.inventory.selectedSlot, repaired);
+                    } else {
+                        player.inventory.offHand.set(0, repaired);
+                    }
                 } else {
-                    player.inventory.offHand.set(0, repaired);
+                    player.inventory.offerOrDrop(player.world, repaired);
                 }
                 this.amount -= getMendingRepairCost(repairAmount);
             }
