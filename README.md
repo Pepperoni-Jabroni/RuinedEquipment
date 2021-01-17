@@ -17,7 +17,8 @@ Grieving equipment owner? With this mod installed, Tools and Armors break into R
    2. Combine the Ruined item with either another Ruined item of the same type or the corresponding non-Ruined item in a Crafting Grid in order to repair the item, but lose all other features (name, enchantments, etc).
    3. Repair the Ruined item using an Anvil with either it's corresponding repair material or the corresponding non-Ruined item. This will apply all features (name, enchantments, etc) to the resulting Item.
    4. Make your Ruined item **"Empowered"** by combining it with a Netherite Scrap in a Smithing Table. Now, when you repair the item at an Anvil, all the existing Enchantments will become **max value**. 
-- Config support for enabling/disabling: Setting Ruined items in-hand, Crafting Table Ruined item repair, Anvil Ruined item repair, & Smithing Table "Empowering" feature.
+- Ruined items with Mending are repairable when held in hands while collecting experience
+- Config support for enabling/disabling: Setting Ruined items in-hand, Crafting Table Ruined item repair, Anvil Ruined item repair, Ruined Mending repair, & Smithing Table "Empowering" feature.
 
 ## Place them in Gravesites
 ![](https://i.imgur.com/LtPbeMx.png)
