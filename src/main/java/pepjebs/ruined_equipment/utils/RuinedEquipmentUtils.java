@@ -55,16 +55,18 @@ public class RuinedEquipmentUtils {
 
     public static ItemStack generateRepairedItemForAnvilByFraction(
             ItemStack leftStack,
-            double damageFraction,
-            boolean isMaxEnchant) {
+            double damageFraction) {
         int maxDamage = new ItemStack(RuinedEquipmentItems.getVanillaItemMap().get(leftStack.getItem())).getMaxDamage();
-        return generateRepairedItemForAnvilByDamage(leftStack, (int) (damageFraction * (double) maxDamage), isMaxEnchant);
+        return generateRepairedItemForAnvilByDamage(leftStack, (int) (damageFraction * (double) maxDamage));
     }
 
     public static ItemStack generateRepairedItemForAnvilByDamage(
             ItemStack leftStack,
-            int targetDamage,
-            boolean isMaxEnchant){
+            int targetDamage){
+        boolean isMaxEnchant = leftStack.getTag() != null &&
+                leftStack.getTag().contains(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG)
+                && leftStack.getTag().getBoolean(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG);
+
         ItemStack repaired = new ItemStack(RuinedEquipmentItems.getVanillaItemMap().get(leftStack.getItem()));
         repaired.setDamage(targetDamage);
         if (leftStack.hasCustomName()) {

@@ -54,7 +54,7 @@ public abstract class ExperienceOrbEntityMixin {
                 Item vanillaItem = RuinedEquipmentItems.getVanillaItemMap().get(handStack.getItem());
                 int repairAmount = getMendingRepairAmount(this.amount);
                 ItemStack repaired = RuinedEquipmentUtils.generateRepairedItemForAnvilByDamage(
-                        handStack, vanillaItem.getMaxDamage() - repairAmount, false);
+                        handStack, vanillaItem.getMaxDamage() - repairAmount);
                 if (hand == Hand.MAIN_HAND) {
                     player.inventory.main.set(player.inventory.selectedSlot, repaired);
                 } else {

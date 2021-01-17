@@ -52,9 +52,6 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
             if (RuinedEquipmentMod.CONFIG != null &&
                     !RuinedEquipmentMod.CONFIG.enableAnvilRuinedRepair) return;
             RuinedEquipmentItem ruinedItem = (RuinedEquipmentItem) leftStack.getItem();
-            boolean isMaxEnch = leftStack.getTag() != null &&
-                    leftStack.getTag().contains(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG)
-                    && leftStack.getTag().getBoolean(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG);
             Item vanillaItem = RuinedEquipmentItems.getVanillaItemMap().get(ruinedItem);
             int vanillaMaxDamage = vanillaItem.getMaxDamage() - 1;
             // Check right stack for matching repair item
@@ -73,16 +70,14 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
                 double targetFraction = 1.0 - (rightStack.getCount() * REPAIR_MODIFIER);
                 repaired = RuinedEquipmentUtils.generateRepairedItemForAnvilByFraction(
                         leftStack,
-                        Math.min(targetFraction, 1.0),
-                        isMaxEnch);
+                        Math.min(targetFraction, 1.0));
                 this.repairItemUsage = 4;
             } else if (rightStack.getItem() == vanillaItem) {
                 // Check right stack for corresponding vanilla item
                 int targetDamage = rightStack.getDamage() - (int)(REPAIR_MODIFIER * rightStack.getMaxDamage());
                 repaired = RuinedEquipmentUtils.generateRepairedItemForAnvilByDamage(
                         leftStack,
-                        Math.min(targetDamage, vanillaMaxDamage),
-                        isMaxEnch);
+                        Math.min(targetDamage, vanillaMaxDamage));
                 maxLevel = 2;
                 this.repairItemUsage = 0;
             }
