@@ -2,15 +2,11 @@ package pepjebs.ruined_equipment.utils;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.item.DyeableItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.MutableText;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import pepjebs.ruined_equipment.RuinedEquipmentMod;
@@ -21,9 +17,11 @@ import java.util.*;
 
 public class RuinedEquipmentUtils {
 
+    public static String RUINED_ENCHTS_TAG = "RuinedEnchantments";
+
     public static boolean ruinedItemHasEnchantment(ItemStack ruinedItem, Enchantment enchantment) {
         if (ruinedItem.getTag() == null) return false;
-        String tagString = ruinedItem.getTag().getString("enchantments");
+        String tagString = ruinedItem.getTag().getString(RUINED_ENCHTS_TAG);
         Map<Enchantment, Integer> enchantMap = RuinedEquipmentUtils.processEncodedEnchantments(tagString);
         if (enchantMap == null) return false;
         for (Enchantment e : enchantMap.keySet()) {
@@ -69,39 +67,20 @@ public class RuinedEquipmentUtils {
 
         ItemStack repaired = new ItemStack(RuinedEquipmentItems.getVanillaItemMap().get(leftStack.getItem()));
         repaired.setDamage(targetDamage);
-        if (leftStack.hasCustomName()) {
-            repaired.setCustomName(leftStack.getName());
-        }
-        CompoundTag tag = leftStack.getTag();
-        if (tag != null) {
-            if (isMaxEnchant) {
-                tag.remove(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG);
-            }
-            if (leftStack.getItem() instanceof DyeableItem) {
-                ((DyeableItem) repaired.getItem()).setColor(repaired,
-                        ((DyeableItem) leftStack.getItem()).getColor(leftStack));
-            }
-            if (leftStack.getItem() ==
-                    Registry.ITEM.get(new Identifier(RuinedEquipmentMod.MOD_ID, "ruined_shield"))) {
-                CompoundTag newTag = repaired.getTag();
-                if (newTag == null) newTag = new CompoundTag();
-                if (tag.contains("BlockEntityTag")) {
-                    newTag.put("BlockEntityTag", tag.getCompound("BlockEntityTag"));
-                    repaired.setTag(newTag);
-                }
-            }
-            String encodedEnch = tag.getString("enchantments");
-            Map<Enchantment, Integer> enchantMap = RuinedEquipmentUtils.processEncodedEnchantments(encodedEnch);
-            if (enchantMap != null) {
-                for (Map.Entry<Enchantment, Integer> enchant : enchantMap.entrySet()) {
-                    if (isMaxEnchant) {
-                        repaired.addEnchantment(enchant.getKey(), enchant.getKey().getMaxLevel());
-                    } else {
-                        repaired.addEnchantment(enchant.getKey(), enchant.getValue());
-                    }
+        CompoundTag tag = leftStack.getOrCreateTag();
+        String encodedEnch = tag.getString(RUINED_ENCHTS_TAG);
+        if (!encodedEnch.isEmpty()) tag.remove(RUINED_ENCHTS_TAG);
+        Map<Enchantment, Integer> enchantMap = RuinedEquipmentUtils.processEncodedEnchantments(encodedEnch);
+        if (enchantMap != null) {
+            for (Map.Entry<Enchantment, Integer> enchant : enchantMap.entrySet()) {
+                if (isMaxEnchant) {
+                    repaired.addEnchantment(enchant.getKey(), enchant.getKey().getMaxLevel());
+                } else {
+                    repaired.addEnchantment(enchant.getKey(), enchant.getValue());
                 }
             }
         }
+        repaired.setTag(repaired.getOrCreateTag().copyFrom(tag));
         return repaired;
     }
 
@@ -123,31 +102,16 @@ public class RuinedEquipmentUtils {
             boolean forceSet) {
         for (Map.Entry<Item, Item> itemMap : RuinedEquipmentItems.getVanillaItemMap().entrySet()) {
             if (isVanillaItemStackBreaking(breakingStack, itemMap.getValue())) {
+                // Directly copy over breaking Item's NBT, removing specific fields
                 ItemStack ruinedStack = new ItemStack(itemMap.getKey());
+                CompoundTag breakingNBT = breakingStack.getOrCreateTag();
+                if (breakingNBT.contains("Damage")) breakingNBT.remove("Damage");
+                if (breakingNBT.contains("RepairCost")) breakingNBT.remove("RepairCost");
                 // Set enchantment NBT data
                 CompoundTag enchantTag = getTagForEnchantments(breakingStack, ruinedStack);
-                if (enchantTag != null) ruinedStack.setTag(enchantTag);
-                // Handle Ruined item name
-                MutableText breakingToolName = new LiteralText(breakingStack.getName().getString());
-                if (breakingStack.hasCustomName()) {
-                    if (ruinedStack.hasGlint()) {
-                        breakingToolName = breakingToolName.formatted(Formatting.AQUA);
-                    }
-                    ruinedStack.setCustomName(breakingToolName);
-                }
-                // Handle Leather Armors color
-                if (breakingStack.getItem() instanceof DyeableItem) {
-                    int breakingColor = ((DyeableItem) breakingStack.getItem()).getColor(breakingStack);
-                    ((DyeableItem) ruinedStack.getItem()).setColor(ruinedStack, breakingColor);
-                    DyeableItem.blendAndSetColor(ruinedStack, new LinkedList<>());
-                }
-                // Handle Shield banners
-                if (breakingStack.getItem() == Items.SHIELD && breakingStack.getTag() != null
-                        && breakingStack.getTag().contains("BlockEntityTag")) {
-                    CompoundTag tag = ruinedStack.getTag();
-                    if (tag == null) tag = new CompoundTag();
-                    tag.put("BlockEntityTag", breakingStack.getTag().getCompound("BlockEntityTag"));
-                }
+                if (enchantTag != null) breakingNBT.copyFrom(enchantTag);
+                if (breakingNBT.contains("Enchantments")) breakingNBT.remove("Enchantments");
+                ruinedStack.setTag(breakingNBT);
                 // Force set will place the Ruined item in hand
                 if (forceSet) {
                     serverPlayer.inventory.setStack(serverPlayer.inventory.selectedSlot, ruinedStack);
@@ -167,7 +131,7 @@ public class RuinedEquipmentUtils {
         if (!enchantmentStrings.isEmpty()) {
             CompoundTag tag = ruinedStack.getTag();
             if (tag == null) tag = new CompoundTag();
-            tag.putString("enchantments", String.join(",", enchantmentStrings));
+            tag.putString(RUINED_ENCHTS_TAG, String.join(",", enchantmentStrings));
             return tag;
         }
         return null;

@@ -39,7 +39,7 @@ public class RuinedEquipmentItem extends Item {
         super.appendTooltip(stack, world, tooltip, context);
 
         if (stack.getTag() == null) return;
-        String tagString = stack.getTag().getString("enchantments");
+        String tagString = stack.getTag().getString(RuinedEquipmentUtils.RUINED_ENCHTS_TAG);
         Map<Enchantment, Integer> enchantMap = RuinedEquipmentUtils.processEncodedEnchantments(tagString);
         if (enchantMap != null) {
             MutableText newT0 = tooltip.get(0).shallowCopy();
