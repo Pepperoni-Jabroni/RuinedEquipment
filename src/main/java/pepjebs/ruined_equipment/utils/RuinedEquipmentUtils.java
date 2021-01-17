@@ -21,6 +21,17 @@ import java.util.*;
 
 public class RuinedEquipmentUtils {
 
+    public static boolean ruinedItemHasEnchantment(ItemStack ruinedItem, Enchantment enchantment) {
+        if (ruinedItem.getTag() == null) return false;
+        String tagString = ruinedItem.getTag().getString("enchantments");
+        Map<Enchantment, Integer> enchantMap = RuinedEquipmentUtils.processEncodedEnchantments(tagString);
+        if (enchantMap == null) return false;
+        for (Enchantment e : enchantMap.keySet()) {
+            if (e == enchantment) return true;
+        }
+        return false;
+    }
+
     public static Item getEmpowermentApplicationItem() {
         if (RuinedEquipmentMod.CONFIG != null) {
             try {

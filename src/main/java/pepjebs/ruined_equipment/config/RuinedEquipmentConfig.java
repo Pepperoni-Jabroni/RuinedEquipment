@@ -24,4 +24,7 @@ public class RuinedEquipmentConfig implements ConfigData {
 
     @Comment("When 'true', the 'Ruined Equipment' Creative inventory tab will be displayed.")
     public boolean enableCreativeInventoryTab = true;
+
+    @Comment("When 'true', Ruined items with Mending held in your hands will be repaired when you collect XP.")
+    public boolean enableRuinedMendingRepair = true;
 }
