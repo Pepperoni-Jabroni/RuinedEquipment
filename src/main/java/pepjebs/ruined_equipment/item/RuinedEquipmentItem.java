@@ -95,7 +95,8 @@ public class RuinedEquipmentItem extends Item {
 
     @Override
     public boolean hasGlint(ItemStack stack) {
-        return stack != null && stack.getTag() != null && stack.getTag().getString("enchantments") != null
-                && !stack.getTag().getString("enchantments").isEmpty();
+        return stack != null && stack.getTag() != null
+                && stack.getTag().getString(RuinedEquipmentUtils.RUINED_ENCHTS_TAG) != null
+                && !stack.getTag().getString(RuinedEquipmentUtils.RUINED_ENCHTS_TAG).isEmpty();
     }
 }

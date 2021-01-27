@@ -6,8 +6,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.packet.s2c.play.InventoryS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 import net.minecraft.util.registry.Registry;
 import pepjebs.ruined_equipment.RuinedEquipmentMod;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
@@ -114,7 +116,13 @@ public class RuinedEquipmentUtils {
                 ruinedStack.setTag(breakingNBT);
                 // Force set will place the Ruined item in hand
                 if (forceSet) {
-                    serverPlayer.inventory.setStack(serverPlayer.inventory.selectedSlot, ruinedStack);
+                    int idx = 0;
+                    if (serverPlayer.inventory.offHand.get(0).toString().compareTo(breakingStack.toString()) != 0)
+                        idx = serverPlayer.inventory.selectedSlot + 1;
+                    RuinedEquipmentMod.ruinedEquipmentSetter.put(
+                            serverPlayer.getName().getString(),
+                            new Pair<>(idx, ruinedStack));
+                    RuinedEquipmentMod.LOGGER.info("ruinedEquipmentSetter.put: " + serverPlayer.getName().getString());
                 } else {
                     serverPlayer.inventory.offerOrDrop(serverPlayer.world, ruinedStack);
                 }

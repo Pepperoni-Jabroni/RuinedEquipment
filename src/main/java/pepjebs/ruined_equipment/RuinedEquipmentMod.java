@@ -4,11 +4,15 @@ import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.SpecialRecipeSerializer;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,6 +39,8 @@ public class RuinedEquipmentMod implements ModInitializer {
 
     public static SpecialRecipeSerializer<RuinedEquipmentCraftRepair> RUINED_CRAFT_REPAIR_RECIPE;
     public static RuinedEquipmentSmithingEmpowerRecipe.Serializer RUINED_SMITH_SET_EMPOWER;
+
+    public static final HashMap<String, Pair<Integer, ItemStack>> ruinedEquipmentSetter = new HashMap<>();
 
     @Override
     public void onInitialize() {
@@ -82,5 +88,31 @@ public class RuinedEquipmentMod implements ModInitializer {
             Registry.register(Registry.ITEM, new Identifier(MOD_ID,
                     RUINED_PREFIX + vanillaItemIdPath), item.getKey());
         }
+
+        ServerTickEvents.START_SERVER_TICK.register((MinecraftServer server) -> {
+            for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
+                String key = player.getName().getString();
+                if (ruinedEquipmentSetter.containsKey(key)) {
+                    RuinedEquipmentMod.LOGGER.info("ServerTickEvents.START_SERVER_TICK: " + key);
+                    Pair<Integer, ItemStack> entry = ruinedEquipmentSetter.get(key);
+                    int slot = entry.getLeft();
+                    ItemStack ruinedItem = entry.getRight();
+                    boolean didRemove = false;
+                    if (slot == 0) {
+                        if (player.inventory.offHand.get(slot).isEmpty()){
+                            player.inventory.offHand.set(slot, ruinedItem);
+                            didRemove = true;
+                        }
+                    } else {
+                        slot--;
+                        if (player.inventory.main.get(slot).isEmpty()) {
+                            player.inventory.main.set(slot, ruinedItem);
+                            didRemove = true;
+                        }
+                    }
+                    if (didRemove) ruinedEquipmentSetter.remove(key);
+                }
+            }
+        });
     }
 }

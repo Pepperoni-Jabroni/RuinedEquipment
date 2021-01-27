@@ -29,10 +29,6 @@ public class LivingEntityMixin {
             if (RuinedEquipmentMod.CONFIG != null && !RuinedEquipmentMod.CONFIG.enableSetRuinedItemInHand) {
                 forceSet = false;
             }
-            if (breakingItemStack.isItemEqualIgnoreDamage(new ItemStack(Items.CROSSBOW)) ||
-                    breakingItemStack.isItemEqualIgnoreDamage(new ItemStack(Items.SHIELD))) {
-                forceSet = false;
-            }
             RuinedEquipmentUtils.onSendEquipmentBreakStatusImpl(serverPlayer, breakingItemStack, forceSet);
         }
     }
