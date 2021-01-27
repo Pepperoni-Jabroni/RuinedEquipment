@@ -1,16 +1,17 @@
 {
   "schemaVersion": 1,
   "id": "ruined_equipment",
-  "version": "1.2.2",
+  "version": "1.2.3",
 
   "name": "Ruined Equipment",
   "description": "May you never forget your fallen tools and armors.",
   "authors": [
-    "pepperoni__jabroni__"
+    "Pepperoni__Jabroni__"
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/ruined-equipment",
-    "sources": "https://github.com/Pepperoni-Jabroni/RuinedEquipment"
+    "sources": "https://github.com/Pepperoni-Jabroni/RuinedEquipment",
+    "issues": "https://github.com/Pepperoni-Jabroni/RuinedEquipment/issues"
   },
 
   "license": "GPL-3.0",
@@ -18,7 +19,8 @@
   "environment": "*",
   "entrypoints": {
     "main": ["pepjebs.ruined_equipment.RuinedEquipmentMod"],
-    "client": ["pepjebs.ruined_equipment.client.RuinedEquipmentClient"]
+    "client": ["pepjebs.ruined_equipment.client.RuinedEquipmentClient"],
+    "modmenu": ["pepjebs.ruined_equipment.config.RuinedEquipmentModMenuApiImpl"]
   },
   "mixins": ["ruined_equipment.mixins.json"],
 
