@@ -68,7 +68,6 @@ public class RuinedEquipmentUtils {
                 && leftStack.getTag().getBoolean(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG);
 
         ItemStack repaired = new ItemStack(RuinedEquipmentItems.getVanillaItemMap().get(leftStack.getItem()));
-        repaired.setDamage(targetDamage);
         CompoundTag tag = leftStack.getOrCreateTag();
         String encodedEnch = tag.getString(RUINED_ENCHTS_TAG);
         if (!encodedEnch.isEmpty()) tag.remove(RUINED_ENCHTS_TAG);
@@ -83,6 +82,7 @@ public class RuinedEquipmentUtils {
             }
         }
         repaired.setTag(repaired.getOrCreateTag().copyFrom(tag));
+        repaired.setDamage(targetDamage);
         return repaired;
     }
 

@@ -70,6 +70,7 @@ public class RuinedEquipmentItem extends Item {
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public Text getName() {
         // Get existing text
         MutableText supered = super.getName().shallowCopy();
@@ -80,6 +81,7 @@ public class RuinedEquipmentItem extends Item {
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public Text getName(ItemStack stack) {
         // Get existing text
         MutableText supered = super.getName().shallowCopy();
