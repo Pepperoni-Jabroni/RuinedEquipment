@@ -65,7 +65,7 @@ public class RuinedEquipmentCraftRepair extends SpecialCraftingRecipe {
         }
         if (vanillaItem != ItemStack.EMPTY) {
             ItemStack repairedVanillaItem = vanillaItem.copy();
-            if (repairedVanillaItem.getTag() != null) repairedVanillaItem.getTag().remove("Enchantments");
+            if (repairedVanillaItem.getNbt() != null) repairedVanillaItem.getNbt().remove("Enchantments");
             int targetDamage =
                     repairedVanillaItem.getDamage() - (int)(REPAIR_MODIFIER * repairedVanillaItem.getMaxDamage());
             repairedVanillaItem.setDamage(Math.max(targetDamage, 0));

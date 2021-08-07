@@ -5,8 +5,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.packet.s2c.play.InventoryS2CPacket;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
@@ -22,8 +21,8 @@ public class RuinedEquipmentUtils {
     public static String RUINED_ENCHTS_TAG = "RuinedEnchantments";
 
     public static boolean ruinedItemHasEnchantment(ItemStack ruinedItem, Enchantment enchantment) {
-        if (ruinedItem.getTag() == null) return false;
-        String tagString = ruinedItem.getTag().getString(RUINED_ENCHTS_TAG);
+        if (ruinedItem.getNbt() == null) return false;
+        String tagString = ruinedItem.getNbt().getString(RUINED_ENCHTS_TAG);
         Map<Enchantment, Integer> enchantMap = RuinedEquipmentUtils.processEncodedEnchantments(tagString);
         if (enchantMap == null) return false;
         for (Enchantment e : enchantMap.keySet()) {
@@ -63,12 +62,12 @@ public class RuinedEquipmentUtils {
     public static ItemStack generateRepairedItemForAnvilByDamage(
             ItemStack leftStack,
             int targetDamage){
-        boolean isMaxEnchant = leftStack.getTag() != null &&
-                leftStack.getTag().contains(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG)
-                && leftStack.getTag().getBoolean(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG);
+        boolean isMaxEnchant = leftStack.getNbt() != null &&
+                leftStack.getNbt().contains(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG)
+                && leftStack.getNbt().getBoolean(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG);
 
         ItemStack repaired = new ItemStack(RuinedEquipmentItems.getVanillaItemMap().get(leftStack.getItem()));
-        CompoundTag tag = leftStack.getOrCreateTag();
+        NbtCompound tag = leftStack.getOrCreateNbt();
         String encodedEnch = tag.getString(RUINED_ENCHTS_TAG);
         if (!encodedEnch.isEmpty()) tag.remove(RUINED_ENCHTS_TAG);
         Map<Enchantment, Integer> enchantMap = RuinedEquipmentUtils.processEncodedEnchantments(encodedEnch);
@@ -81,7 +80,7 @@ public class RuinedEquipmentUtils {
                 }
             }
         }
-        repaired.setTag(repaired.getOrCreateTag().copyFrom(tag));
+        repaired.setNbt(repaired.getOrCreateNbt().copyFrom(tag));
         repaired.setDamage(targetDamage);
         return repaired;
     }
@@ -106,39 +105,39 @@ public class RuinedEquipmentUtils {
             if (isVanillaItemStackBreaking(breakingStack, itemMap.getValue())) {
                 // Directly copy over breaking Item's NBT, removing specific fields
                 ItemStack ruinedStack = new ItemStack(itemMap.getKey());
-                CompoundTag breakingNBT = breakingStack.getOrCreateTag();
+                NbtCompound breakingNBT = breakingStack.getOrCreateNbt();
                 if (breakingNBT.contains("Damage")) breakingNBT.remove("Damage");
                 if (breakingNBT.contains("RepairCost")) breakingNBT.remove("RepairCost");
                 // Set enchantment NBT data
-                CompoundTag enchantTag = getTagForEnchantments(breakingStack, ruinedStack);
+                NbtCompound enchantTag = getNbtForEnchantments(breakingStack, ruinedStack);
                 if (enchantTag != null) breakingNBT.copyFrom(enchantTag);
                 if (breakingNBT.contains("Enchantments")) breakingNBT.remove("Enchantments");
-                ruinedStack.setTag(breakingNBT);
+                ruinedStack.setNbt(breakingNBT);
                 // Force set will place the Ruined item in hand
                 if (forceSet) {
                     int idx = 0;
-                    if (serverPlayer.inventory.offHand.get(0).toString().compareTo(breakingStack.toString()) != 0)
-                        idx = serverPlayer.inventory.selectedSlot + 1;
+                    if (serverPlayer.getInventory().offHand.get(0).toString().compareTo(breakingStack.toString()) != 0)
+                        idx = serverPlayer.getInventory().selectedSlot + 1;
                     RuinedEquipmentMod.ruinedEquipmentSetter.put(
                             serverPlayer.getName().getString(),
                             new Pair<>(idx, ruinedStack));
                     RuinedEquipmentMod.LOGGER.info("ruinedEquipmentSetter.put: " + serverPlayer.getName().getString());
                 } else {
-                    serverPlayer.inventory.offerOrDrop(serverPlayer.world, ruinedStack);
+                    serverPlayer.getInventory().offerOrDrop(ruinedStack);
                 }
             }
         }
     }
 
-    public static CompoundTag getTagForEnchantments(ItemStack breakingStack, ItemStack ruinedStack) {
+    public static NbtCompound getNbtForEnchantments(ItemStack breakingStack, ItemStack ruinedStack) {
         Set<String> enchantmentStrings = new HashSet<>();
         for (Map.Entry<Enchantment, Integer> ench : EnchantmentHelper.get(breakingStack).entrySet()) {
             String enchantString = Registry.ENCHANTMENT.getId(ench.getKey())+">"+ench.getValue();
             enchantmentStrings.add(enchantString);
         }
         if (!enchantmentStrings.isEmpty()) {
-            CompoundTag tag = ruinedStack.getTag();
-            if (tag == null) tag = new CompoundTag();
+            NbtCompound tag = ruinedStack.getNbt();
+            if (tag == null) tag = new NbtCompound();
             tag.putString(RUINED_ENCHTS_TAG, String.join(",", enchantmentStrings));
             return tag;
         }

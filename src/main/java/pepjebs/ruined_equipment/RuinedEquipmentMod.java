@@ -1,7 +1,7 @@
 package pepjebs.ruined_equipment;
 
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
-import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -99,14 +99,14 @@ public class RuinedEquipmentMod implements ModInitializer {
                     ItemStack ruinedItem = entry.getRight();
                     boolean didRemove = false;
                     if (slot == 0) {
-                        if (player.inventory.offHand.get(slot).isEmpty()){
-                            player.inventory.offHand.set(slot, ruinedItem);
+                        if (player.getInventory().offHand.get(slot).isEmpty()){
+                            player.getInventory().offHand.set(slot, ruinedItem);
                             didRemove = true;
                         }
                     } else {
                         slot--;
-                        if (player.inventory.main.get(slot).isEmpty()) {
-                            player.inventory.main.set(slot, ruinedItem);
+                        if (player.getInventory().main.get(slot).isEmpty()) {
+                            player.getInventory().main.set(slot, ruinedItem);
                             didRemove = true;
                         }
                     }

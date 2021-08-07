@@ -1,10 +1,7 @@
 package pepjebs.ruined_equipment.mixin;
 
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ExperienceOrbEntity;
-import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -19,15 +16,8 @@ import pepjebs.ruined_equipment.item.RuinedEquipmentItem;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
 import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 @Mixin(ExperienceOrbEntity.class)
 public abstract class ExperienceOrbEntityMixin {
-
-    @Shadow
-    private int pickupDelay;
 
     @Shadow
     private int amount;
@@ -37,7 +27,7 @@ public abstract class ExperienceOrbEntityMixin {
         if (!player.world.isClient) {
             if (RuinedEquipmentMod.CONFIG != null &&
                     !RuinedEquipmentMod.CONFIG.enableRuinedMendingRepair) return;
-            if (this.pickupDelay == 0) {
+            if (player.experiencePickUpDelay == 0) {
                 doPlayerHandRuinedMendingRepair(player, Hand.MAIN_HAND);
                 doPlayerHandRuinedMendingRepair(player, Hand.OFF_HAND);
             }
@@ -58,12 +48,12 @@ public abstract class ExperienceOrbEntityMixin {
                         handStack, vanillaItem.getMaxDamage() - repairAmount);
                 if (RuinedEquipmentMod.CONFIG != null && RuinedEquipmentMod.CONFIG.enableSetRuinedItemInHand) {
                     if (hand == Hand.MAIN_HAND) {
-                        player.inventory.main.set(player.inventory.selectedSlot, repaired);
+                        player.getInventory().main.set(player.getInventory().selectedSlot, repaired);
                     } else {
-                        player.inventory.offHand.set(0, repaired);
+                        player.getInventory().offHand.set(0, repaired);
                     }
                 } else {
-                    player.inventory.offerOrDrop(player.world, repaired);
+                    player.getInventory().offerOrDrop(repaired);
                 }
                 this.amount -= getMendingRepairCost(repairAmount);
             }

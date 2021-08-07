@@ -38,8 +38,8 @@ public class RuinedEquipmentItem extends Item {
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         super.appendTooltip(stack, world, tooltip, context);
 
-        if (stack.getTag() == null) return;
-        String tagString = stack.getTag().getString(RuinedEquipmentUtils.RUINED_ENCHTS_TAG);
+        if (stack.getNbt() == null) return;
+        String tagString = stack.getNbt().getString(RuinedEquipmentUtils.RUINED_ENCHTS_TAG);
         Map<Enchantment, Integer> enchantMap = RuinedEquipmentUtils.processEncodedEnchantments(tagString);
         if (enchantMap != null) {
             MutableText newT0 = tooltip.get(0).shallowCopy();
@@ -56,13 +56,13 @@ public class RuinedEquipmentItem extends Item {
                         enchant.getKey().getName(enchant.getValue()).getString()).formatted(Formatting.GRAY));
             }
         }
-        if (stack.getTag() != null && stack.getTag().contains(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG)
-                && stack.getTag().getBoolean(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG)) {
+        if (stack.getNbt() != null && stack.getNbt().contains(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG)
+                && stack.getNbt().getBoolean(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG)) {
             tooltip.add(new TranslatableText("item.ruined_equipment.ruined_upgrading")
                     .formatted(Formatting.GRAY));
         }
         if (this == Registry.ITEM.get(new Identifier(RuinedEquipmentMod.MOD_ID, "ruined_shield"))
-                && stack.getTag().contains("BlockEntityTag")) {
+                && stack.getNbt().contains("BlockEntityTag")) {
             tooltip.add(new TranslatableText("item.ruined_equipment.ruined_shield.banner")
                     .formatted(Formatting.GRAY)
                     .formatted(Formatting.ITALIC));
@@ -97,8 +97,8 @@ public class RuinedEquipmentItem extends Item {
 
     @Override
     public boolean hasGlint(ItemStack stack) {
-        return stack != null && stack.getTag() != null
-                && stack.getTag().getString(RuinedEquipmentUtils.RUINED_ENCHTS_TAG) != null
-                && !stack.getTag().getString(RuinedEquipmentUtils.RUINED_ENCHTS_TAG).isEmpty();
+        return stack != null && stack.getNbt() != null
+                && stack.getNbt().getString(RuinedEquipmentUtils.RUINED_ENCHTS_TAG) != null
+                && !stack.getNbt().getString(RuinedEquipmentUtils.RUINED_ENCHTS_TAG).isEmpty();
     }
 }

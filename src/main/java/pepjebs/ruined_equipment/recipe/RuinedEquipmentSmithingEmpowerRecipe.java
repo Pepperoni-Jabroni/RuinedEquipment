@@ -5,7 +5,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
@@ -15,7 +15,6 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import pepjebs.ruined_equipment.RuinedEquipmentMod;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItem;
-import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
 import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 
 import java.util.ArrayList;
@@ -51,9 +50,9 @@ public class RuinedEquipmentSmithingEmpowerRecipe extends SmithingRecipe {
                 otherStack = craftingStacks.get(0).copy();
             }
             if (otherStack == ItemStack.EMPTY) return false;
-            return !(!(otherStack.getItem() instanceof RuinedEquipmentItem) || (otherStack.getTag() != null
-                    && otherStack.getTag().contains(RUINED_MAX_ENCHT_TAG)
-                    && otherStack.getTag().getBoolean(RUINED_MAX_ENCHT_TAG)));
+            return !(!(otherStack.getItem() instanceof RuinedEquipmentItem) || (otherStack.getNbt() != null
+                    && otherStack.getNbt().contains(RUINED_MAX_ENCHT_TAG)
+                    && otherStack.getNbt().getBoolean(RUINED_MAX_ENCHT_TAG)));
         }
         return false;
     }
@@ -66,11 +65,11 @@ public class RuinedEquipmentSmithingEmpowerRecipe extends SmithingRecipe {
                 ruinedItem = inv.getStack(i).copy();
             }
         }
-        CompoundTag tag = ruinedItem.getTag();
-        if (tag == null) tag = new CompoundTag();
+        NbtCompound tag = ruinedItem.getNbt();
+        if (tag == null) tag = new NbtCompound();
         if (tag.contains(RUINED_MAX_ENCHT_TAG)) tag.remove(RUINED_MAX_ENCHT_TAG);
         tag.putBoolean(RUINED_MAX_ENCHT_TAG, true);
-        ruinedItem.setTag(tag);
+        ruinedItem.setNbt(tag);
         return ruinedItem;
     }
 
