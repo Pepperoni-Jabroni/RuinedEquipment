@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "ruined_equipment",
-  "version": "1.3.0",
+  "version": "1.4.0",
 
   "name": "Ruined Equipment",
   "description": "May you never forget your fallen tools and armors.",
@@ -27,7 +27,7 @@
   "depends": {
     "fabricloader": ">=0.11.3",
     "fabric": "*",
-    "minecraft": "1.17.x",
-    "java": ">=16"
+    "minecraft": "1.18.x",
+    "java": ">=17"
   }
 }
