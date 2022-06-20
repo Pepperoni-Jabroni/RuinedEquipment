@@ -3,6 +3,7 @@
   "item.ruined_equipment.ruined_prefix": "Ruined ",
   "item.ruined_equipment.ruined_shield.banner": "Has Banner Pattern",
   "item.ruined_equipment.ruined_upgrading": "Empowered",
+  "item.ruined_equipment.ruined_item_ashes": "Ruined Item's Ashes",
   "text.autoconfig.ruined_equipment.title": "Ruined Equipment Config",
   "text.autoconfig.ruined_equipment.option.enableSetRuinedItemInHand": "Enable Set Ruined Items In Hand",
   "text.autoconfig.ruined_equipment.option.enableCraftingGridRuinedRepair": "Enable Crafting Grid Ruined Repair",

@@ -5,6 +5,7 @@ import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -17,6 +18,7 @@ import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pepjebs.ruined_equipment.config.RuinedEquipmentConfig;
+import pepjebs.ruined_equipment.item.RuinedAshesItem;
 import pepjebs.ruined_equipment.item.RuinedDyeableEquipmentItem;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItem;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
@@ -26,7 +28,6 @@ import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class RuinedEquipmentMod implements ModInitializer {
 
@@ -34,6 +35,7 @@ public class RuinedEquipmentMod implements ModInitializer {
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
     public static final String RUINED_PREFIX = "ruined_";
+    public static RuinedAshesItem RUINED_ASHES_ITEM = null;
 
     public static RuinedEquipmentConfig CONFIG = null;
 
@@ -62,18 +64,6 @@ public class RuinedEquipmentMod implements ModInitializer {
         }
 
         ItemGroup itemGroup = ItemGroup.MISC;
-        if (config.enableCreativeInventoryTab) {
-            itemGroup = FabricItemGroupBuilder.create(new Identifier(MOD_ID, "ruined_items"))
-                    .icon(() -> new ItemStack(Registry.ITEM.get(new Identifier(MOD_ID, "ruined_diamond_pickaxe"))))
-                    .appendItems(stacks -> {
-                        for (Item item : RuinedEquipmentItems.getVanillaItemMap().keySet().stream()
-                                .sorted(RuinedEquipmentUtils::compareItemsById).collect(Collectors.toList())) {
-                            stacks.add(new ItemStack(item));
-                        }
-                    })
-                    .build();
-        }
-
         Map<Item, Item> vanillaItemMap = new HashMap<>();
         Item.Settings set = new Item.Settings().maxCount(1).group(itemGroup);
         for (Item i : RuinedEquipmentItems.SUPPORTED_VANILLA_ITEMS) {
@@ -88,6 +78,22 @@ public class RuinedEquipmentMod implements ModInitializer {
             Registry.register(Registry.ITEM, new Identifier(MOD_ID,
                     RUINED_PREFIX + vanillaItemIdPath), item.getKey());
         }
+        RUINED_ASHES_ITEM = Registry.register(Registry.ITEM, new Identifier(MOD_ID,
+                "ruined_item_ashes"), new RuinedAshesItem(new Item.Settings().maxCount(1).group(itemGroup)));
+
+        if (config.enableCreativeInventoryTab) {
+            itemGroup = FabricItemGroupBuilder.create(new Identifier(MOD_ID, "ruined_items"))
+                    .icon(() -> new ItemStack(Registry.ITEM.get(new Identifier(MOD_ID, "ruined_diamond_pickaxe"))))
+                    .appendItems(stacks -> {
+                        for (Item item : RuinedEquipmentItems.getVanillaItemMap().keySet().stream()
+                                .sorted(RuinedEquipmentUtils::compareItemsById).toList()) {
+                            stacks.add(new ItemStack(item));
+                        }
+                        stacks.add(new ItemStack(RUINED_ASHES_ITEM));
+                    })
+                    .build();
+        }
+
 
         ServerTickEvents.START_SERVER_TICK.register((MinecraftServer server) -> {
             for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "ruined_equipment:item/ruined_item_ashes"
+  }
+}

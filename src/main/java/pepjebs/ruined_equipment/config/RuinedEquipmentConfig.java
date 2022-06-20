@@ -36,4 +36,12 @@ public class RuinedEquipmentConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip()
     @Comment("When 'true', Ruined items with Mending held in your hands will be repaired when you collect XP.")
     public boolean enableRuinedMendingRepair = true;
+
+    @ConfigEntry.Gui.Tooltip()
+    @Comment("When 'true', non-vanilla breaking items will generate a 'Ruined Items Ashes'.")
+    public boolean enableRuinedItemsAshesGeneration = true;
+
+    @ConfigEntry.Gui.Tooltip()
+    @Comment("Codes for which repair items to use for which Ruined Items Ashes (e.g. 'copper_mod:copper_sword/minecraft:copper_ingot;')")
+    public String ruinedItemsAshesRepairItems = null;
 }

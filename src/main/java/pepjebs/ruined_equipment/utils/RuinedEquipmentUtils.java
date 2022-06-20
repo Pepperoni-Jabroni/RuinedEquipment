@@ -19,6 +19,7 @@ import java.util.*;
 public class RuinedEquipmentUtils {
 
     public static String RUINED_ENCHTS_TAG = "RuinedEnchantments";
+    public static String RUINED_ITEM_KEY_TAG = "ItemKey";
 
     public static boolean ruinedItemHasEnchantment(ItemStack ruinedItem, Enchantment enchantment) {
         if (ruinedItem.getNbt() == null) return false;
@@ -103,30 +104,54 @@ public class RuinedEquipmentUtils {
             boolean forceSet) {
         for (Map.Entry<Item, Item> itemMap : RuinedEquipmentItems.getVanillaItemMap().entrySet()) {
             if (isVanillaItemStackBreaking(breakingStack, itemMap.getValue())) {
-                // Directly copy over breaking Item's NBT, removing specific fields
                 ItemStack ruinedStack = new ItemStack(itemMap.getKey());
-                NbtCompound breakingNBT = breakingStack.getOrCreateNbt();
-                if (breakingNBT.contains("Damage")) breakingNBT.remove("Damage");
-                if (breakingNBT.contains("RepairCost")) breakingNBT.remove("RepairCost");
-                // Set enchantment NBT data
-                NbtCompound enchantTag = getNbtForEnchantments(breakingStack, ruinedStack);
-                if (enchantTag != null) breakingNBT.copyFrom(enchantTag);
-                if (breakingNBT.contains("Enchantments")) breakingNBT.remove("Enchantments");
-                ruinedStack.setNbt(breakingNBT);
-                // Force set will place the Ruined item in hand
-                if (forceSet) {
-                    int idx = 0;
-                    if (serverPlayer.getInventory().offHand.get(0).toString().compareTo(breakingStack.toString()) != 0)
-                        idx = serverPlayer.getInventory().selectedSlot + 1;
-                    RuinedEquipmentMod.ruinedEquipmentSetter.put(
-                            serverPlayer.getName().getString(),
-                            new Pair<>(idx, ruinedStack));
-                    RuinedEquipmentMod.LOGGER.info("ruinedEquipmentSetter.put: " + serverPlayer.getName().getString());
-                } else {
-                    serverPlayer.getInventory().offerOrDrop(ruinedStack);
-                }
+                processBreakingEquipment(serverPlayer, breakingStack, forceSet, ruinedStack);
+                return;
             }
         }
+        if (RuinedEquipmentMod.CONFIG.enableRuinedItemsAshesGeneration) {
+            ItemStack ruinedStack = new ItemStack(RuinedEquipmentMod.RUINED_ASHES_ITEM);
+            processBreakingEquipment(serverPlayer, breakingStack, forceSet, ruinedStack);
+        }
+    }
+
+    private static void processBreakingEquipment(
+            ServerPlayerEntity serverPlayer,
+            ItemStack breakingStack,
+            boolean forceSet,
+            ItemStack ruinedStack
+            ) {
+        NbtCompound breakingNBT = breakingStack.getOrCreateNbt();
+        if (breakingNBT.contains("Damage")) breakingNBT.remove("Damage");
+        if (breakingNBT.contains("RepairCost")) breakingNBT.remove("RepairCost");
+        // Set enchantment NBT data
+        NbtCompound enchantTag = getNbtForEnchantments(breakingStack, ruinedStack);
+        if (enchantTag != null) breakingNBT.copyFrom(enchantTag);
+        if (breakingNBT.contains("Enchantments")) breakingNBT.remove("Enchantments");
+        if (ruinedStack.getItem() == RuinedEquipmentMod.RUINED_ASHES_ITEM) {
+            Identifier breakingId = Registry.ITEM.getId(breakingStack.getItem());
+            breakingNBT.putString(RUINED_ITEM_KEY_TAG, breakingId.toString());
+        }
+        ruinedStack.setNbt(breakingNBT);
+        // Force set will place the Ruined item in hand
+        if (forceSet) {
+            int idx = 0;
+            if (serverPlayer.getInventory().offHand.get(0).toString().compareTo(breakingStack.toString()) != 0)
+                idx = serverPlayer.getInventory().selectedSlot + 1;
+            RuinedEquipmentMod.ruinedEquipmentSetter.put(
+                    serverPlayer.getName().getString(),
+                    new Pair<>(idx, ruinedStack));
+            RuinedEquipmentMod.LOGGER.info("ruinedEquipmentSetter.put: " + serverPlayer.getName().getString());
+        } else {
+            serverPlayer.getInventory().offerOrDrop(ruinedStack);
+        }
+    }
+
+    public static Identifier getItemKeyIdFromItemStack(ItemStack ruinedItemAshes) {
+        assert ruinedItemAshes.getItem() == RuinedEquipmentMod.RUINED_ASHES_ITEM;
+        if (ruinedItemAshes.getNbt() == null || !ruinedItemAshes.getNbt().contains(RUINED_ITEM_KEY_TAG)) return null;
+        return new Identifier(ruinedItemAshes.getNbt().getString(RUINED_ITEM_KEY_TAG));
+
     }
 
     public static NbtCompound getNbtForEnchantments(ItemStack breakingStack, ItemStack ruinedStack) {

@@ -38,7 +38,12 @@ public class RuinedEquipmentItem extends Item {
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         super.appendTooltip(stack, world, tooltip, context);
+        appendRuinedTooltip(stack, tooltip);
+    }
 
+    public static void appendRuinedTooltip(
+            ItemStack stack,
+            List<Text> tooltip) {
         if (stack.getNbt() == null) return;
         String tagString = stack.getNbt().getString(RuinedEquipmentUtils.RUINED_ENCHTS_TAG);
         Map<Enchantment, Integer> enchantMap = RuinedEquipmentUtils.processEncodedEnchantments(tagString);
@@ -57,7 +62,7 @@ public class RuinedEquipmentItem extends Item {
             tooltip.add(MutableText.of(new TranslatableTextContent("item.ruined_equipment.ruined_upgrading"))
                     .formatted(Formatting.GRAY));
         }
-        if (this == Registry.ITEM.get(new Identifier(RuinedEquipmentMod.MOD_ID, "ruined_shield"))
+        if (stack.getItem() == Registry.ITEM.get(new Identifier(RuinedEquipmentMod.MOD_ID, "ruined_shield"))
                 && stack.getNbt().contains("BlockEntityTag")) {
             tooltip.add(MutableText.of(new TranslatableTextContent("item.ruined_equipment.ruined_shield.banner"))
                     .formatted(Formatting.GRAY)
@@ -93,6 +98,10 @@ public class RuinedEquipmentItem extends Item {
 
     @Override
     public boolean hasGlint(ItemStack stack) {
+        return hasRuinedGlint(stack);
+    }
+
+    public static boolean hasRuinedGlint(ItemStack stack) {
         return stack != null && stack.getNbt() != null
                 && stack.getNbt().getString(RuinedEquipmentUtils.RUINED_ENCHTS_TAG) != null
                 && !stack.getNbt().getString(RuinedEquipmentUtils.RUINED_ENCHTS_TAG).isEmpty();
@@ -100,6 +109,11 @@ public class RuinedEquipmentItem extends Item {
 
     @Override
     public Rarity getRarity(ItemStack stack) {
-        return hasGlint(stack) ? Rarity.RARE : Rarity.COMMON;
+        return getRuinedRarity(stack);
+    }
+
+
+    public static Rarity getRuinedRarity(ItemStack stack) {
+        return hasRuinedGlint(stack) ? Rarity.RARE : Rarity.COMMON;
     }
 }

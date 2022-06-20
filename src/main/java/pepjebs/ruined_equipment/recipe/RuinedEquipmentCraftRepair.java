@@ -6,10 +6,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import pepjebs.ruined_equipment.RuinedEquipmentMod;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItem;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
+import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -39,6 +41,11 @@ public class RuinedEquipmentCraftRepair extends SpecialCraftingRecipe {
                 for (Map.Entry<Item, Item> itemMap : RuinedEquipmentItems.getVanillaItemMap().entrySet()) {
                     if (items.contains(itemMap.getKey())) return true;
                 }
+                if (items.toArray()[0] == RuinedEquipmentMod.RUINED_ASHES_ITEM) {
+                    Identifier one = RuinedEquipmentUtils.getItemKeyIdFromItemStack(craftingStacks.get(0));
+                    Identifier two = RuinedEquipmentUtils.getItemKeyIdFromItemStack(craftingStacks.get(1));
+                    return one != null && one.equals(two);
+                }
             } else {
                 for (Map.Entry<Item, Item> itemMap : RuinedEquipmentItems.getVanillaItemMap().entrySet()) {
                     if (items.contains(itemMap.getKey()) && items.contains(itemMap.getValue())) return true;
@@ -63,20 +70,24 @@ public class RuinedEquipmentCraftRepair extends SpecialCraftingRecipe {
                 }
             }
         }
-        if (vanillaItem != ItemStack.EMPTY) {
-            ItemStack repairedVanillaItem = vanillaItem.copy();
-            if (repairedVanillaItem.getNbt() != null) repairedVanillaItem.getNbt().remove("Enchantments");
-            int targetDamage =
-                    repairedVanillaItem.getDamage() - (int)(REPAIR_MODIFIER * repairedVanillaItem.getMaxDamage());
-            repairedVanillaItem.setDamage(Math.max(targetDamage, 0));
-            return repairedVanillaItem;
+        ItemStack newStack;
+        int targetDamage;
+        if (vanillaItem.getItem() == RuinedEquipmentMod.RUINED_ASHES_ITEM) {
+            Item item = Registry.ITEM.get(RuinedEquipmentUtils.getItemKeyIdFromItemStack(vanillaItem));
+            newStack = new ItemStack(item);
+            targetDamage = (int) ((1.0 - REPAIR_MODIFIER) * newStack.getMaxDamage());
+        } else if (vanillaItem != ItemStack.EMPTY) {
+            newStack = vanillaItem.copy();
+            if (newStack.getNbt() != null) newStack.getNbt().remove("Enchantments");
+            targetDamage =
+                    newStack.getDamage() - (int)(REPAIR_MODIFIER * newStack.getMaxDamage());
         } else {
-            ItemStack newVanillaItem =
+            newStack =
                     new ItemStack(RuinedEquipmentItems.getVanillaItemMap().get(ruinedItem.getItem()));
-            int targetDamage = (int) ((1.0 - REPAIR_MODIFIER) * newVanillaItem.getMaxDamage());
-            newVanillaItem.setDamage(Math.max(targetDamage, 0));
-            return newVanillaItem;
+            targetDamage = (int) ((1.0 - REPAIR_MODIFIER) * newStack.getMaxDamage());
         }
+        newStack.setDamage(Math.max(targetDamage, 0));
+        return newStack;
     }
 
     @Override
