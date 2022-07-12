@@ -22,8 +22,6 @@ public class LivingEntityMixin {
         if (livingEntity instanceof ServerPlayerEntity) {
             ServerPlayerEntity serverPlayer = (ServerPlayerEntity) livingEntity;
             ItemStack breakingItemStack = serverPlayer.getEquippedStack(slot);
-            RuinedEquipmentMod.LOGGER.info("Processing breaking equipment: " +
-                    Registry.ITEM.getId(breakingItemStack.getItem()));
             boolean forceSet = slot == EquipmentSlot.MAINHAND || slot == EquipmentSlot.OFFHAND;
             if (RuinedEquipmentMod.CONFIG != null && !RuinedEquipmentMod.CONFIG.enableSetRuinedItemInHand) {
                 forceSet = false;

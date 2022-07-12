@@ -5,7 +5,6 @@ import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -99,7 +98,6 @@ public class RuinedEquipmentMod implements ModInitializer {
             for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
                 String key = player.getName().getString();
                 if (ruinedEquipmentSetter.containsKey(key)) {
-                    RuinedEquipmentMod.LOGGER.info("ServerTickEvents.START_SERVER_TICK: " + key);
                     Pair<Integer, ItemStack> entry = ruinedEquipmentSetter.get(key);
                     int slot = entry.getLeft();
                     ItemStack ruinedItem = entry.getRight();

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "ruined_equipment",
-  "version": "1.5.0",
+  "version": "${version}",
 
   "name": "Ruined Equipment",
   "description": "May you never forget your fallen tools and armors.",

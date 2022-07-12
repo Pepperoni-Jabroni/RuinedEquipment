@@ -6,6 +6,7 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
 import pepjebs.ruined_equipment.RuinedEquipmentMod;
 
+// @TODO: Add a blocklist for Identifiers not to generate ruined item's ashes
 @Config(name = RuinedEquipmentMod.MOD_ID)
 public class RuinedEquipmentConfig implements ConfigData {
 

@@ -15,6 +15,7 @@ import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
 import pepjebs.ruined_equipment.recipe.RuinedEquipmentSmithingEmpowerRecipe;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class RuinedEquipmentUtils {
 
@@ -53,10 +54,20 @@ public class RuinedEquipmentUtils {
         return Math.max(targetLevel, 1);
     }
 
+    public static Item getRepairItemForItemStack(ItemStack stack) {
+        Item vanillaItem = RuinedEquipmentItems.getVanillaItemMap().get(stack.getItem());
+        if (vanillaItem == null) {
+            Identifier modItemId = RuinedEquipmentUtils.getItemKeyIdFromItemStack(stack);
+            vanillaItem = Registry.ITEM.get(modItemId);
+        }
+        return vanillaItem;
+    }
+
     public static ItemStack generateRepairedItemForAnvilByFraction(
             ItemStack leftStack,
             double damageFraction) {
-        int maxDamage = new ItemStack(RuinedEquipmentItems.getVanillaItemMap().get(leftStack.getItem())).getMaxDamage();
+        Item vanillaItem = getRepairItemForItemStack(leftStack);
+        int maxDamage = new ItemStack(vanillaItem).getMaxDamage();
         return generateRepairedItemForAnvilByDamage(leftStack, (int) (damageFraction * (double) maxDamage));
     }
 
@@ -67,7 +78,8 @@ public class RuinedEquipmentUtils {
                 leftStack.getNbt().contains(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG)
                 && leftStack.getNbt().getBoolean(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG);
 
-        ItemStack repaired = new ItemStack(RuinedEquipmentItems.getVanillaItemMap().get(leftStack.getItem()));
+        Item vanillaItem = getRepairItemForItemStack(leftStack);
+        ItemStack repaired = new ItemStack(vanillaItem);
         NbtCompound tag = leftStack.getOrCreateNbt();
         String encodedEnch = tag.getString(RUINED_ENCHTS_TAG);
         if (!encodedEnch.isEmpty()) tag.remove(RUINED_ENCHTS_TAG);
@@ -141,7 +153,6 @@ public class RuinedEquipmentUtils {
             RuinedEquipmentMod.ruinedEquipmentSetter.put(
                     serverPlayer.getName().getString(),
                     new Pair<>(idx, ruinedStack));
-            RuinedEquipmentMod.LOGGER.info("ruinedEquipmentSetter.put: " + serverPlayer.getName().getString());
         } else {
             serverPlayer.getInventory().offerOrDrop(ruinedStack);
         }
@@ -152,6 +163,20 @@ public class RuinedEquipmentUtils {
         if (ruinedItemAshes.getNbt() == null || !ruinedItemAshes.getNbt().contains(RUINED_ITEM_KEY_TAG)) return null;
         return new Identifier(ruinedItemAshes.getNbt().getString(RUINED_ITEM_KEY_TAG));
 
+    }
+
+    public static Map<Identifier, Identifier> getParsedRuinedItemsAshesRepairItems() {
+        if (RuinedEquipmentMod.CONFIG.ruinedItemsAshesRepairItems == null) return null;
+        String ruinedItemsAshesRepairStr = RuinedEquipmentMod.CONFIG.ruinedItemsAshesRepairItems;
+        return Arrays.stream(ruinedItemsAshesRepairStr.split(";"))
+                .map(s -> {
+                    String[] modItem = s.split("/")[0].split(":");
+                    String[] modRepair = s.split("/")[1].split(":");
+                    Identifier modItemId = new Identifier(modItem[0], modItem[1]);
+                    Identifier modRepairId = new Identifier(modRepair[0], modRepair[1]);
+                    return new Pair<>(modItemId, modRepairId);
+                })
+                .collect(Collectors.toMap(Pair::getLeft, Pair::getRight));
     }
 
     public static NbtCompound getNbtForEnchantments(ItemStack breakingStack, ItemStack ruinedStack) {

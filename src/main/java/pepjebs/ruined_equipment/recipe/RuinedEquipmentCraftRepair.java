@@ -9,6 +9,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import pepjebs.ruined_equipment.RuinedEquipmentMod;
+import pepjebs.ruined_equipment.item.RuinedAshesItem;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItem;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
 import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
@@ -50,6 +51,16 @@ public class RuinedEquipmentCraftRepair extends SpecialCraftingRecipe {
                 for (Map.Entry<Item, Item> itemMap : RuinedEquipmentItems.getVanillaItemMap().entrySet()) {
                     if (items.contains(itemMap.getKey()) && items.contains(itemMap.getValue())) return true;
                 }
+                ItemStack ruinedItem = craftingStacks.stream().filter(
+                        i -> i.getItem() instanceof RuinedAshesItem).findFirst().orElse(null);
+                if (ruinedItem == null) return false;
+                Identifier repairingItem = RuinedEquipmentUtils.getItemKeyIdFromItemStack(ruinedItem);
+                ItemStack moddedRepair = craftingStacks
+                        .stream()
+                        .filter(i -> Registry.ITEM.getId(i.getItem()).compareTo(repairingItem) == 0)
+                        .findFirst()
+                        .orElse(null);
+                return moddedRepair != null;
             }
         }
         return false;
@@ -57,27 +68,27 @@ public class RuinedEquipmentCraftRepair extends SpecialCraftingRecipe {
 
     @Override
     public ItemStack craft(CraftingInventory inv) {
-        ItemStack vanillaItem = ItemStack.EMPTY;
+        ItemStack repairingItem = ItemStack.EMPTY;
         ItemStack ruinedItem = ItemStack.EMPTY;
         ItemStack t;
         for(int i = 0; i < inv.size(); i++) {
             t = inv.getStack(i);
             if (!t.isEmpty()) {
-                if (t.getItem() instanceof RuinedEquipmentItem) {
+                if (t.getItem() instanceof RuinedEquipmentItem || t.getItem() instanceof RuinedAshesItem) {
                     ruinedItem = t;
                 } else {
-                    vanillaItem = t;
+                    repairingItem = t;
                 }
             }
         }
         ItemStack newStack;
         int targetDamage;
-        if (vanillaItem.getItem() == RuinedEquipmentMod.RUINED_ASHES_ITEM) {
-            Item item = Registry.ITEM.get(RuinedEquipmentUtils.getItemKeyIdFromItemStack(vanillaItem));
+        if (ruinedItem.getItem() == RuinedEquipmentMod.RUINED_ASHES_ITEM) {
+            Item item = Registry.ITEM.get(RuinedEquipmentUtils.getItemKeyIdFromItemStack(ruinedItem));
             newStack = new ItemStack(item);
             targetDamage = (int) ((1.0 - REPAIR_MODIFIER) * newStack.getMaxDamage());
-        } else if (vanillaItem != ItemStack.EMPTY) {
-            newStack = vanillaItem.copy();
+        } else if (repairingItem != ItemStack.EMPTY) {
+            newStack = repairingItem.copy();
             if (newStack.getNbt() != null) newStack.getNbt().remove("Enchantments");
             targetDamage =
                     newStack.getDamage() - (int)(REPAIR_MODIFIER * newStack.getMaxDamage());

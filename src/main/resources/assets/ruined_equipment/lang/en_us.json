@@ -18,5 +18,9 @@
   "text.autoconfig.ruined_equipment.option.enableSmithingRuinedEmpowered.@Tooltip": "When 'true', 'Empowering' a Ruined item using the Smithing Table will be enabled.",
   "text.autoconfig.ruined_equipment.option.empowermentSmithingItem.@Tooltip": "The Item to be used for applying 'Empowered' to a Ruined item in a Smithing Table.",
   "text.autoconfig.ruined_equipment.option.enableCreativeInventoryTab.@Tooltip": "When 'true', the 'Ruined Equipment' Creative inventory tab will be displayed.",
-  "text.autoconfig.ruined_equipment.option.enableRuinedMendingRepair.@Tooltip": "When 'true', Ruined items with Mending held in your hands will be repaired when you collect XP."
+  "text.autoconfig.ruined_equipment.option.enableRuinedMendingRepair.@Tooltip": "When 'true', Ruined items with Mending held in your hands will be repaired when you collect XP.",
+  "text.autoconfig.ruined_equipment.option.enableRuinedItemsAshesGeneration": "When 'true', non-vanilla breaking items will generate a 'Ruined Items Ashes'.",
+  "text.autoconfig.ruined_equipment.option.enableRuinedItemsAshesGeneration.@Tooltip": "When 'true', non-vanilla breaking items will generate a 'Ruined Items Ashes'.",
+  "text.autoconfig.ruined_equipment.option.ruinedItemsAshesRepairItems": "Codes for which repair items to use for which Ruined Items Ashes (e.g. 'copper_mod:copper_sword/minecraft:copper_ingot;')",
+  "text.autoconfig.ruined_equipment.option.ruinedItemsAshesRepairItems.@Tooltip": "Codes for which repair items to use for which Ruined Items Ashes (e.g. 'copper_mod:copper_sword/minecraft:copper_ingot;')"
 }
