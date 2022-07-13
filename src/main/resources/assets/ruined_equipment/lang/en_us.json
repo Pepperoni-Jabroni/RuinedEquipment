@@ -22,5 +22,7 @@
   "text.autoconfig.ruined_equipment.option.enableRuinedItemsAshesGeneration": "When 'true', non-vanilla breaking items will generate a 'Ruined Items Ashes'.",
   "text.autoconfig.ruined_equipment.option.enableRuinedItemsAshesGeneration.@Tooltip": "When 'true', non-vanilla breaking items will generate a 'Ruined Items Ashes'.",
   "text.autoconfig.ruined_equipment.option.ruinedItemsAshesRepairItems": "Codes for which repair items to use for which Ruined Items Ashes (e.g. 'copper_mod:copper_sword/minecraft:copper_ingot;')",
-  "text.autoconfig.ruined_equipment.option.ruinedItemsAshesRepairItems.@Tooltip": "Codes for which repair items to use for which Ruined Items Ashes (e.g. 'copper_mod:copper_sword/minecraft:copper_ingot;')"
+  "text.autoconfig.ruined_equipment.option.ruinedItemsAshesRepairItems.@Tooltip": "Codes for which repair items to use for which Ruined Items Ashes (e.g. 'copper_mod:copper_sword/minecraft:copper_ingot;')",
+  "text.autoconfig.ruined_equipment.option.blocklistForRuinedAshesItems": "Codes for modded Items NOT to generate Ruined Items Ashes for when they break (e.g. 'copper_mod:copper_sword;')",
+  "text.autoconfig.ruined_equipment.option.blocklistForRuinedAshesItems.@Tooltip": "Codes for modded Items NOT to generate Ruined Items Ashes for when they break (e.g. 'copper_mod:copper_sword;')"
 }

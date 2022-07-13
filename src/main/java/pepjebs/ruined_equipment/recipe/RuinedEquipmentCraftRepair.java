@@ -74,7 +74,7 @@ public class RuinedEquipmentCraftRepair extends SpecialCraftingRecipe {
         for(int i = 0; i < inv.size(); i++) {
             t = inv.getStack(i);
             if (!t.isEmpty()) {
-                if (t.getItem() instanceof RuinedEquipmentItem || t.getItem() instanceof RuinedAshesItem) {
+                if (RuinedEquipmentUtils.isRuinedItem(t.getItem())) {
                     ruinedItem = t;
                 } else {
                     repairingItem = t;

@@ -52,7 +52,7 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
     private void updateRuinedRepair(CallbackInfo ci) {
         ItemStack leftStack = this.input.getStack(0).copy();
         ItemStack rightStack = this.input.getStack(1).copy();
-        if (leftStack.getItem() instanceof RuinedEquipmentItem || leftStack.getItem() instanceof RuinedAshesItem) {
+        if (RuinedEquipmentUtils.isRuinedItem(leftStack.getItem())) {
             if (RuinedEquipmentMod.CONFIG != null &&
                     !RuinedEquipmentMod.CONFIG.enableAnvilRuinedRepair) return;
             Item vanillaItem = RuinedEquipmentUtils.getRepairItemForItemStack(leftStack);

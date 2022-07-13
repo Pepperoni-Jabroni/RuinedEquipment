@@ -11,6 +11,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.registry.Registry;
 import pepjebs.ruined_equipment.RuinedEquipmentMod;
+import pepjebs.ruined_equipment.item.RuinedAshesItem;
+import pepjebs.ruined_equipment.item.RuinedEquipmentItem;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
 import pepjebs.ruined_equipment.recipe.RuinedEquipmentSmithingEmpowerRecipe;
 
@@ -31,6 +33,10 @@ public class RuinedEquipmentUtils {
             if (e == enchantment) return true;
         }
         return false;
+    }
+
+    public static boolean isRuinedItem(Item item) {
+        return item instanceof RuinedEquipmentItem || item instanceof RuinedAshesItem;
     }
 
     public static Item getEmpowermentApplicationItem() {
@@ -110,6 +116,19 @@ public class RuinedEquipmentUtils {
         return enchants.isEmpty() ? null : enchants;
     }
 
+    public static List<Identifier> getParsedBlocklistForRuinedAshesItems() {
+        if (RuinedEquipmentMod.CONFIG == null || RuinedEquipmentMod.CONFIG.blocklistForRuinedAshesItems == null
+                || RuinedEquipmentMod.CONFIG.blocklistForRuinedAshesItems.isEmpty())
+            return new ArrayList<>();
+        return Arrays.stream(RuinedEquipmentMod.CONFIG.blocklistForRuinedAshesItems
+                .split(";"))
+                .map(p -> {
+                    String[] idParts = p.split(":");
+                    return new Identifier(idParts[0], idParts[1]);
+                })
+                .toList();
+    }
+
     public static void onSendEquipmentBreakStatusImpl(
             ServerPlayerEntity serverPlayer,
             ItemStack breakingStack,
@@ -123,6 +142,9 @@ public class RuinedEquipmentUtils {
         }
         if (RuinedEquipmentMod.CONFIG.enableRuinedItemsAshesGeneration) {
             ItemStack ruinedStack = new ItemStack(RuinedEquipmentMod.RUINED_ASHES_ITEM);
+            if (getParsedBlocklistForRuinedAshesItems().stream()
+                    .anyMatch(i -> i.compareTo(Registry.ITEM.getId(breakingStack.getItem())) == 0))
+                return;
             processBreakingEquipment(serverPlayer, breakingStack, forceSet, ruinedStack);
         }
     }

@@ -12,11 +12,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import pepjebs.ruined_equipment.RuinedEquipmentMod;
-import pepjebs.ruined_equipment.item.RuinedAshesItem;
-import pepjebs.ruined_equipment.item.RuinedEquipmentItem;
 import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 
-// @TODO: Fix Mending repair of ruined items
 @Mixin(ExperienceOrbEntity.class)
 public abstract class ExperienceOrbEntityMixin {
 
@@ -25,25 +22,17 @@ public abstract class ExperienceOrbEntityMixin {
 
     @Inject(method = "onPlayerCollision", at = @At("INVOKE"))
     private void doRuinedRepairOnPlayerCollision(PlayerEntity player, CallbackInfo ci) {
-        RuinedEquipmentMod.LOGGER.info("Invoking onPlayerCollision");
         if (!player.world.isClient) {
-            RuinedEquipmentMod.LOGGER.info("Invoking onPlayerCollision isClient");
-            if (RuinedEquipmentMod.CONFIG != null &&
-                    !RuinedEquipmentMod.CONFIG.enableRuinedMendingRepair) {
-                RuinedEquipmentMod.LOGGER.info("--enableRuinedMendingRepair--");
+            if (RuinedEquipmentMod.CONFIG != null && !RuinedEquipmentMod.CONFIG.enableRuinedMendingRepair)
                 return;
-            }
-//            if (player.experiencePickUpDelay == 0) {
-            RuinedEquipmentMod.LOGGER.info("Invoking doPlayerHandRuinedMendingRepair");
             doPlayerHandRuinedMendingRepair(player, Hand.MAIN_HAND);
             doPlayerHandRuinedMendingRepair(player, Hand.OFF_HAND);
-//            }
         }
     }
 
     private void doPlayerHandRuinedMendingRepair(PlayerEntity player, Hand hand) {
         ItemStack handStack = player.getStackInHand(hand);
-        if ((handStack.getItem() instanceof RuinedEquipmentItem || handStack.getItem() instanceof RuinedAshesItem)
+        if (RuinedEquipmentUtils.isRuinedItem(handStack.getItem())
                 && RuinedEquipmentUtils.ruinedItemHasEnchantment(handStack, Enchantments.MENDING)) {
             player.experiencePickUpDelay = 2;
             player.sendPickup((ExperienceOrbEntity)(Object)this, 1);

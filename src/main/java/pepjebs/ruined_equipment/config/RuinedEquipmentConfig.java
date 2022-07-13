@@ -6,7 +6,6 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.cloth.clothconfig.shadowed.blue.endless.jankson.Comment;
 import pepjebs.ruined_equipment.RuinedEquipmentMod;
 
-// @TODO: Add a blocklist for Identifiers not to generate ruined item's ashes
 @Config(name = RuinedEquipmentMod.MOD_ID)
 public class RuinedEquipmentConfig implements ConfigData {
 
@@ -45,4 +44,8 @@ public class RuinedEquipmentConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip()
     @Comment("Codes for which repair items to use for which Ruined Items Ashes (e.g. 'copper_mod:copper_sword/minecraft:copper_ingot;')")
     public String ruinedItemsAshesRepairItems = null;
+
+    @ConfigEntry.Gui.Tooltip()
+    @Comment("Codes for modded Items NOT to generate Ruined Items Ashes for when they break (e.g. 'copper_mod:copper_sword;')")
+    public String blocklistForRuinedAshesItems = null;
 }

@@ -50,9 +50,7 @@ public class RuinedEquipmentSmithingEmpowerRecipe extends SmithingRecipe {
                 otherStack = craftingStacks.get(0).copy();
             }
             if (otherStack == ItemStack.EMPTY) return false;
-            return !(!(otherStack.getItem() instanceof RuinedEquipmentItem) || (otherStack.getNbt() != null
-                    && otherStack.getNbt().contains(RUINED_MAX_ENCHT_TAG)
-                    && otherStack.getNbt().getBoolean(RUINED_MAX_ENCHT_TAG)));
+            return RuinedEquipmentUtils.isRuinedItem(otherStack.getItem());
         }
         return false;
     }
@@ -61,7 +59,7 @@ public class RuinedEquipmentSmithingEmpowerRecipe extends SmithingRecipe {
     public ItemStack craft(Inventory inv) {
         ItemStack ruinedItem = ItemStack.EMPTY;
         for(int i = 0; i < inv.size(); i++) {
-            if (inv.getStack(i).getItem() instanceof RuinedEquipmentItem) {
+            if (RuinedEquipmentUtils.isRuinedItem(inv.getStack(i).getItem())) {
                 ruinedItem = inv.getStack(i).copy();
             }
         }
