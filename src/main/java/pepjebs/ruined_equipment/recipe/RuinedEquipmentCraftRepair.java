@@ -10,7 +10,6 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import pepjebs.ruined_equipment.RuinedEquipmentMod;
 import pepjebs.ruined_equipment.item.RuinedAshesItem;
-import pepjebs.ruined_equipment.item.RuinedEquipmentItem;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
 import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 

@@ -18,10 +18,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import pepjebs.ruined_equipment.RuinedEquipmentMod;
-import pepjebs.ruined_equipment.item.RuinedAshesItem;
-import pepjebs.ruined_equipment.item.RuinedEquipmentItem;
-import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
-import pepjebs.ruined_equipment.recipe.RuinedEquipmentSmithingEmpowerRecipe;
 import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 
 @Mixin(AnvilScreenHandler.class)
