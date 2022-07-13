@@ -49,18 +49,14 @@ public class RuinedEquipmentMod implements ModInitializer {
 
         RuinedEquipmentConfig config = AutoConfig.getConfigHolder(RuinedEquipmentConfig.class).getConfig();
         CONFIG = config;
-        if (config.enableCraftingGridRuinedRepair) {
-            RUINED_CRAFT_REPAIR_RECIPE = Registry.register(
-                    Registry.RECIPE_SERIALIZER,
-                    new Identifier(MOD_ID, "ruined_repair"),
-                    new SpecialRecipeSerializer<>(RuinedEquipmentCraftRepair::new));
-        }
-        if (config.enableSmithingRuinedEmpowered) {
-            RUINED_SMITH_SET_EMPOWER = Registry.register(
-                    Registry.RECIPE_SERIALIZER,
-                    new Identifier(MOD_ID, "ruined_set_empower"),
-                    new RuinedEquipmentSmithingEmpowerRecipe.Serializer());
-        }
+        RUINED_CRAFT_REPAIR_RECIPE = Registry.register(
+                Registry.RECIPE_SERIALIZER,
+                new Identifier(MOD_ID, "ruined_repair"),
+                new SpecialRecipeSerializer<>(RuinedEquipmentCraftRepair::new));
+        RUINED_SMITH_SET_EMPOWER = Registry.register(
+                Registry.RECIPE_SERIALIZER,
+                new Identifier(MOD_ID, "ruined_set_empower"),
+                new RuinedEquipmentSmithingEmpowerRecipe.Serializer());
 
         ItemGroup itemGroup = ItemGroup.MISC;
         Map<Item, Item> vanillaItemMap = new HashMap<>();

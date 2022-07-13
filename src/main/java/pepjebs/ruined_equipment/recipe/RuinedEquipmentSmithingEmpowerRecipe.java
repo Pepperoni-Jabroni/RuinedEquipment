@@ -34,6 +34,8 @@ public class RuinedEquipmentSmithingEmpowerRecipe extends SmithingRecipe {
 
     @Override
     public boolean matches(Inventory inv, World world) {
+        if (RuinedEquipmentMod.CONFIG != null && !RuinedEquipmentMod.CONFIG.enableSmithingRuinedEmpowered)
+            return false;
         Item empowermentItem = RuinedEquipmentUtils.getEmpowermentApplicationItem();
         ArrayList<ItemStack> craftingStacks = new ArrayList<>();
         for(int i = 0; i < inv.size(); i++) {
