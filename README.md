@@ -10,6 +10,7 @@ Grieving equipment owner? With this mod installed, Tools and Armors break into R
    - All vanilla Armors (including Turtle Shell)
    - Shields
    - Misc: Shears, Flint & Steel, Bow, Crossbow, Trident, Fishing Rod
+   - **All modded tools/armors**: These will drop a "Ruined Item's Ashes" and do not have special "ruined" textures
 - Tools & Armors will become "Ruined" when their durability reaches 0 (and you hear the break sound).
 - Ruined equipment keeps it's name, enchantments (although the enchantments no longer functionally do anything), dyes (if leather armor), and banner pattern (if shield).
 - You have 4 choices when you receive a Ruined item.
