@@ -53,3 +53,12 @@ Grieving equipment owner? With this mod installed, Tools and Armors break into R
 ## All the Items
 ![](https://i.imgur.com/LwlP9NW.png)
 ![](https://i.imgur.com/pBCXwtt.png)
+
+## Repairing "Ruined Item's Ashes" #1
+![2022-07-14_19 12 32](https://user-images.githubusercontent.com/17690401/179133692-4dd4c2ad-eb51-41bb-aa32-2fba9c19c9a7.png)
+
+## Repairing "Ruined Item's Ashes" #2
+![2022-07-14_19 14 54](https://user-images.githubusercontent.com/17690401/179133665-ea77a15b-69d7-4a6a-8576-3b6d4e467bae.png)
+
+## Empowering a "Ruined Item's Ashes"
+![2022-07-14_19 16 18](https://user-images.githubusercontent.com/17690401/179133656-617bbdfc-79f7-451a-a78f-bfdd98cc8720.png)
