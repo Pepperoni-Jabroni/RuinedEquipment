@@ -30,7 +30,8 @@ With this mod installed, Tools and Armors break into Ruined forms (for players).
 
 ![empowerment_toast](https://user-images.githubusercontent.com/17690401/206926998-48d1abdf-30ce-4786-b7c3-a47cd3044e72.png)
 
-- By combining your Ruined Item with a Netherite Scrap in a Smithing Table & then repairing the Item using an Anvil, all the existing Enchantments will become **max value**. 
+- By combining your Ruined Item with a Netherite Scrap in a Smithing Table, your Ruined Item will become "Empowered"
+- When repairing the Empowered Ruined Item using an Anvil, all the existing Enchantments will become **max value**. 
 
 ## ⛓ Dependencies
 - Required:
