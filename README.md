@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://user-images.githubusercontent.com/17690401/209376191-1da39139-8d53-4d1d-aa2a-7eb5eb84d91a.png"/>
+<img src="https://user-images.githubusercontent.com/17690401/209379820-9bc26e2c-b302-4f57-9142-92d8058a7ba5.png"/>
 </br></br>
 Grieving equipment owner? Tools and Armors break into Ruined forms for repair or memorial purposes.
 </br></br>
