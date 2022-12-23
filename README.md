@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://user-images.githubusercontent.com/17690401/206926470-519359a1-5cbd-4de9-a489-5236552da47e.png"/>
+<img src="https://user-images.githubusercontent.com/17690401/209376191-1da39139-8d53-4d1d-aa2a-7eb5eb84d91a.png"/>
 </br></br>
 Grieving equipment owner? Tools and Armors break into Ruined forms for repair or memorial purposes.
 </br></br>
@@ -30,7 +30,7 @@ With this mod installed, Tools and Armors break into Ruined forms (for players).
 
 ![empowerment_toast](https://user-images.githubusercontent.com/17690401/206926998-48d1abdf-30ce-4786-b7c3-a47cd3044e72.png)
 
-- By combining your Ruined Item with a Netherite Scrap in a Smithing Table, all the existing Enchantments will become **max value**. 
+- By combining your Ruined Item with a Netherite Scrap in a Smithing Table & then repairing the Item using an Anvil, all the existing Enchantments will become **max value**. 
 
 ## ⛓ Dependencies
 - Required:
