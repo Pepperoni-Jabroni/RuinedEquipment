@@ -6,10 +6,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
-import net.minecraft.util.registry.Registry;
 import pepjebs.ruined_equipment.RuinedEquipmentMod;
 import pepjebs.ruined_equipment.item.RuinedAshesItem;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItem;
@@ -36,14 +37,14 @@ public class RuinedEquipmentUtils {
     }
 
     public static boolean isRuinedItem(Item item) {
-        return item instanceof RuinedEquipmentItem || item instanceof RuinedAshesItem;
+        return Registries.ITEM.getId(item).getNamespace().compareTo(RuinedEquipmentMod.MOD_ID) == 0;
     }
 
     public static Item getEmpowermentApplicationItem() {
         if (RuinedEquipmentMod.CONFIG != null) {
             try {
                 String[] itemId = RuinedEquipmentMod.CONFIG.empowermentSmithingItem.split(":");
-                return Registry.ITEM.get(new Identifier(itemId[0], itemId[1]));
+                return Registries.ITEM.get(new Identifier(itemId[0], itemId[1]));
             } catch (Exception e) {
                 RuinedEquipmentMod.LOGGER.warn(e.getMessage());
             }
@@ -52,7 +53,7 @@ public class RuinedEquipmentUtils {
     }
 
     public static int compareItemsById(Item i1, Item i2) {
-        return Registry.ITEM.getId(i1).compareTo(Registry.ITEM.getId(i2));
+        return Registries.ITEM.getId(i1).compareTo(Registries.ITEM.getId(i2));
     }
 
     public static int generateRepairLevelCost(ItemStack repaired, int maxLevel) {
@@ -64,7 +65,7 @@ public class RuinedEquipmentUtils {
         Item vanillaItem = RuinedEquipmentItems.getVanillaItemMap().get(stack.getItem());
         if (vanillaItem == null) {
             Identifier modItemId = RuinedEquipmentUtils.getItemKeyIdFromItemStack(stack);
-            vanillaItem = Registry.ITEM.get(modItemId);
+            vanillaItem = Registries.ITEM.get(modItemId);
         }
         return vanillaItem;
     }
@@ -111,7 +112,7 @@ public class RuinedEquipmentUtils {
             String[] enchantItem = encodedEnchant.split(">");
             String[] enchantKey = enchantItem[0].split(":");
             int enchantLevel = Integer.parseInt(enchantItem[1]);
-            enchants.put(Registry.ENCHANTMENT.get(new Identifier(enchantKey[0], enchantKey[1])), enchantLevel);
+            enchants.put(Registries.ENCHANTMENT.get(new Identifier(enchantKey[0], enchantKey[1])), enchantLevel);
         }
         return enchants.isEmpty() ? null : enchants;
     }
@@ -143,7 +144,7 @@ public class RuinedEquipmentUtils {
         if (RuinedEquipmentMod.CONFIG.enableRuinedItemsAshesGeneration) {
             ItemStack ruinedStack = new ItemStack(RuinedEquipmentMod.RUINED_ASHES_ITEM);
             if (getParsedBlocklistForRuinedAshesItems().stream()
-                    .anyMatch(i -> i.compareTo(Registry.ITEM.getId(breakingStack.getItem())) == 0))
+                    .anyMatch(i -> i.compareTo(Registries.ITEM.getId(breakingStack.getItem())) == 0))
                 return;
             processBreakingEquipment(serverPlayer, breakingStack, forceSet, ruinedStack);
         }
@@ -163,7 +164,7 @@ public class RuinedEquipmentUtils {
         if (enchantTag != null) breakingNBT.copyFrom(enchantTag);
         if (breakingNBT.contains("Enchantments")) breakingNBT.remove("Enchantments");
         if (ruinedStack.getItem() == RuinedEquipmentMod.RUINED_ASHES_ITEM) {
-            Identifier breakingId = Registry.ITEM.getId(breakingStack.getItem());
+            Identifier breakingId = Registries.ITEM.getId(breakingStack.getItem());
             breakingNBT.putString(RUINED_ITEM_KEY_TAG, breakingId.toString());
         }
         ruinedStack.setNbt(breakingNBT);
@@ -204,7 +205,7 @@ public class RuinedEquipmentUtils {
     public static NbtCompound getNbtForEnchantments(ItemStack breakingStack, ItemStack ruinedStack) {
         Set<String> enchantmentStrings = new HashSet<>();
         for (Map.Entry<Enchantment, Integer> ench : EnchantmentHelper.get(breakingStack).entrySet()) {
-            String enchantString = Registry.ENCHANTMENT.getId(ench.getKey())+">"+ench.getValue();
+            String enchantString = Registries.ENCHANTMENT.getId(ench.getKey())+">"+ench.getValue();
             enchantmentStrings.add(enchantString);
         }
         if (!enchantmentStrings.isEmpty()) {
@@ -217,7 +218,7 @@ public class RuinedEquipmentUtils {
     }
 
     public static boolean isVanillaItemStackBreaking(ItemStack breakingStack, Item vanillaItem) {
-        return breakingStack.isItemEqualIgnoreDamage(new ItemStack(vanillaItem))
+        return breakingStack.isItemEqual(new ItemStack(vanillaItem))
             && breakingStack.getMaxDamage() - breakingStack.getDamage() <= 0;
     }
 }

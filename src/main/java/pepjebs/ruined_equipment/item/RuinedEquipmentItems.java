@@ -2,8 +2,8 @@ package pepjebs.ruined_equipment.item;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import pepjebs.ruined_equipment.RuinedEquipmentMod;
 
 import java.util.HashMap;
@@ -79,9 +79,9 @@ public class RuinedEquipmentItems {
     public static Map<Item, Item> getVanillaItemMap() {
         Map<Item, Item> vanillaItemMap = new HashMap<>();
         for (Item i : RuinedEquipmentItems.SUPPORTED_VANILLA_ITEMS) {
-            vanillaItemMap.put(Registry.ITEM.get(
+            vanillaItemMap.put(Registries.ITEM.get(
                     new Identifier(RuinedEquipmentMod.MOD_ID,
-                            RuinedEquipmentMod.RUINED_PREFIX + Registry.ITEM.getId(i).getPath())), i);
+                            RuinedEquipmentMod.RUINED_PREFIX + Registries.ITEM.getId(i).getPath())), i);
         }
         return vanillaItemMap;
     }
@@ -89,7 +89,7 @@ public class RuinedEquipmentItems {
     public static Map<Item, Item> getVanillaDyeableItemMap() {
         Map<Item, Item> vanillaDyeableMap = new HashMap<>();
         for (Map.Entry<Item, Item> i : RuinedEquipmentItems.getVanillaItemMap().entrySet()) {
-            if (Registry.ITEM.getId(i.getValue()).getPath().contains("leather")) {
+            if (Registries.ITEM.getId(i.getValue()).getPath().contains("leather")) {
                 vanillaDyeableMap.put(i.getKey(), i.getValue());
             }
         }

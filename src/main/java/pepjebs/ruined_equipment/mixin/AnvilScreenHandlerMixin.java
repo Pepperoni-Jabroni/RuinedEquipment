@@ -3,12 +3,11 @@ package pepjebs.ruined_equipment.mixin;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.*;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.screen.*;
-import net.minecraft.tag.ItemTags;
-import net.minecraft.text.LiteralTextContent;
-import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -52,7 +51,7 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
             if (RuinedEquipmentMod.CONFIG != null &&
                     !RuinedEquipmentMod.CONFIG.enableAnvilRuinedRepair) return;
             Item vanillaItem = RuinedEquipmentUtils.getRepairItemForItemStack(leftStack);
-            Identifier vanillaItemId = Registry.ITEM.getId(vanillaItem);
+            Identifier vanillaItemId = Registries.ITEM.getId(vanillaItem);
             int vanillaMaxDamage = vanillaItem.getMaxDamage() - 1;
             // Check right stack for matching repair item
             Ingredient repairIngredient = null;
@@ -60,7 +59,7 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
             if (vanillaItemId.getNamespace().compareTo("minecraft") != 0 && ashesRepairItems != null) {
                 Identifier repairingItemId = ashesRepairItems.get(vanillaItemId);
                 if (repairingItemId == null) return;
-                repairIngredient = Ingredient.ofItems(Registry.ITEM.get(repairingItemId));
+                repairIngredient = Ingredient.ofItems(Registries.ITEM.get(repairingItemId));
             } else if(vanillaItem instanceof ArmorItem) {
                 repairIngredient = ((ArmorItem) vanillaItem).getMaterial().getRepairIngredient();
             } else if (vanillaItem instanceof ToolItem) {
@@ -93,7 +92,7 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
                     if (StringUtils.isBlank(this.newItemName)) {
                         repaired.removeCustomName();
                     } else {
-                        repaired.setCustomName(MutableText.of(new LiteralTextContent(this.newItemName)));
+                        repaired.setCustomName(Text.literal(this.newItemName));
                         levelCost++;
                     }
                 }

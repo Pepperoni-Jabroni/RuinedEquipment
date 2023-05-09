@@ -5,8 +5,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
+import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import pepjebs.ruined_equipment.RuinedEquipmentMod;
 import pepjebs.ruined_equipment.item.RuinedAshesItem;
@@ -23,8 +25,8 @@ public class RuinedEquipmentCraftRepair extends SpecialCraftingRecipe {
     // Default bonus is 0.05
     public static final double REPAIR_MODIFIER = 0.07;
 
-    public RuinedEquipmentCraftRepair(Identifier id) {
-        super(id);
+    public RuinedEquipmentCraftRepair(Identifier id, CraftingRecipeCategory category) {
+        super(id, category);
     }
 
     @Override
@@ -58,7 +60,7 @@ public class RuinedEquipmentCraftRepair extends SpecialCraftingRecipe {
                 Identifier repairingItem = RuinedEquipmentUtils.getItemKeyIdFromItemStack(ruinedItem);
                 ItemStack moddedRepair = craftingStacks
                         .stream()
-                        .filter(i -> Registry.ITEM.getId(i.getItem()).compareTo(repairingItem) == 0)
+                        .filter(i -> Registries.ITEM.getId(i.getItem()).compareTo(repairingItem) == 0)
                         .findFirst()
                         .orElse(null);
                 return moddedRepair != null;
@@ -68,7 +70,7 @@ public class RuinedEquipmentCraftRepair extends SpecialCraftingRecipe {
     }
 
     @Override
-    public ItemStack craft(CraftingInventory inv) {
+    public ItemStack craft(CraftingInventory inv, DynamicRegistryManager registryManager) {
         ItemStack repairingItem = ItemStack.EMPTY;
         ItemStack ruinedItem = ItemStack.EMPTY;
         ItemStack t;
@@ -85,7 +87,7 @@ public class RuinedEquipmentCraftRepair extends SpecialCraftingRecipe {
         ItemStack newStack;
         int targetDamage;
         if (ruinedItem.getItem() == RuinedEquipmentMod.RUINED_ASHES_ITEM) {
-            Item item = Registry.ITEM.get(RuinedEquipmentUtils.getItemKeyIdFromItemStack(ruinedItem));
+            Item item = Registries.ITEM.get(RuinedEquipmentUtils.getItemKeyIdFromItemStack(ruinedItem));
             newStack = new ItemStack(item);
             targetDamage = (int) ((1.0 - REPAIR_MODIFIER) * newStack.getMaxDamage());
         } else if (repairingItem != ItemStack.EMPTY) {

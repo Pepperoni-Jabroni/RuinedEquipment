@@ -3,17 +3,19 @@ package pepjebs.ruined_equipment;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.SpecialRecipeSerializer;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
-import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pepjebs.ruined_equipment.config.RuinedEquipmentConfig;
@@ -50,44 +52,44 @@ public class RuinedEquipmentMod implements ModInitializer {
         RuinedEquipmentConfig config = AutoConfig.getConfigHolder(RuinedEquipmentConfig.class).getConfig();
         CONFIG = config;
         RUINED_CRAFT_REPAIR_RECIPE = Registry.register(
-                Registry.RECIPE_SERIALIZER,
+                Registries.RECIPE_SERIALIZER,
                 new Identifier(MOD_ID, "ruined_repair"),
                 new SpecialRecipeSerializer<>(RuinedEquipmentCraftRepair::new));
         RUINED_SMITH_SET_EMPOWER = Registry.register(
-                Registry.RECIPE_SERIALIZER,
+                Registries.RECIPE_SERIALIZER,
                 new Identifier(MOD_ID, "ruined_set_empower"),
                 new RuinedEquipmentSmithingEmpowerRecipe.Serializer());
 
-        ItemGroup itemGroup = ItemGroup.MISC;
+        ItemGroup itemGroup = ItemGroups.COMBAT;
         Map<Item, Item> vanillaItemMap = new HashMap<>();
-        Item.Settings set = new Item.Settings().maxCount(1).group(itemGroup);
+        Item.Settings set = new Item.Settings().maxCount(1);
         for (Item i : RuinedEquipmentItems.SUPPORTED_VANILLA_ITEMS) {
-            if (Registry.ITEM.getId(i).getPath().contains("leather")) {
+            if (Registries.ITEM.getId(i).getPath().contains("leather")) {
                 vanillaItemMap.put(new RuinedDyeableEquipmentItem(set), i);
             } else {
                 vanillaItemMap.put(new RuinedEquipmentItem(set), i);
             }
         }
         for (Map.Entry<Item, Item> item : vanillaItemMap.entrySet()) {
-            String vanillaItemIdPath = Registry.ITEM.getId(item.getValue()).getPath();
-            Registry.register(Registry.ITEM, new Identifier(MOD_ID,
+            String vanillaItemIdPath = Registries.ITEM.getId(item.getValue()).getPath();
+            Registry.register(Registries.ITEM, new Identifier(MOD_ID,
                     RUINED_PREFIX + vanillaItemIdPath), item.getKey());
         }
-        RUINED_ASHES_ITEM = Registry.register(Registry.ITEM, new Identifier(MOD_ID,
-                "ruined_item_ashes"), new RuinedAshesItem(new Item.Settings().maxCount(1).group(itemGroup)));
+        RUINED_ASHES_ITEM = Registry.register(Registries.ITEM, new Identifier(MOD_ID,
+                "ruined_item_ashes"), new RuinedAshesItem(new Item.Settings().maxCount(1)));
 
-        if (config.enableCreativeInventoryTab) {
-            itemGroup = FabricItemGroupBuilder.create(new Identifier(MOD_ID, "ruined_items"))
-                    .icon(() -> new ItemStack(Registry.ITEM.get(new Identifier(MOD_ID, "ruined_diamond_pickaxe"))))
-                    .appendItems(stacks -> {
-                        for (Item item : RuinedEquipmentItems.getVanillaItemMap().keySet().stream()
-                                .sorted(RuinedEquipmentUtils::compareItemsById).toList()) {
-                            stacks.add(new ItemStack(item));
-                        }
-                        stacks.add(new ItemStack(RUINED_ASHES_ITEM));
-                    })
-                    .build();
-        }
+//        if (config.enableCreativeInventoryTab) {
+//            itemGroup = FabricItemGroup.builder(new Identifier(MOD_ID, "ruined_items"))
+//                    .icon(() -> new ItemStack(Registries.ITEM.get(new Identifier(MOD_ID, "ruined_diamond_pickaxe"))))
+//                    .entries(stacks -> {
+//                        for (Item item : RuinedEquipmentItems.getVanillaItemMap().keySet().stream()
+//                                .sorted(RuinedEquipmentUtils::compareItemsById).toList()) {
+//                            stacks.add(new ItemStack(item));
+//                        }
+//                        stacks.add(new ItemStack(RUINED_ASHES_ITEM));
+//                    })
+//                    .build();
+//        }
 
 
         ServerTickEvents.START_SERVER_TICK.register((MinecraftServer server) -> {

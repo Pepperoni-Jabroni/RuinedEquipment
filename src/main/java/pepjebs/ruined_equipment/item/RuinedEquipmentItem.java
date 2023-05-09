@@ -6,14 +6,12 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.LiteralTextContent;
+import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import pepjebs.ruined_equipment.RuinedEquipmentMod;
@@ -53,18 +51,18 @@ public class RuinedEquipmentItem extends Item {
             }
 
             for (Map.Entry<Enchantment, Integer> enchant : enchantMap.entrySet()) {
-                tooltip.add(MutableText.of(new LiteralTextContent(
-                        enchant.getKey().getName(enchant.getValue()).getString())).formatted(Formatting.GRAY));
+                tooltip.add(Text.literal(
+                        enchant.getKey().getName(enchant.getValue()).getString()).formatted(Formatting.GRAY));
             }
         }
         if (stack.getNbt() != null && stack.getNbt().contains(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG)
                 && stack.getNbt().getBoolean(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG)) {
-            tooltip.add(MutableText.of(new TranslatableTextContent("item.ruined_equipment.ruined_upgrading"))
-                    .formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable("item.ruined_equipment.ruined_upgrading").formatted(Formatting.GRAY));
+                    ;
         }
-        if (stack.getItem() == Registry.ITEM.get(new Identifier(RuinedEquipmentMod.MOD_ID, "ruined_shield"))
+        if (stack.getItem() == Registries.ITEM.get(new Identifier(RuinedEquipmentMod.MOD_ID, "ruined_shield"))
                 && stack.getNbt().contains("BlockEntityTag")) {
-            tooltip.add(MutableText.of(new TranslatableTextContent("item.ruined_equipment.ruined_shield.banner"))
+            tooltip.add(Text.translatable("item.ruined_equipment.ruined_shield.banner")
                     .formatted(Formatting.GRAY)
                     .formatted(Formatting.ITALIC));
         }
@@ -77,7 +75,7 @@ public class RuinedEquipmentItem extends Item {
         MutableText supered = super.getName().copyContentOnly();
         // Append vanilla item's name
         Item vanillaItem = RuinedEquipmentItems.getVanillaItemMap().get(this);
-        supered = supered.append(MutableText.of(new TranslatableTextContent(vanillaItem.getTranslationKey())));
+        supered = supered.append(Text.translatable(vanillaItem.getTranslationKey()));
         return supered;
     }
 
@@ -88,7 +86,7 @@ public class RuinedEquipmentItem extends Item {
         MutableText supered = super.getName().copyContentOnly();
         // Append vanilla item's name
         Item vanillaItem = RuinedEquipmentItems.getVanillaItemMap().get(this);
-        supered = supered.append(MutableText.of(new TranslatableTextContent(vanillaItem.getTranslationKey())));
+        supered = supered.append(Text.translatable(vanillaItem.getTranslationKey()));
         // Add the Aqua text if it has a glint
         if (hasGlint(stack)) {
             supered = supered.formatted(Formatting.AQUA);
