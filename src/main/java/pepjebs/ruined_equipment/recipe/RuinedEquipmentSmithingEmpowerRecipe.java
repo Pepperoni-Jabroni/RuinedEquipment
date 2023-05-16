@@ -7,9 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.SmithingRecipe;
+import net.minecraft.recipe.*;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
@@ -20,24 +18,19 @@ import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 import java.util.ArrayList;
 
 // I understand that this class is an abomination. But the lack of NBT Crafting is the real issue.
-public class RuinedEquipmentSmithingEmpowerRecipe implements SmithingRecipe {
+@SuppressWarnings("removal")
+public class RuinedEquipmentSmithingEmpowerRecipe extends LegacySmithingRecipe {
 
     public static final String RUINED_MAX_ENCHT_TAG = "IsUpgrading";
 
-    private final Identifier id;
-    final Ingredient template;
-    final Ingredient base;
-    final Ingredient addition;
-
     public RuinedEquipmentSmithingEmpowerRecipe() {
-        this.id = new Identifier(RuinedEquipmentMod.MOD_ID, "ruined_empowerment");
-        this.template = Ingredient.ofStacks(Registries.ITEM.stream()
-                .filter(i -> Registries.ITEM.getId(i).getNamespace().compareTo(RuinedEquipmentMod.MOD_ID) == 0)
-                .map(ItemStack::new));
-        this.base = Ingredient.ofItems(Items.NETHERITE_SCRAP);
-        this.addition = Ingredient.ofItems(Items.GOLD_INGOT);
+        super(
+                RuinedEquipmentMod.RUINED_SMITH,
+                Ingredient.ofItems(Registries.ITEM.get(new Identifier(RuinedEquipmentMod.MOD_ID, "ruined_bow"))),
+                Ingredient.ofItems(Items.NETHERITE_SCRAP),
+                ItemStack.EMPTY
+        );
     }
-
 
     @Override
     public boolean matches(Inventory inv, World world) {
@@ -48,7 +41,7 @@ public class RuinedEquipmentSmithingEmpowerRecipe implements SmithingRecipe {
         Item empowermentItem = RuinedEquipmentUtils.getEmpowermentApplicationItem();
         ArrayList<ItemStack> craftingStacks = new ArrayList<>();
         for(int i = 0; i < inv.size(); i++) {
-            if (!inv.getStack(i).isEmpty()) {
+            if (inv.getStack(i) != null && !inv.getStack(i).isEmpty()) {
                 craftingStacks.add(inv.getStack(i));
             }
         }
@@ -89,37 +82,20 @@ public class RuinedEquipmentSmithingEmpowerRecipe implements SmithingRecipe {
 
     @Override
     public boolean fits(int width, int height) {
-        return width * height >= 2;
+        var f = width * height >= 2;
+        RuinedEquipmentMod.LOGGER.info("fits "+f);
+        return f;
     }
 
     @Override
     public ItemStack getOutput(DynamicRegistryManager registryManager) {
-        return null;
-    }
-
-    @Override
-    public Identifier getId() {
-        return id;
+        return new
+                ItemStack(Registries.ITEM.get(new Identifier(RuinedEquipmentMod.MOD_ID, "ruined_diamond_shovel")));
     }
 
     @Override
     public RecipeSerializer<?> getSerializer() {
         return new Serializer();
-    }
-
-    @Override
-    public boolean testTemplate(ItemStack stack) {
-        return this.template.test(stack);
-    }
-
-    @Override
-    public boolean testBase(ItemStack stack) {
-        return this.base.test(stack);
-    }
-
-    @Override
-    public boolean testAddition(ItemStack stack) {
-        return this.addition.test(stack);
     }
 
     public static class Serializer implements RecipeSerializer<RuinedEquipmentSmithingEmpowerRecipe> {

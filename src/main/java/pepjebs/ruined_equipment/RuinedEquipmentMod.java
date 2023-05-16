@@ -5,6 +5,7 @@ import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemGroups;
@@ -16,6 +17,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
+import org.apache.http.client.utils.Idn;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pepjebs.ruined_equipment.config.RuinedEquipmentConfig;
@@ -36,6 +38,7 @@ public class RuinedEquipmentMod implements ModInitializer {
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
     public static final String RUINED_PREFIX = "ruined_";
+    public static final Identifier RUINED_SMITH = new Identifier(MOD_ID, "ruined_set_empower");
     public static RuinedAshesItem RUINED_ASHES_ITEM = null;
 
     public static RuinedEquipmentConfig CONFIG = null;
@@ -47,20 +50,20 @@ public class RuinedEquipmentMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        AutoConfig.register(RuinedEquipmentConfig.class, JanksonConfigSerializer::new);
+        if(FabricLoader.getInstance().isModLoaded("cloth-config")) {
+            AutoConfig.register(RuinedEquipmentConfig.class, JanksonConfigSerializer::new);
+            CONFIG = AutoConfig.getConfigHolder(RuinedEquipmentConfig.class).getConfig();
+        }
 
-        RuinedEquipmentConfig config = AutoConfig.getConfigHolder(RuinedEquipmentConfig.class).getConfig();
-        CONFIG = config;
         RUINED_CRAFT_REPAIR_RECIPE = Registry.register(
                 Registries.RECIPE_SERIALIZER,
                 new Identifier(MOD_ID, "ruined_repair"),
                 new SpecialRecipeSerializer<>(RuinedEquipmentCraftRepair::new));
         RUINED_SMITH_SET_EMPOWER = Registry.register(
                 Registries.RECIPE_SERIALIZER,
-                new Identifier(MOD_ID, "ruined_set_empower"),
+                RUINED_SMITH,
                 new RuinedEquipmentSmithingEmpowerRecipe.Serializer());
 
-        ItemGroup itemGroup = ItemGroups.COMBAT;
         Map<Item, Item> vanillaItemMap = new HashMap<>();
         Item.Settings set = new Item.Settings().maxCount(1);
         for (Item i : RuinedEquipmentItems.SUPPORTED_VANILLA_ITEMS) {
@@ -77,20 +80,6 @@ public class RuinedEquipmentMod implements ModInitializer {
         }
         RUINED_ASHES_ITEM = Registry.register(Registries.ITEM, new Identifier(MOD_ID,
                 "ruined_item_ashes"), new RuinedAshesItem(new Item.Settings().maxCount(1)));
-
-//        if (config.enableCreativeInventoryTab) {
-//            itemGroup = FabricItemGroup.builder(new Identifier(MOD_ID, "ruined_items"))
-//                    .icon(() -> new ItemStack(Registries.ITEM.get(new Identifier(MOD_ID, "ruined_diamond_pickaxe"))))
-//                    .entries(stacks -> {
-//                        for (Item item : RuinedEquipmentItems.getVanillaItemMap().keySet().stream()
-//                                .sorted(RuinedEquipmentUtils::compareItemsById).toList()) {
-//                            stacks.add(new ItemStack(item));
-//                        }
-//                        stacks.add(new ItemStack(RUINED_ASHES_ITEM));
-//                    })
-//                    .build();
-//        }
-
 
         ServerTickEvents.START_SERVER_TICK.register((MinecraftServer server) -> {
             for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
