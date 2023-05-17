@@ -21,8 +21,8 @@ With this mod installed, Tools and Armors break into Ruined forms (for players).
    - **All modded tools/armors**: These will drop a "Ruined Item's Ashes" and do not have special "ruined" textures
 - Tools & Armors will become "Ruined" when their durability reaches 0 (and you hear the break sound).
 - Ruined equipment keep all their NBT data - this includes (but is not limited to) name, enchantments (although the enchantments no longer functionally do anything), dyes (if leather armor), and banner pattern (if shield).
-- Ruined items with Mending are repairable when held in hands while collecting experience.
-- You can apply Lore to your Ruined Items by combining them with a Name Tag in an Anvil!
+- **Ruined items with Mending are repairable** when held in hands while collecting experience.
+- You can **apply Lore to your Ruined Items** by combining them with a Name Tag in an Anvil!
    - The Lore will carry over to your Item if you choose to repair it.
 - You have 4 choices when you receive a Ruined item.
    1. Keep it as a keepsake, remember it always.
@@ -76,6 +76,9 @@ With this mod installed, Tools and Armors break into Ruined forms (for players).
 
 ## All Enchants become max level
 ![](https://i.imgur.com/GmhvdMb.png)
+  
+## Applying Lore to a Ruined Item with a Name Tag
+![2023-05-16_21 15 44](https://github.com/Pepperoni-Jabroni/RuinedEquipment/assets/17690401/eb7585b3-73c8-483d-b644-fe26e1b05931)
 
 ## All the Items
 ![](https://i.imgur.com/LwlP9NW.png)
