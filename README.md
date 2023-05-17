@@ -8,7 +8,7 @@ Grieving equipment owner? Tools and Armors break into Ruined forms for repair or
 <a href="https://www.curseforge.com/minecraft/mc-mods/ruined-equipment"><img alt="Curseforge" src="https://cf.way2muchnoise.eu/full_433703_downloads.svg"></a> <a href="https://modrinth.com/mod/ruined-equipment"><img alt="Modrinth" src="https://img.shields.io/modrinth/dt/ruined-equipment?label=Modrinth%20Downloads"></a> <a href="https://github.com/Pepperoni-Jabroni/RuinedEquipment"><img alt="GitHub" src="https://img.shields.io/github/downloads/Pepperoni-Jabroni/RuinedEquipment/total?label=Downloads&logo=github"></a>
 </p>
 
-With this mod installed, Tools and Armors break into Ruined forms (for players). The Ruined equipment can then be repaired in either a Crafting Grid or Anvil, upgraded by "Empowering" it with a Netherite Scrap or, if you're like me, kept as a keepsake. May you never forget your fallen tools and armors & the adventures you had with them.
+With this mod installed, Tools and Armors break into Ruined forms (for players). The Ruined equipment can then be repaired in either a Crafting Grid or Anvil, upgraded by "Empowering" it with a Netherite Scrap or, if you're like me, kept as a keepsake. You may also use Name Tags to apply Lore to your Items in an Anvil - this allows you to commemarate them however you wish. <i>May you never forget your fallen tools and armors & the adventures you had with them.</i>
 
 ## 📖 About
 ![ruined_items_toast](https://user-images.githubusercontent.com/17690401/206926997-0492c2b4-445f-4e0f-b30a-a5c064dc8633.png)
