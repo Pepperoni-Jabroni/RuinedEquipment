@@ -26,5 +26,7 @@
   "text.autoconfig.ruined_equipment.option.blocklistForRuinedAshesItems": "Blocklist For Ruined Ashes Items",
   "text.autoconfig.ruined_equipment.option.blocklistForRuinedAshesItems.@Tooltip": "Codes for modded Items NOT to generate Ruined Items Ashes for when they break (e.g. 'copper_mod:copper_sword;')",
   "text.autoconfig.ruined_equipment.option.enableLoreSetWithNameTag": "Enable Lore Set With Name Tag",
-  "text.autoconfig.ruined_equipment.option.enableLoreSetWithNameTag.@Tooltip": "When 'true', you can apply Lore to Ruined Items in the Anvil with a Name Tag."
+  "text.autoconfig.ruined_equipment.option.enableLoreSetWithNameTag.@Tooltip": "When 'true', you can apply Lore to Ruined Items in the Anvil with a Name Tag.",
+  "text.autoconfig.ruined_equipment.option.skipEmptyNBTEquipmentBreaks": "Skip Empty NBT Equipment Breaks",
+  "text.autoconfig.ruined_equipment.option.skipEmptyNBTEquipmentBreaks.@Tooltip": "When 'true', Ruined Items will not generate if an Item breaks without any NBT data specified (besides Damage)."
 }

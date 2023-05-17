@@ -52,4 +52,8 @@ public class RuinedEquipmentConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip()
     @Comment("When 'true', you can apply Lore to Ruined Items in the Anvil with a Name Tag.")
     public boolean enableLoreSetWithNameTag = true;
+
+    @ConfigEntry.Gui.Tooltip()
+    @Comment("When 'true', Ruined Items will not generate if an Item breaks without any NBT data specified (besides Damage).")
+    public boolean skipEmptyNBTEquipmentBreaks = false;
 }

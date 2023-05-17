@@ -137,6 +137,11 @@ public class RuinedEquipmentUtils {
             ServerPlayerEntity serverPlayer,
             ItemStack breakingStack,
             boolean forceSet) {
+        if (RuinedEquipmentMod.CONFIG != null && RuinedEquipmentMod.CONFIG.skipEmptyNBTEquipmentBreaks
+                && breakingStack.getNbt() != null
+                && breakingStack.getNbt().getKeys().size() <= 1) {
+            return;
+        }
         for (Map.Entry<Item, Item> itemMap : RuinedEquipmentItems.getVanillaItemMap().entrySet()) {
             if (isVanillaItemStackBreaking(breakingStack, itemMap.getValue())) {
                 ItemStack ruinedStack = new ItemStack(itemMap.getKey());
