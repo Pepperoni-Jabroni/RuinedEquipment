@@ -139,7 +139,8 @@ public class RuinedEquipmentUtils {
             boolean forceSet) {
         if (RuinedEquipmentMod.CONFIG != null && RuinedEquipmentMod.CONFIG.skipEmptyNBTEquipmentBreaks
                 && breakingStack.getNbt() != null
-                && breakingStack.getNbt().getKeys().size() <= 1) {
+                && breakingStack.getNbt().getKeys().stream()
+                    .filter(k -> k.compareTo("Damage") != 0).collect(Collectors.toSet()).size() == 0) {
             return;
         }
         for (Map.Entry<Item, Item> itemMap : RuinedEquipmentItems.getVanillaItemMap().entrySet()) {
