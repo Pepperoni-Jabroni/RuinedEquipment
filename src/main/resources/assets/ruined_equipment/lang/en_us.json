@@ -19,10 +19,12 @@
   "text.autoconfig.ruined_equipment.option.empowermentSmithingItem.@Tooltip": "The Item to be used for applying 'Empowered' to a Ruined item in a Smithing Table.",
   "text.autoconfig.ruined_equipment.option.enableCreativeInventoryTab.@Tooltip": "When 'true', the 'Ruined Equipment' Creative inventory tab will be displayed.",
   "text.autoconfig.ruined_equipment.option.enableRuinedMendingRepair.@Tooltip": "When 'true', Ruined items with Mending held in your hands will be repaired when you collect XP.",
-  "text.autoconfig.ruined_equipment.option.enableRuinedItemsAshesGeneration": "When 'true', non-vanilla breaking items will generate a 'Ruined Items Ashes'.",
+  "text.autoconfig.ruined_equipment.option.enableRuinedItemsAshesGeneration": "Enable Ruined Items Ashes Generation",
   "text.autoconfig.ruined_equipment.option.enableRuinedItemsAshesGeneration.@Tooltip": "When 'true', non-vanilla breaking items will generate a 'Ruined Items Ashes'.",
-  "text.autoconfig.ruined_equipment.option.ruinedItemsAshesRepairItems": "Codes for which repair items to use for which Ruined Items Ashes (e.g. 'copper_mod:copper_sword/minecraft:copper_ingot;')",
+  "text.autoconfig.ruined_equipment.option.ruinedItemsAshesRepairItems": "Ruined Items Ashes Repair Items",
   "text.autoconfig.ruined_equipment.option.ruinedItemsAshesRepairItems.@Tooltip": "Codes for which repair items to use for which Ruined Items Ashes (e.g. 'copper_mod:copper_sword/minecraft:copper_ingot;')",
-  "text.autoconfig.ruined_equipment.option.blocklistForRuinedAshesItems": "Codes for modded Items NOT to generate Ruined Items Ashes for when they break (e.g. 'copper_mod:copper_sword;')",
-  "text.autoconfig.ruined_equipment.option.blocklistForRuinedAshesItems.@Tooltip": "Codes for modded Items NOT to generate Ruined Items Ashes for when they break (e.g. 'copper_mod:copper_sword;')"
+  "text.autoconfig.ruined_equipment.option.blocklistForRuinedAshesItems": "Blocklist For Ruined Ashes Items",
+  "text.autoconfig.ruined_equipment.option.blocklistForRuinedAshesItems.@Tooltip": "Codes for modded Items NOT to generate Ruined Items Ashes for when they break (e.g. 'copper_mod:copper_sword;')",
+  "text.autoconfig.ruined_equipment.option.enableLoreSetWithNameTag": "Enable Lore Set With Name Tag",
+  "text.autoconfig.ruined_equipment.option.enableLoreSetWithNameTag.@Tooltip": "When 'true', you can apply Lore to Ruined Items in the Anvil with a Name Tag."
 }

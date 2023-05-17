@@ -15,7 +15,7 @@ import pepjebs.ruined_equipment.RuinedEquipmentMod;
 import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 
 @Mixin(ExperienceOrbEntity.class)
-public abstract class ExperienceOrbEntityMixin {
+public abstract class RuinedExperienceOrbEntityMixin {
 
     @Shadow
     private int amount;

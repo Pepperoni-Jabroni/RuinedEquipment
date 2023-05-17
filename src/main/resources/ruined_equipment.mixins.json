@@ -4,9 +4,9 @@
   "package": "pepjebs.ruined_equipment.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "LivingEntityMixin",
-    "AnvilScreenHandlerMixin",
-    "ExperienceOrbEntityMixin"
+    "RuinedLivingEntityMixin",
+    "RuinedAnvilScreenHandlerMixin",
+    "RuinedExperienceOrbEntityMixin"
   ],
   "client": [
   ],

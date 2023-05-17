@@ -12,7 +12,7 @@ import pepjebs.ruined_equipment.RuinedEquipmentMod;
 import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 
 @Mixin(LivingEntity.class)
-public class LivingEntityMixin {
+public class RuinedLivingEntityMixin {
 
     private LivingEntity livingEntity = ((LivingEntity) (Object) this);
 

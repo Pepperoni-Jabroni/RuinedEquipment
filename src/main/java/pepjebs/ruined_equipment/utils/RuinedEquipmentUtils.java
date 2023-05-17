@@ -56,7 +56,10 @@ public class RuinedEquipmentUtils {
         return Registries.ITEM.getId(i1).compareTo(Registries.ITEM.getId(i2));
     }
 
-    public static int generateRepairLevelCost(ItemStack repaired, int maxLevel) {
+    public static int generateAnvilLevelCost(ItemStack repaired, int maxLevel) {
+        if (repaired.getMaxDamage() == 0) {
+            return 1;
+        }
         int targetLevel = maxLevel * (repaired.getMaxDamage() - repaired.getDamage()) / repaired.getMaxDamage();
         return Math.max(targetLevel, 1);
     }

@@ -2,6 +2,7 @@ package pepjebs.ruined_equipment.mixin;
 
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.*;
+import net.minecraft.nbt.*;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.ItemTags;
@@ -19,8 +20,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import pepjebs.ruined_equipment.RuinedEquipmentMod;
 import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Mixin(AnvilScreenHandler.class)
-public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
+public abstract class RuinedAnvilScreenHandlerMixin extends ForgingScreenHandler {
 
     private static final double REPAIR_MODIFIER = 0.25;
 
@@ -35,7 +39,7 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
     private String newItemName;
 
 
-    public AnvilScreenHandlerMixin(
+    public RuinedAnvilScreenHandlerMixin(
             @Nullable ScreenHandlerType<?> type,
             int syncId,
             PlayerInventory playerInventory,
@@ -48,8 +52,6 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
         ItemStack leftStack = this.input.getStack(0).copy();
         ItemStack rightStack = this.input.getStack(1).copy();
         if (RuinedEquipmentUtils.isRuinedItem(leftStack.getItem())) {
-            if (RuinedEquipmentMod.CONFIG != null &&
-                    !RuinedEquipmentMod.CONFIG.enableAnvilRuinedRepair) return;
             Item vanillaItem = RuinedEquipmentUtils.getRepairItemForItemStack(leftStack);
             Identifier vanillaItemId = Registries.ITEM.getId(vanillaItem);
             int vanillaMaxDamage = vanillaItem.getMaxDamage() - 1;
@@ -68,38 +70,97 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
                 repairIngredient = Ingredient.fromTag(ItemTags.PLANKS);
             }
 
-            ItemStack repaired = ItemStack.EMPTY;
+            ItemStack output = ItemStack.EMPTY;
             int maxLevel = 4;
             if (repairIngredient != null && repairIngredient.test(rightStack)) {
+                if (RuinedEquipmentMod.CONFIG != null &&
+                        !RuinedEquipmentMod.CONFIG.enableAnvilRuinedRepair) return;
                 double targetFraction = 1.0 - (rightStack.getCount() * REPAIR_MODIFIER);
-                repaired = RuinedEquipmentUtils.generateRepairedItemForAnvilByFraction(
+                output = RuinedEquipmentUtils.generateRepairedItemForAnvilByFraction(
                         leftStack,
                         Math.min(targetFraction, 1.0));
                 this.repairItemUsage = 4;
             } else if (rightStack.getItem() == vanillaItem) {
+                if (RuinedEquipmentMod.CONFIG != null &&
+                        !RuinedEquipmentMod.CONFIG.enableAnvilRuinedRepair) return;
                 // Check right stack for corresponding vanilla item
                 int targetDamage = rightStack.getDamage() - (int)(REPAIR_MODIFIER * rightStack.getMaxDamage());
-                repaired = RuinedEquipmentUtils.generateRepairedItemForAnvilByDamage(
+                output = RuinedEquipmentUtils.generateRepairedItemForAnvilByDamage(
                         leftStack,
                         Math.min(targetDamage, vanillaMaxDamage));
                 maxLevel = 2;
                 this.repairItemUsage = 0;
+            } else if (rightStack.getItem() == Items.NAME_TAG) {
+                if (RuinedEquipmentMod.CONFIG != null && !RuinedEquipmentMod.CONFIG.enableLoreSetWithNameTag) {
+                    return;
+                }
+                var lores = new NbtList();
+                try {
+                    var nameTagNbt = rightStack.getNbt();
+                    var nameTagTextNbt = nameTagNbt.getCompound("display").getString("Name");
+                    var nameTagText = NbtHelper.fromNbtProviderString(nameTagTextNbt).getString("text");
+                    var splitNameTagText = nameTagText.split(" ");
+                    var nameTagLoreLines = chunkStringArray(splitNameTagText, 25);
+                    lores.addAll(
+                            nameTagLoreLines.stream()
+                                    .map(s -> {
+                                        NbtCompound c = new NbtCompound();
+                                        c.putString("text", s);
+                                        return NbtString.of(NbtHelper.toFormattedString(c));
+                                    })
+                                    .toList());
+                } catch (Exception _e) {
+                    // Doesnt work :)
+                }
+                if (!lores.isEmpty()) {
+                    var existingDisplay =
+                            leftStack.getNbt() != null && leftStack.getSubNbt("display") != null
+                                ? leftStack.getSubNbt("display") : null;
+                    if (existingDisplay == null) {
+                        existingDisplay = new NbtCompound();
+                    }
+                    existingDisplay.put("Lore", lores);
+                    leftStack.setSubNbt("display", existingDisplay);
+                }
+                output = leftStack;
             }
             // Set the output
-            if (!repaired.isEmpty()) {
-                int levelCost = RuinedEquipmentUtils.generateRepairLevelCost(repaired, maxLevel);
+            if (!output.isEmpty()) {
+                int levelCost = RuinedEquipmentUtils.generateAnvilLevelCost(output, maxLevel);
                 if (this.newItemName.compareTo(leftStack.getName().getString()) != 0) {
                     if (StringUtils.isBlank(this.newItemName)) {
-                        repaired.removeCustomName();
+                        output.removeCustomName();
                     } else {
-                        repaired.setCustomName(Text.literal(this.newItemName));
+                        output.setCustomName(Text.literal(this.newItemName));
                         levelCost++;
                     }
                 }
                 this.levelCost.set(levelCost);
             }
-            this.output.setStack(0, repaired);
+            this.output.setStack(0, output);
             this.sendContentUpdates();
         }
+    }
+
+    // Thanks ChatGPT I'm so lazy
+    private static List<String> chunkStringArray(String[] inputArray, int maxLength) {
+        List<String> chunkedList = new ArrayList<>();
+        StringBuilder currentChunk = new StringBuilder();
+
+        for (String word : inputArray) {
+            if (currentChunk.length() + word.length() <= maxLength) {
+                // Append word and a space to the current chunk
+                currentChunk.append(word).append(" ");
+            } else {
+                // Add the current chunk (excluding the last space) to the chunked list
+                chunkedList.add(currentChunk.toString().trim());
+                currentChunk = new StringBuilder(word).append(" ");
+            }
+        }
+
+        // Add the remaining chunk to the chunked list
+        chunkedList.add(currentChunk.toString().trim());
+
+        return chunkedList;
     }
 }
