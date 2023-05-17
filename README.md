@@ -23,7 +23,7 @@ With this mod installed, Tools and Armors break into Ruined forms (for players).
 - Ruined equipment keep all their NBT data - this includes (but is not limited to) name, enchantments (although the enchantments no longer functionally do anything), dyes (if leather armor), and banner pattern (if shield).
 - **Ruined items with Mending are repairable** when held in hands while collecting experience.
 - You can **apply Lore to your Ruined Items** by combining them with a Name Tag in an Anvil!
-   - The Lore will carry over to your Item if you choose to repair it.
+   - The Lore will carry over to your Item if you choose to repair it, enabling you to apply Lore to your Armors and Tools in Survival in a vanilla-friendly way!
 - You have 4 choices when you receive a Ruined item.
    1. Keep it as a keepsake, remember it always.
    2. Combine the Ruined item with either another Ruined item of the same type or the corresponding non-Ruined item in a Crafting Grid in order to repair the item, but lose all other features (name, enchantments, etc).
@@ -79,6 +79,9 @@ With this mod installed, Tools and Armors break into Ruined forms (for players).
   
 ## Applying Lore to a Ruined Item with a Name Tag
 ![2023-05-16_21 15 44](https://github.com/Pepperoni-Jabroni/RuinedEquipment/assets/17690401/eb7585b3-73c8-483d-b644-fe26e1b05931)
+  
+## Repair Ruined Item with Lore and Keep Lore on regular Item
+![2023-05-16_21 58 29](https://github.com/Pepperoni-Jabroni/RuinedEquipment/assets/17690401/569408ca-846d-47f2-b0cb-025611564d89)
 
 ## All the Items
 ![](https://i.imgur.com/LwlP9NW.png)
