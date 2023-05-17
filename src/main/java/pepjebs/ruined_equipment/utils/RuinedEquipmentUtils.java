@@ -91,6 +91,9 @@ public class RuinedEquipmentUtils {
         Item vanillaItem = getRepairItemForItemStack(leftStack);
         ItemStack repaired = new ItemStack(vanillaItem);
         NbtCompound tag = leftStack.getOrCreateNbt();
+        if (tag.contains(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG)) {
+            tag.remove(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG);
+        }
         String encodedEnch = tag.getString(RUINED_ENCHTS_TAG);
         if (!encodedEnch.isEmpty()) tag.remove(RUINED_ENCHTS_TAG);
         Map<Enchantment, Integer> enchantMap = RuinedEquipmentUtils.processEncodedEnchantments(encodedEnch);
@@ -138,9 +141,8 @@ public class RuinedEquipmentUtils {
             ItemStack breakingStack,
             boolean forceSet) {
         if (RuinedEquipmentMod.CONFIG != null && RuinedEquipmentMod.CONFIG.skipEmptyNBTEquipmentBreaks
-                && breakingStack.getNbt() != null
-                && breakingStack.getNbt().getKeys().stream()
-                    .filter(k -> k.compareTo("Damage") != 0).collect(Collectors.toSet()).size() == 0) {
+                && (breakingStack.getNbt() == null || breakingStack.getNbt().getKeys().stream()
+                    .filter(k -> k.compareTo("Damage") != 0).collect(Collectors.toSet()).size() == 0)) {
             return;
         }
         for (Map.Entry<Item, Item> itemMap : RuinedEquipmentItems.getVanillaItemMap().entrySet()) {
