@@ -43,11 +43,11 @@ public class RuinedEquipmentConfig implements ConfigData {
 
     @ConfigEntry.Gui.Tooltip()
     @Comment("Codes for which repair items to use for which Ruined Items Ashes (e.g. 'copper_mod:copper_sword/minecraft:copper_ingot;')")
-    public String ruinedItemsAshesRepairItems = null;
+    public String ruinedItemsAshesRepairItems = "";
 
     @ConfigEntry.Gui.Tooltip()
     @Comment("Codes for modded Items NOT to generate Ruined Items Ashes for when they break (e.g. 'copper_mod:copper_sword;')")
-    public String blocklistForRuinedAshesItems = null;
+    public String blocklistForRuinedAshesItems = "";
 
     @ConfigEntry.Gui.Tooltip()
     @Comment("When 'true', you can apply Lore to Ruined Items in the Anvil with a Name Tag.")

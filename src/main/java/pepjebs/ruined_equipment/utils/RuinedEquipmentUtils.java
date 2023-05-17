@@ -127,13 +127,18 @@ public class RuinedEquipmentUtils {
         if (RuinedEquipmentMod.CONFIG == null || RuinedEquipmentMod.CONFIG.blocklistForRuinedAshesItems == null
                 || RuinedEquipmentMod.CONFIG.blocklistForRuinedAshesItems.isEmpty())
             return new ArrayList<>();
-        return Arrays.stream(RuinedEquipmentMod.CONFIG.blocklistForRuinedAshesItems
-                .split(";"))
-                .map(p -> {
-                    String[] idParts = p.split(":");
-                    return new Identifier(idParts[0], idParts[1]);
-                })
-                .toList();
+        try {
+            return Arrays.stream(RuinedEquipmentMod.CONFIG.blocklistForRuinedAshesItems
+                            .split(";"))
+                    .map(p -> {
+                        String[] idParts = p.split(":");
+                        return new Identifier(idParts[0], idParts[1]);
+                    })
+                    .toList();
+        } catch(Exception e) {
+            RuinedEquipmentMod.LOGGER.warn("Ill-formed Config field blocklistForRuinedAshesItems");
+            return new ArrayList<>();
+        }
     }
 
     public static void onSendEquipmentBreakStatusImpl(
@@ -200,17 +205,24 @@ public class RuinedEquipmentUtils {
     }
 
     public static Map<Identifier, Identifier> getParsedRuinedItemsAshesRepairItems() {
-        if (RuinedEquipmentMod.CONFIG.ruinedItemsAshesRepairItems == null) return null;
+        if (RuinedEquipmentMod.CONFIG == null
+                || RuinedEquipmentMod.CONFIG.ruinedItemsAshesRepairItems == null
+                || RuinedEquipmentMod.CONFIG.ruinedItemsAshesRepairItems.isEmpty()) return null;
         String ruinedItemsAshesRepairStr = RuinedEquipmentMod.CONFIG.ruinedItemsAshesRepairItems;
-        return Arrays.stream(ruinedItemsAshesRepairStr.split(";"))
-                .map(s -> {
-                    String[] modItem = s.split("/")[0].split(":");
-                    String[] modRepair = s.split("/")[1].split(":");
-                    Identifier modItemId = new Identifier(modItem[0], modItem[1]);
-                    Identifier modRepairId = new Identifier(modRepair[0], modRepair[1]);
-                    return new Pair<>(modItemId, modRepairId);
-                })
-                .collect(Collectors.toMap(Pair::getLeft, Pair::getRight));
+        try {
+            return Arrays.stream(ruinedItemsAshesRepairStr.split(";"))
+                    .map(s -> {
+                        String[] modItem = s.split("/")[0].split(":");
+                        String[] modRepair = s.split("/")[1].split(":");
+                        Identifier modItemId = new Identifier(modItem[0], modItem[1]);
+                        Identifier modRepairId = new Identifier(modRepair[0], modRepair[1]);
+                        return new Pair<>(modItemId, modRepairId);
+                    })
+                    .collect(Collectors.toMap(Pair::getLeft, Pair::getRight));
+        } catch (Exception e) {
+            RuinedEquipmentMod.LOGGER.warn("Ill-formed Config field ruinedItemsAshesRepairItems");
+            return null;
+        }
     }
 
     public static NbtCompound getNbtForEnchantments(ItemStack breakingStack, ItemStack ruinedStack) {
