@@ -24,6 +24,8 @@ With this mod installed, Tools and Armors break into Ruined forms (for players).
 - **Ruined items with Mending are repairable** when held in hands while collecting experience.
 - You can **apply Lore to your Ruined Items** by combining them with a Name Tag in an Anvil!
    - The Lore will carry over to your Item if you choose to repair it, enabling you to apply Lore to your Armors and Tools in Survival in a vanilla-friendly way!
+   - Lore can be applied to Ruined Items multiple times, adding more lines each time.
+   - You can remove all applied Lore by combining the Ruined Items with a Name Tag named "clear".
 - You have 4 choices when you receive a Ruined item.
    1. Keep it as a keepsake, remember it always.
    2. Combine the Ruined item with either another Ruined item of the same type or the corresponding non-Ruined item in a Crafting Grid in order to repair the item, but lose all other features (name, enchantments, etc).
