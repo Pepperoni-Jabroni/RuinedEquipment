@@ -95,12 +95,13 @@ public abstract class RuinedAnvilScreenHandlerMixin extends ForgingScreenHandler
                     return;
                 }
                 var lores = new NbtList();
+                List<String> nameTagLoreLines = new ArrayList<>();
                 try {
                     var nameTagNbt = rightStack.getNbt();
                     var nameTagTextNbt = nameTagNbt.getCompound("display").getString("Name");
                     var nameTagText = NbtHelper.fromNbtProviderString(nameTagTextNbt).getString("text");
                     var splitNameTagText = nameTagText.split(" ");
-                    var nameTagLoreLines = chunkStringArray(splitNameTagText, 25);
+                    nameTagLoreLines = chunkStringArray(splitNameTagText, 25);
                     lores.addAll(
                             nameTagLoreLines.stream()
                                     .map(s -> {
@@ -127,10 +128,14 @@ public abstract class RuinedAnvilScreenHandlerMixin extends ForgingScreenHandler
                             lores = existingLores;
                         }
                     }
+                    if (nameTagLoreLines.stream().anyMatch(t -> t.compareTo("clear") == 0)) {
+                        lores = new NbtList();
+                    }
                     existingDisplay.put("Lore", lores);
                     leftStack.setSubNbt("display", existingDisplay);
                 }
                 output = leftStack;
+                this.repairItemUsage = 1;
             }
             // Set the output
             if (!output.isEmpty()) {
