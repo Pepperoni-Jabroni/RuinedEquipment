@@ -118,6 +118,14 @@ public abstract class RuinedAnvilScreenHandlerMixin extends ForgingScreenHandler
                                 ? leftStack.getSubNbt("display") : null;
                     if (existingDisplay == null) {
                         existingDisplay = new NbtCompound();
+                    } else {
+                        var existingLores = existingDisplay.contains("Lore") ?
+                                existingDisplay.getList("Lore", NbtElement.STRING_TYPE)
+                                : null;
+                        if (existingLores != null) {
+                            existingLores.addAll(lores);
+                            lores = existingLores;
+                        }
                     }
                     existingDisplay.put("Lore", lores);
                     leftStack.setSubNbt("display", existingDisplay);
