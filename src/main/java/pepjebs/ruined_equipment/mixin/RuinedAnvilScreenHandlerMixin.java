@@ -53,6 +53,7 @@ public abstract class RuinedAnvilScreenHandlerMixin extends ForgingScreenHandler
         ItemStack rightStack = this.input.getStack(1).copy();
         if (RuinedEquipmentUtils.isRuinedItem(leftStack.getItem())) {
             Item vanillaItem = RuinedEquipmentUtils.getRepairItemForItemStack(leftStack);
+            Item empowermentItem = RuinedEquipmentUtils.getEmpowermentApplicationItem();
             Identifier vanillaItemId = Registries.ITEM.getId(vanillaItem);
             int vanillaMaxDamage = vanillaItem.getMaxDamage() - 1;
             // Check right stack for matching repair item
@@ -62,7 +63,7 @@ public abstract class RuinedAnvilScreenHandlerMixin extends ForgingScreenHandler
                 Identifier repairingItemId = ashesRepairItems.get(vanillaItemId);
                 if (repairingItemId == null) return;
                 repairIngredient = Ingredient.ofItems(Registries.ITEM.get(repairingItemId));
-            } else if(vanillaItem instanceof ArmorItem) {
+            } else if (vanillaItem instanceof ArmorItem) {
                 repairIngredient = ((ArmorItem) vanillaItem).getMaterial().getRepairIngredient();
             } else if (vanillaItem instanceof ToolItem) {
                 repairIngredient = ((ToolItem) vanillaItem).getMaterial().getRepairIngredient();
@@ -84,12 +85,23 @@ public abstract class RuinedAnvilScreenHandlerMixin extends ForgingScreenHandler
                 if (RuinedEquipmentMod.CONFIG != null &&
                         !RuinedEquipmentMod.CONFIG.enableAnvilRuinedRepair) return;
                 // Check right stack for corresponding vanilla item
-                int targetDamage = rightStack.getDamage() - (int)(REPAIR_MODIFIER * rightStack.getMaxDamage());
+                int targetDamage = rightStack.getDamage() - (int) (REPAIR_MODIFIER * rightStack.getMaxDamage());
                 output = RuinedEquipmentUtils.generateRepairedItemForAnvilByDamage(
                         leftStack,
                         Math.min(targetDamage, vanillaMaxDamage));
                 maxLevel = 2;
                 this.repairItemUsage = 0;
+            } else if (rightStack.getItem() == empowermentItem &&
+                    (RuinedEquipmentMod.CONFIG == null || RuinedEquipmentMod.CONFIG.enableSmithingRuinedEmpowered)) {
+                var ruinedItem = leftStack.copy();
+                NbtCompound tag = ruinedItem.getNbt();
+                if (tag == null) tag = new NbtCompound();
+                if (tag.contains(RuinedEquipmentMod.RUINED_MAX_ENCHT_TAG))
+                    tag.remove(RuinedEquipmentMod.RUINED_MAX_ENCHT_TAG);
+                tag.putBoolean(RuinedEquipmentMod.RUINED_MAX_ENCHT_TAG, true);
+                ruinedItem.setNbt(tag);
+                this.repairItemUsage = 1;
+                output = ruinedItem;
             } else if (rightStack.getItem() == Items.NAME_TAG) {
                 if (RuinedEquipmentMod.CONFIG != null && !RuinedEquipmentMod.CONFIG.enableLoreSetWithNameTag) {
                     return;
@@ -116,7 +128,7 @@ public abstract class RuinedAnvilScreenHandlerMixin extends ForgingScreenHandler
                 if (!lores.isEmpty()) {
                     var existingDisplay =
                             leftStack.getNbt() != null && leftStack.getSubNbt("display") != null
-                                ? leftStack.getSubNbt("display") : null;
+                                    ? leftStack.getSubNbt("display") : null;
                     if (existingDisplay == null) {
                         existingDisplay = new NbtCompound();
                     } else {
@@ -137,18 +149,15 @@ public abstract class RuinedAnvilScreenHandlerMixin extends ForgingScreenHandler
                 output = leftStack;
                 this.repairItemUsage = 1;
             }
+            var setName =  (newItemName != null && newItemName.compareTo("") != 0);
+            if (setName) {
+                output = (output == ItemStack.EMPTY) ? leftStack.copy() : output;
+                output.setCustomName(Text.of(newItemName));
+            }
             // Set the output
             if (!output.isEmpty()) {
                 int levelCost = RuinedEquipmentUtils.generateAnvilLevelCost(output, maxLevel);
-                if (this.newItemName.compareTo(leftStack.getName().getString()) != 0) {
-                    if (StringUtils.isBlank(this.newItemName)) {
-                        output.removeCustomName();
-                    } else {
-                        output.setCustomName(Text.literal(this.newItemName));
-                        levelCost++;
-                    }
-                }
-                this.levelCost.set(levelCost);
+                this.levelCost.set(setName ? levelCost + 1 : levelCost);
             }
             this.output.setStack(0, output);
             this.sendContentUpdates();

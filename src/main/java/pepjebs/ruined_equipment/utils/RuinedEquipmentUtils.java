@@ -7,15 +7,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import pepjebs.ruined_equipment.RuinedEquipmentMod;
-import pepjebs.ruined_equipment.item.RuinedAshesItem;
-import pepjebs.ruined_equipment.item.RuinedEquipmentItem;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
-import pepjebs.ruined_equipment.recipe.RuinedEquipmentSmithingEmpowerRecipe;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -85,14 +81,14 @@ public class RuinedEquipmentUtils {
             ItemStack leftStack,
             int targetDamage){
         boolean isMaxEnchant = leftStack.getNbt() != null &&
-                leftStack.getNbt().contains(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG)
-                && leftStack.getNbt().getBoolean(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG);
+                leftStack.getNbt().contains(RuinedEquipmentMod.RUINED_MAX_ENCHT_TAG)
+                && leftStack.getNbt().getBoolean(RuinedEquipmentMod.RUINED_MAX_ENCHT_TAG);
 
         Item vanillaItem = getRepairItemForItemStack(leftStack);
         ItemStack repaired = new ItemStack(vanillaItem);
         NbtCompound tag = leftStack.getOrCreateNbt();
-        if (tag.contains(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG)) {
-            tag.remove(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG);
+        if (tag.contains(RuinedEquipmentMod.RUINED_MAX_ENCHT_TAG)) {
+            tag.remove(RuinedEquipmentMod.RUINED_MAX_ENCHT_TAG);
         }
         String encodedEnch = tag.getString(RUINED_ENCHTS_TAG);
         if (!encodedEnch.isEmpty()) tag.remove(RUINED_ENCHTS_TAG);
@@ -241,7 +237,7 @@ public class RuinedEquipmentUtils {
     }
 
     public static boolean isVanillaItemStackBreaking(ItemStack breakingStack, Item vanillaItem) {
-        return breakingStack.isItemEqual(new ItemStack(vanillaItem))
+        return breakingStack.isOf(vanillaItem)
             && breakingStack.getMaxDamage() - breakingStack.getDamage() <= 0;
     }
 }

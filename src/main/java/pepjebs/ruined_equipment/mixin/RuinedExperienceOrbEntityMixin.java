@@ -22,7 +22,7 @@ public abstract class RuinedExperienceOrbEntityMixin {
 
     @Inject(method = "onPlayerCollision", at = @At("INVOKE"))
     private void doRuinedRepairOnPlayerCollision(PlayerEntity player, CallbackInfo ci) {
-        if (!player.world.isClient) {
+        if (!player.getWorld().isClient) {
             if (RuinedEquipmentMod.CONFIG != null && !RuinedEquipmentMod.CONFIG.enableRuinedMendingRepair)
                 return;
             doPlayerHandRuinedMendingRepair(player, Hand.MAIN_HAND);

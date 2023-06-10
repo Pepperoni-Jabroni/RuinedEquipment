@@ -4,11 +4,8 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.SpecialRecipeSerializer;
 import net.minecraft.registry.Registries;
@@ -17,7 +14,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
-import org.apache.http.client.utils.Idn;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pepjebs.ruined_equipment.config.RuinedEquipmentConfig;
@@ -26,8 +22,6 @@ import pepjebs.ruined_equipment.item.RuinedDyeableEquipmentItem;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItem;
 import pepjebs.ruined_equipment.item.RuinedEquipmentItems;
 import pepjebs.ruined_equipment.recipe.RuinedEquipmentCraftRepair;
-import pepjebs.ruined_equipment.recipe.RuinedEquipmentSmithingEmpowerRecipe;
-import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,14 +31,13 @@ public class RuinedEquipmentMod implements ModInitializer {
     public static final String MOD_ID = "ruined_equipment";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
+    public static final String RUINED_MAX_ENCHT_TAG = "IsUpgrading";
     public static final String RUINED_PREFIX = "ruined_";
-    public static final Identifier RUINED_SMITH = new Identifier(MOD_ID, "ruined_set_empower");
     public static RuinedAshesItem RUINED_ASHES_ITEM = null;
 
     public static RuinedEquipmentConfig CONFIG = null;
 
     public static SpecialRecipeSerializer<RuinedEquipmentCraftRepair> RUINED_CRAFT_REPAIR_RECIPE;
-    public static RuinedEquipmentSmithingEmpowerRecipe.Serializer RUINED_SMITH_SET_EMPOWER;
 
     public static final HashMap<String, Pair<Integer, ItemStack>> ruinedEquipmentSetter = new HashMap<>();
 
@@ -59,10 +52,6 @@ public class RuinedEquipmentMod implements ModInitializer {
                 Registries.RECIPE_SERIALIZER,
                 new Identifier(MOD_ID, "ruined_repair"),
                 new SpecialRecipeSerializer<>(RuinedEquipmentCraftRepair::new));
-        RUINED_SMITH_SET_EMPOWER = Registry.register(
-                Registries.RECIPE_SERIALIZER,
-                RUINED_SMITH,
-                new RuinedEquipmentSmithingEmpowerRecipe.Serializer());
 
         Map<Item, Item> vanillaItemMap = new HashMap<>();
         Item.Settings set = new Item.Settings().maxCount(1);

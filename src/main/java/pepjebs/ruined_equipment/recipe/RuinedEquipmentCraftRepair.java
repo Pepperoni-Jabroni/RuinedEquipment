@@ -1,6 +1,6 @@
 package pepjebs.ruined_equipment.recipe;
 
-import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeSerializer;
@@ -30,7 +30,7 @@ public class RuinedEquipmentCraftRepair extends SpecialCraftingRecipe {
     }
 
     @Override
-    public boolean matches(CraftingInventory inv, World world) {
+    public boolean matches(RecipeInputInventory inv, World world) {
         if (RuinedEquipmentMod.CONFIG != null && !RuinedEquipmentMod.CONFIG.enableCraftingGridRuinedRepair)
             return false;
         ArrayList<ItemStack> craftingStacks = new ArrayList<>();
@@ -70,7 +70,7 @@ public class RuinedEquipmentCraftRepair extends SpecialCraftingRecipe {
     }
 
     @Override
-    public ItemStack craft(CraftingInventory inv, DynamicRegistryManager registryManager) {
+    public ItemStack craft(RecipeInputInventory inv, DynamicRegistryManager registryManager) {
         ItemStack repairingItem = ItemStack.EMPTY;
         ItemStack ruinedItem = ItemStack.EMPTY;
         ItemStack t;

@@ -15,7 +15,6 @@ import net.minecraft.util.Rarity;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import pepjebs.ruined_equipment.RuinedEquipmentMod;
-import pepjebs.ruined_equipment.recipe.RuinedEquipmentSmithingEmpowerRecipe;
 import pepjebs.ruined_equipment.utils.RuinedEquipmentUtils;
 
 import java.util.List;
@@ -55,8 +54,8 @@ public class RuinedEquipmentItem extends Item {
                         enchant.getKey().getName(enchant.getValue()).getString()).formatted(Formatting.GRAY));
             }
         }
-        if (stack.getNbt() != null && stack.getNbt().contains(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG)
-                && stack.getNbt().getBoolean(RuinedEquipmentSmithingEmpowerRecipe.RUINED_MAX_ENCHT_TAG)) {
+        if (stack.getNbt() != null && stack.getNbt().contains(RuinedEquipmentMod.RUINED_MAX_ENCHT_TAG)
+                && stack.getNbt().getBoolean(RuinedEquipmentMod.RUINED_MAX_ENCHT_TAG)) {
             tooltip.add(Text.translatable("item.ruined_equipment.ruined_upgrading").formatted(Formatting.GRAY));
                     ;
         }
