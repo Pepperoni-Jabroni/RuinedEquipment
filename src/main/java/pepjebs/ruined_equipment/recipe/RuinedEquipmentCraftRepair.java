@@ -25,8 +25,8 @@ public class RuinedEquipmentCraftRepair extends SpecialCraftingRecipe {
     // Default bonus is 0.05
     public static final double REPAIR_MODIFIER = 0.07;
 
-    public RuinedEquipmentCraftRepair(Identifier id, CraftingRecipeCategory category) {
-        super(id, category);
+    public RuinedEquipmentCraftRepair(CraftingRecipeCategory category) {
+        super(category);
     }
 
     @Override
